@@ -2,39 +2,58 @@
 
 Easy-to-use resource management for your business
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+![Managefy logo](public/Managefy-logo.jpeg)
 
-## Getting Started
+## Project description
 
-First, run the development server:
+Managefy is an app to better administer and manage your company or business
+with several useful and easy-to-use tools such as Stock Management,
+Customers and Sales, among others, that every entrepreneur may need.
+In addition, it allows you to analyze the progress of your business
+with multiple easy-to-understand graphs... in a single free app.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+> Managefy is a mini ERP (Enterprise Resource Planning System)
+> with the appropriate characteristics and complexity to be able to manage
+> a small business easily by an ordinary user who can also obtain
+> graphical and statistical results in a simple way.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Getting started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone this repository
+2. Run `npm install` in the project directory
+3. Run `npm run dev` in the project directory
+4. Go to `localhost:3000` (by default, or other custom port) in any browser
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+> To make API requests, the API base path is `localhost:8080/api/`
 
-## Learn More
+## Technologies used
 
-To learn more about Next.js, take a look at the following resources:
+### Frontend
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Name                                 | How it contributes to the project              |
+| :----------------------------------- | :--------------------------------------------- |
+| :necktie: TypeScript                 | Programming language that builds on JavaScript |
+| :rocket: Next.js                     | Fullstack framework for React.js               |
+| :framed_picture: HTML5 / CSS3 / SASS | The basics for the web!                        |
+| :art: Mantine                        | Really nice component library                  |
+| :package: TurboPack                  | JavaScript very fast bundler                   |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Backend
 
-## Deploy on Vercel
+| Name                               | How it contributes to the project                                    |
+| :--------------------------------- | :------------------------------------------------------------------- |
+| :coffee: Java                      | General-purpose object-oriented programming language                 |
+| :feather: Maven                    | Automation tool for build and manage Java projects                   |
+| :fallen_leaf: Spring Boot          | Java framework used to create services and applications              |
+| :bookmark_tabs: Spring Data JPA    | Extra layer of data-access abstraction. Easy JPA-based repositories  |
+| :world_map: Hibernate              | Object-relational mapping (ORM) tool for Java, JPA implementation    |
+| :card_file_box: PostgreSQL         | Open-source relational database management system (RDBMS)            |
+| :floppy_disk: JSON Web Token (JWT) | Compact and self-contained way for securely transmitting information |
+| :envelope: Java Mail               | Official tool to send and receive email via SMTP                     |
+| :hot_pepper: Lombok                | Minimizes boilerplate such as constructors, getters and setters      |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Author
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+| Name                        | GitHub Account                          |
+| :-------------------------- | :-------------------------------------- |
+| :octocat: Nicolás Antonelli | :link: https://github.com/NicoAntonelli |
