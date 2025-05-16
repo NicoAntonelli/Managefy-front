@@ -19,6 +19,9 @@
         ],
         "paths": {
             "@/*": ["./src/*"],
+            "@/app/*": ["./src/app/*"],
+            "@/components/*": ["./components/*"],
+            "@/entities/*": ["./entities/*"],
             "@/services/*": ["./services/*"],
             "@/utils/*": ["./utils/*"]
         }
