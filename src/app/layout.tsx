@@ -40,7 +40,11 @@ export default function RootLayout({
                     theme={Theme}
                     colorSchemeManager={colorSchemeManager}
                     defaultColorScheme="dark">
-                    <Layout>{children}</Layout>
+                    <Layout>
+                        <main className="flex min-h-screen flex-col items-center justify-between p-24">
+                            {children}
+                        </main>
+                    </Layout>
                 </MantineProvider>
             </body>
         </html>
