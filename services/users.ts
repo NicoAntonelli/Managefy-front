@@ -26,10 +26,21 @@ const getOneUser = async (id: number): Promise<User> => {
 const login = async (login: Login): Promise<User> => {
     const endpoint = `${prefix}/login`
     try {
-        const response = await axios.post<Token>(endpoint, login)
-        Helper.validateResponse(response)
+        //const response = await axios.post<Token>(endpoint, login)
+        //Helper.validateResponse(response)
 
-        const user = sessionCreate(response.data)
+        //const user = sessionCreate(response.data)
+
+        // Dummy token
+        const resp: Token = {
+            accessToken:
+                'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2Vye2lkPTUyLCBlbWFpbD1uaWNvbmVsbGkyQGdtYWlsLmNvbSwgbmFtZT1OaWNvIFRlc3QsIHZhbGlkYXRlZD1mYWxzZSwgZW1haWxOb3RpZmljYXRpb25zPXRydWV9IiwiaWF0IjoxNzQ4ODIzNDM1LCJleHAiOjE3NDg4NDUwMzV9.9Pa_XDLSBjbsALCYfpTUR07lM057iPWV6W75-R5joEc',
+            type: 'Bearer',
+            expirationInSeconds: 86400,
+            userID: 52,
+        }
+        const user = sessionCreate(resp)
+
         return user
     } catch (error: any) {
         const errorMessage = `Error fetching ${endpoint}: '${error}'`
