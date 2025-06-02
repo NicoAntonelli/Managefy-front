@@ -78,7 +78,7 @@ const Navbar = () => {
                     {userMenuOpened && (
                         <>
                             <NavbarItem
-                                text="Editar Perfil"
+                                text="Editar perfil"
                                 link="/account/profile"
                                 icon={
                                     <IconEdit
@@ -92,7 +92,7 @@ const Navbar = () => {
                                 background="var(--mantine-color-gray-lightest)"
                             />
                             <NavbarItem
-                                text="Cerrar Sesión"
+                                text="Cerrar sesión"
                                 icon={
                                     <IconDoorExit
                                         style={{
@@ -112,8 +112,8 @@ const Navbar = () => {
             ) : (
                 <AppShell.Section>
                     <NavbarItem
-                        text="Iniciar Sesión"
-                        link="/account/login"
+                        text="Iniciar sesión"
+                        link="/users/loginRegister"
                         icon={<IconUserCircle size={iconSize} />}
                     />
                 </AppShell.Section>
@@ -130,7 +130,7 @@ const Navbar = () => {
                 {currentUser && (
                     <NavbarItem
                         text="Productos"
-                        link={`/projducts`}
+                        link={`/products`}
                         icon={<IconRocket size={iconSize} />}
                     />
                 )}
@@ -165,7 +165,7 @@ const Navbar = () => {
             </AppShell.Section>
             <AppShell.Section grow>
                 <NavbarItem
-                    text="Sobre Nosotros"
+                    text="Sobre nosotros"
                     link="/about"
                     icon={<IconBulb size={iconSize} />}
                 />
