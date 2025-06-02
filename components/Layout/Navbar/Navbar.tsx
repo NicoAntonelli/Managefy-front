@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 
@@ -19,34 +19,36 @@ import {
     IconUserDollar,
 } from '@tabler/icons-react'
 
+import Users from '@/services/users'
 import User from '@/entities/User'
+
 import NavbarItem from './NavbarItem'
 import UserBanner from './UserBanner'
+import SkeletonSmall from '@/components/Common/Loader/SkeletonSmall'
 
 // Icon properties
 const iconSize = 40
 
-// Dummy user
-const getUser = () => {
-    const user: User = {
-        id: 1,
-        email: 'jdoe@example.com',
-        name: 'John Doe',
-        validated: true,
-        emailNotifications: true,
-    }
+const getUser = async () => {
+    try {
+        const user: User | null = await Users.sessionGet()
+        if (!user) return null
 
-    return user
+        return user
+    } catch (error) {
+        notifications.show({
+            title: 'Error',
+            message: 'Error validando la sesión actual. Intente mas tarde.',
+            color: 'red',
+        })
+
+        return null
+    }
 }
 
-// Dummy logout function
 const logout = async (router: AppRouterInstance) => {
     try {
-        await new Promise((resolve) => {
-            setTimeout(() => {
-                resolve(true)
-            }, 1000)
-        })
+        await Users.logout()
         router.push('/')
     } catch (error) {
         notifications.show({
@@ -54,15 +56,31 @@ const logout = async (router: AppRouterInstance) => {
             message: 'No se pudo cerrar sesión. Intente mas tarde.',
             color: 'red',
         })
+
+        return null
     }
 }
 
 const Navbar = () => {
-    const currentUser: User = getUser()
+    const [currentUser, setCurrentUser] = useState<User | null>(null)
+    const [loading, setLoading] = useState(true)
 
     const [userMenuOpened, userMenuHandlers] = useDisclosure(false)
 
     const router = useRouter()
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const user = await getUser()
+            setCurrentUser(user)
+            setLoading(false)
+        }
+        fetchUser()
+    }, [])
+
+    if (loading) {
+        return <SkeletonSmall />
+    }
 
     return (
         <>
