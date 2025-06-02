@@ -1,6 +1,6 @@
-interface Registration {
+interface Login {
     email: string
     password: string
 }
 
-export default Registration
+export default Login
