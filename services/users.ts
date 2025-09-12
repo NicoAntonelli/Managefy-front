@@ -32,16 +32,6 @@ const login = async (login: Login): Promise<User> => {
 
         const user = sessionCreate(response.data)
 
-        // Dummy token
-        /*const resp: Token = {
-            accessToken:
-                'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2Vye2lkPTUyLCBlbWFpbD1uaWNvbmVsbGkyQGdtYWlsLmNvbSwgbmFtZT1OaWNvIFRlc3QsIHZhbGlkYXRlZD1mYWxzZSwgZW1haWxOb3RpZmljYXRpb25zPXRydWV9IiwiaWF0IjoxNzQ4ODIzNDM1LCJleHAiOjE3NDg4NDUwMzV9.9Pa_XDLSBjbsALCYfpTUR07lM057iPWV6W75-R5joEc',
-            type: 'Bearer',
-            expirationInSeconds: 86400,
-            userID: 52,
-        }
-        const user = sessionCreate(resp)*/
-
         return user
     } catch (error: any) {
         const errorMessage = `Error fetching ${endpoint}: '${error}'`
@@ -91,15 +81,6 @@ const sessionCreate = async (token: Token): Promise<User> => {
         const user: User | null = decodeToken(token.accessToken) as User | null
         if (!user) throw new Error('Error decoding token')
 
-        // Dummy user
-        /*const user: User = {
-            id: 1,
-            email: 'jdoe@example.com',
-            name: 'John Doe',
-            validated: true,
-            emailNotifications: true,
-        }*/
-
         return user
     } catch (error: any) {
         const errorMessage = `Error fetching ${endpoint}: '${error}'`
@@ -118,15 +99,6 @@ const sessionGet = async (): Promise<User | null> => {
 
         const user: User | null = decodeToken(token) as User | null
         if (!user) throw new Error('Error decoding token')
-
-        // Dummy user
-        /*const user: User = {
-            id: 1,
-            email: 'jdoe@example.com',
-            name: 'John Doe',
-            validated: true,
-            emailNotifications: true,
-        }*/
 
         return user
     } catch (error: any) {
