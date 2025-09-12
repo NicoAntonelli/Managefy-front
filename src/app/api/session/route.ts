@@ -14,7 +14,7 @@ export async function POST(req: Request) {
         name: 'Authorization',
         value: response.accessToken,
         httpOnly: true,
-        secure: Env.mode === 'production',
+        secure: Env.mode === 'prod',
         path: '/',
         maxAge: response.expirationInSeconds,
         sameSite: 'lax',
