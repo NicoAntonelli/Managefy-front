@@ -1,4 +1,5 @@
 import axios from 'axios'
+import decodeToken from '@/middlewares/decodeToken'
 import Env from '@/utils/Env'
 import Helper from './helper'
 
@@ -26,20 +27,20 @@ const getOneUser = async (id: number): Promise<User> => {
 const login = async (login: Login): Promise<User> => {
     const endpoint = `${prefix}/login`
     try {
-        //const response = await axios.post<Token>(endpoint, login)
-        //Helper.validateResponse(response)
+        const response = await axios.post<Token>(endpoint, login)
+        Helper.validateResponse(response)
 
-        //const user = sessionCreate(response.data)
+        const user = sessionCreate(response.data)
 
         // Dummy token
-        const resp: Token = {
+        /*const resp: Token = {
             accessToken:
                 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2Vye2lkPTUyLCBlbWFpbD1uaWNvbmVsbGkyQGdtYWlsLmNvbSwgbmFtZT1OaWNvIFRlc3QsIHZhbGlkYXRlZD1mYWxzZSwgZW1haWxOb3RpZmljYXRpb25zPXRydWV9IiwiaWF0IjoxNzQ4ODIzNDM1LCJleHAiOjE3NDg4NDUwMzV9.9Pa_XDLSBjbsALCYfpTUR07lM057iPWV6W75-R5joEc',
             type: 'Bearer',
             expirationInSeconds: 86400,
             userID: 52,
         }
-        const user = sessionCreate(resp)
+        const user = sessionCreate(resp)*/
 
         return user
     } catch (error: any) {
@@ -50,7 +51,7 @@ const login = async (login: Login): Promise<User> => {
 }
 
 const logout = async (): Promise<void> => {
-    const endpoint = `${Env.baseURL}/api/login`
+    const endpoint = `${Env.baseURL}/api/session`
     try {
         const response = await axios.delete<string>(endpoint)
         Helper.validateResponse(response)
@@ -78,7 +79,7 @@ const register = async (register: Registration): Promise<User> => {
 }
 
 const sessionCreate = async (token: Token): Promise<User> => {
-    const endpoint = `${Env.baseURL}/api/login`
+    const endpoint = `${Env.baseURL}/api/session`
     try {
         if (!token.accessToken) {
             throw new Error('Access token is missing in the response')
@@ -87,16 +88,17 @@ const sessionCreate = async (token: Token): Promise<User> => {
         const response = await axios.post<string>(endpoint, token)
         Helper.validateResponse(response)
 
-        //const user:User = deserializeCookie(token.accessToken)
+        const user: User | null = decodeToken(token.accessToken) as User | null
+        if (!user) throw new Error('Error decoding token')
 
         // Dummy user
-        const user: User = {
+        /*const user: User = {
             id: 1,
             email: 'jdoe@example.com',
             name: 'John Doe',
             validated: true,
             emailNotifications: true,
-        }
+        }*/
 
         return user
     } catch (error: any) {
@@ -107,18 +109,24 @@ const sessionCreate = async (token: Token): Promise<User> => {
 }
 
 const sessionGet = async (): Promise<User | null> => {
-    const endpoint = 'test'
+    const endpoint = `${Env.baseURL}/api/session`
     try {
-        //const user:User = deserializeCookie(token.accessToken)
+        const response = await axios.get<string>(endpoint)
+        Helper.validateResponse(response)
+
+        const token: string = response.data
+
+        const user: User | null = decodeToken(token) as User | null
+        if (!user) throw new Error('Error decoding token')
 
         // Dummy user
-        const user: User = {
+        /*const user: User = {
             id: 1,
             email: 'jdoe@example.com',
             name: 'John Doe',
             validated: true,
             emailNotifications: true,
-        }
+        }*/
 
         return user
     } catch (error: any) {
