@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 
 import { Button, Card, Checkbox, Group, Text, TextInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
@@ -11,10 +13,12 @@ import Validation from '@/utils/validation/Validation'
 
 import Login from '@/entities/Login'
 import Registration from '@/entities/Registration'
+import User from '@/entities/User'
 
 const handleLoginRegister = async (
     loginRegisterData: LoginRegisterForm,
-    isRegister: boolean
+    isRegister: boolean,
+    router: AppRouterInstance
 ) => {
     try {
         if (isRegister) {
@@ -26,11 +30,13 @@ const handleLoginRegister = async (
                 name: loginRegisterData.name,
             }
 
-            const response = await Users.register(registration)
-            // To-Do: handle token server-side and save it as http-only jwt cookie
-            console.log('registration response OK')
-            console.log(response)
-            return response
+            const response: User = await Users.register(registration)
+            // To-do: replace login button with user's email
+            if (!response?.email) {
+                throw new Error('Error registrando usuario')
+            }
+
+            router.push('/businesses')
         }
 
         const login: Login = {
@@ -38,11 +44,13 @@ const handleLoginRegister = async (
             password: loginRegisterData.password,
         }
 
-        const response = await Users.login(login)
-        // To-Do: handle token server-side and save it as http-only jwt cookie
-        console.log('login response OK')
-        console.log(response)
-        return response
+        const response: User = await Users.login(login)
+        // To-do: replace login button with user's email
+        if (!response?.email) {
+            throw new Error('Error iniciando sesión')
+        }
+
+        router.push('/businesses')
     } catch (error) {
         console.error(error)
     }
@@ -58,6 +66,8 @@ interface LoginRegisterForm {
 
 const LoginRegister = () => {
     const isMobile = useMediaQuery(`(max-width: ${Theme.breakpoints?.lg})`)
+
+    const router = useRouter()
 
     const [isRegistration, setIsRegistration] = useState<boolean>(false)
 
@@ -110,7 +120,7 @@ const LoginRegister = () => {
             </Group>
             <form
                 onSubmit={form.onSubmit((values) =>
-                    handleLoginRegister(values, isRegistration)
+                    handleLoginRegister(values, isRegistration, router)
                 )}>
                 <TextInput
                     pt={'1rem'}
