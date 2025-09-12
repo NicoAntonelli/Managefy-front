@@ -22,6 +22,7 @@
             "@/app/*": ["./src/app/*"],
             "@/components/*": ["./components/*"],
             "@/entities/*": ["./entities/*"],
+            "@/middlewares/*": ["./middlewares/*"],
             "@/services/*": ["./services/*"],
             "@/utils/*": ["./utils/*"]
         }
