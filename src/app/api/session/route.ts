@@ -3,11 +3,25 @@ import { cookies } from 'next/headers'
 import Env from '@/utils/Env'
 import Token from '@/entities/Token'
 
+// Get current session
+export async function GET() {
+    const authToken = cookies().get('Authorization')
+    if (!authToken?.value) {
+        return new Response(JSON.stringify({ message: 'Not logged in' }), {
+            status: 401,
+            headers: { 'Content-Type': 'application/json' },
+        })
+    }
+
+    return new Response(JSON.stringify({ token: authToken.value }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+    })
+}
+
 // Handles a new session creation (login or register)
 export async function POST(req: Request) {
     const response: Token = (await req.json()) as Token
-
-    // To-do: validate token
 
     // Set the cookie using next/headers
     cookies().set({
