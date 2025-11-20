@@ -32,6 +32,7 @@ const LoginRegister = () => {
     const router = useRouter()
 
     const [isRegistration, setIsRegistration] = useState<boolean>(false)
+    const [submitting, setSubmitting] = useState<boolean>(false)
 
     const handleLoginRegister = async (
         loginRegisterData: LoginRegisterForm,
@@ -39,6 +40,10 @@ const LoginRegister = () => {
         router: AppRouterInstance
     ) => {
         try {
+            if (submitting) return
+
+            setSubmitting(true)
+
             if (isRegister) {
                 if (!loginRegisterData.name) return
 
@@ -73,6 +78,8 @@ const LoginRegister = () => {
             router.push('/businesses')
         } catch (error) {
             console.error(error)
+        } finally {
+            setSubmitting(false)
         }
     }
 
@@ -90,7 +97,11 @@ const LoginRegister = () => {
             email: (value) =>
                 Validation.email(value) ? null : 'Email no válido',
             password: (value) =>
-                Validation.password(value)
+                !isRegistration
+                    ? value.length > 0
+                        ? null
+                        : 'Debe especificar una contraseña'
+                    : Validation.password(value)
                     ? null
                     : 'Contraseña no válida (Al menos una letra mayúscula, una letra minúscula, un número y un símbolo. 8 a 30 caracteres.)',
             confirmPassword: (value, values) =>
@@ -185,8 +196,12 @@ const LoginRegister = () => {
                             ? 'Ya tengo una cuenta'
                             : 'No tengo cuenta'}
                     </Button>
-                    <Button type="submit">
-                        {isRegistration ? 'Registrarse' : 'Iniciar sesión'}
+                    <Button type="submit" disabled={submitting}>
+                        {submitting
+                            ? 'Cargando...'
+                            : isRegistration
+                            ? 'Registrarse'
+                            : 'Iniciar sesión'}
                     </Button>
                 </Group>
             </form>
