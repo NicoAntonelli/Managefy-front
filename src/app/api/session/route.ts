@@ -29,7 +29,7 @@ export async function GET() {
 export async function POST(req: Request) {
     const response: Token = (await req.json()) as Token
 
-    // Set the cookie using next/headers
+    // Set or overwrite the cookie using next/headers
     cookies().set({
         name: 'Authorization',
         value: response.accessToken,

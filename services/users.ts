@@ -25,10 +25,10 @@ const getOneUser = async (id: number): Promise<User> => {
     }
 }
 
-const login = async (login: Login): Promise<User> => {
+const login = async (loginData: Login): Promise<User> => {
     const endpoint = `${prefix}/login`
     try {
-        const response = await axios.post<Token>(endpoint, login)
+        const response = await axios.post<Token>(endpoint, loginData)
         Helper.validateResponse(response)
 
         const user = sessionCreate(response.data)
@@ -53,10 +53,10 @@ const logout = async (): Promise<void> => {
     }
 }
 
-const register = async (register: Registration): Promise<User> => {
+const register = async (registration: Registration): Promise<User> => {
     const endpoint = `${prefix}/register`
     try {
-        const response = await axios.post<Token>(endpoint, register)
+        const response = await axios.post<Token>(endpoint, registration)
         Helper.validateResponse(response)
 
         const user = sessionCreate(response.data)
@@ -111,5 +111,44 @@ const sessionGet = async (): Promise<User | null> => {
     }
 }
 
-const Users = { getOneUser, login, logout, register, sessionGet }
+const validationStart = async (): Promise<boolean> => {
+    const endpoint = `${prefix}/generateValidation`
+    try {
+        const response = await axios.put<boolean>(endpoint)
+        Helper.validateResponse(response)
+
+        return response.data
+    } catch (error: any) {
+        const errorMessage = `Error fetching ${endpoint}: '${error}'`
+        console.error(errorMessage)
+        throw new Error(error)
+    }
+}
+
+const validate = async (validationCode: number): Promise<User> => {
+    const endpoint = `${prefix}/validate/${validationCode}`
+    try {
+        const response = await axios.put<Token>(endpoint, validationCode)
+        Helper.validateResponse(response)
+
+        const user = sessionCreate(response.data)
+
+        return user
+    } catch (error: any) {
+        const errorMessage = `Error fetching ${endpoint}: '${error}'`
+        console.error(errorMessage)
+        throw new Error(error)
+    }
+}
+
+const Users = {
+    getOneUser,
+    login,
+    logout,
+    register,
+    sessionGet,
+    validationStart,
+    validate,
+}
+
 export default Users
