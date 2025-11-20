@@ -88,19 +88,23 @@ const LoginRegister = () => {
 
         validate: {
             email: (value) =>
-                Validation.email(value) ? null : 'Invalid email',
+                Validation.email(value) ? null : 'Email no válido',
             password: (value) =>
                 Validation.password(value)
                     ? null
-                    : 'Invalid password (At least one uppercase letter, one lowercase letter, one number and one symbol. 8 to 30 characters.)',
+                    : 'Contraseña no válida (Al menos una letra mayúscula, una letra minúscula, un número y un símbolo. 8 a 30 caracteres.)',
+            confirmPassword: (value, values) =>
+                !isRegistration || value === values.password
+                    ? null
+                    : 'Las contraseñas no coinciden',
             name: (value) =>
                 !isRegistration || Validation.string(value)
                     ? null
-                    : 'Name is required',
+                    : 'Debe ingresar un nombre',
             termsOfService: (value) =>
                 !isRegistration || value === true
                     ? null
-                    : 'Accepting terms of service is required',
+                    : 'Debe aceptar los términos y condiciones de servicio para registrarse',
         },
     })
 
@@ -133,7 +137,7 @@ const LoginRegister = () => {
                 <TextInput
                     pt={'1rem'}
                     withAsterisk
-                    label="Password"
+                    label="Contraseña"
                     placeholder="..."
                     leftSection={<IconLock />}
                     key={form.key('password')}
@@ -145,7 +149,7 @@ const LoginRegister = () => {
                         <TextInput
                             pt={'1rem'}
                             withAsterisk
-                            label="Confirm password"
+                            label="Confirmar contraseña"
                             placeholder="..."
                             leftSection={<IconLock />}
                             key={form.key('confirmPassword')}
@@ -155,7 +159,7 @@ const LoginRegister = () => {
                         <TextInput
                             pt={'1rem'}
                             withAsterisk
-                            label="Name"
+                            label="Nombre"
                             placeholder="John Doe"
                             leftSection={<IconUserCircle />}
                             key={form.key('name')}
@@ -165,7 +169,7 @@ const LoginRegister = () => {
                         <Checkbox
                             pt={'1rem'}
                             mt="md"
-                            label="I agree to terms of service"
+                            label="Acepto los términos y condiciones de servicio"
                             key={form.key('termsOfService')}
                             {...form.getInputProps('termsOfService', {
                                 type: 'checkbox',
