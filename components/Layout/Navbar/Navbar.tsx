@@ -21,6 +21,7 @@ import {
 
 import Users from '@/services/users'
 import User from '@/entities/User'
+import useSessionReloadStore from '@/utils/stores/useSessionReloadStore'
 
 import NavbarItem from './NavbarItem'
 import UserBanner from './UserBanner'
@@ -66,6 +67,9 @@ const logout = async (
 }
 
 const Navbar = () => {
+    const needReload = useSessionReloadStore((state) => state.needReload)
+    const setNeedReload = useSessionReloadStore((state) => state.setNeedReload)
+
     const [currentUser, setCurrentUser] = useState<User | null>(null)
     const [loading, setLoading] = useState(true)
 
@@ -77,10 +81,11 @@ const Navbar = () => {
         const fetchUser = async () => {
             const user = await getUser()
             setCurrentUser(user)
+            setNeedReload(false)
             setLoading(false)
         }
         fetchUser()
-    }, [])
+    }, [needReload])
 
     if (loading) {
         return <SkeletonSmall />

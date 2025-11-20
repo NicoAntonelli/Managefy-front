@@ -9,52 +9,12 @@ import { IconLock, IconMail, IconUserCircle } from '@tabler/icons-react'
 
 import Theme from '@/app/theme'
 import Users from '@/services/users'
+import useSessionReloadStore from '@/utils/stores/useSessionReloadStore'
 import Validation from '@/utils/validation/Validation'
 
 import Login from '@/entities/Login'
 import Registration from '@/entities/Registration'
 import User from '@/entities/User'
-
-const handleLoginRegister = async (
-    loginRegisterData: LoginRegisterForm,
-    isRegister: boolean,
-    router: AppRouterInstance
-) => {
-    try {
-        if (isRegister) {
-            if (!loginRegisterData.name) return
-
-            const registration: Registration = {
-                email: loginRegisterData.email,
-                password: loginRegisterData.password,
-                name: loginRegisterData.name,
-            }
-
-            const response: User = await Users.register(registration)
-            // To-do: replace login button with user's email
-            if (!response?.email) {
-                throw new Error('Error registrando usuario')
-            }
-
-            router.push('/businesses')
-        }
-
-        const login: Login = {
-            email: loginRegisterData.email,
-            password: loginRegisterData.password,
-        }
-
-        const response: User = await Users.login(login)
-        // To-do: replace login button with user's email
-        if (!response?.email) {
-            throw new Error('Error iniciando sesión')
-        }
-
-        router.push('/businesses')
-    } catch (error) {
-        console.error(error)
-    }
-}
 
 interface LoginRegisterForm {
     email: string
@@ -65,11 +25,56 @@ interface LoginRegisterForm {
 }
 
 const LoginRegister = () => {
+    const setNeedReload = useSessionReloadStore((state) => state.setNeedReload)
+
     const isMobile = useMediaQuery(`(max-width: ${Theme.breakpoints?.lg})`)
 
     const router = useRouter()
 
     const [isRegistration, setIsRegistration] = useState<boolean>(false)
+
+    const handleLoginRegister = async (
+        loginRegisterData: LoginRegisterForm,
+        isRegister: boolean,
+        router: AppRouterInstance
+    ) => {
+        try {
+            if (isRegister) {
+                if (!loginRegisterData.name) return
+
+                const registration: Registration = {
+                    email: loginRegisterData.email,
+                    password: loginRegisterData.password,
+                    name: loginRegisterData.name,
+                }
+
+                const response: User = await Users.register(registration)
+                if (!response?.email) {
+                    throw new Error('Error registrando usuario')
+                }
+
+                setNeedReload(true)
+
+                router.push('/businesses')
+            }
+
+            const login: Login = {
+                email: loginRegisterData.email,
+                password: loginRegisterData.password,
+            }
+
+            const response: User = await Users.login(login)
+            if (!response?.email) {
+                throw new Error('Error iniciando sesión')
+            }
+
+            setNeedReload(true)
+
+            router.push('/businesses')
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     const form = useForm<LoginRegisterForm>({
         mode: 'controlled',
@@ -93,7 +98,7 @@ const LoginRegister = () => {
                     ? null
                     : 'Name is required',
             termsOfService: (value) =>
-                value === true
+                !isRegistration || value === true
                     ? null
                     : 'Accepting terms of service is required',
         },
@@ -110,13 +115,6 @@ const LoginRegister = () => {
                 <Text size="2rem">
                     {isRegistration ? 'Nueva cuenta' : 'Login'}
                 </Text>
-            </Group>
-            <Group justify="space-between" mt="md" mb="xs">
-                <Button
-                    color="orange.6"
-                    onClick={() => setIsRegistration(!isRegistration)}>
-                    {isRegistration ? 'Ya tengo una cuenta' : 'No tengo cuenta'}
-                </Button>
             </Group>
             <form
                 onSubmit={form.onSubmit((values) =>
@@ -163,20 +161,26 @@ const LoginRegister = () => {
                             key={form.key('name')}
                             {...form.getInputProps('name')}
                         />
+
+                        <Checkbox
+                            pt={'1rem'}
+                            mt="md"
+                            label="I agree to terms of service"
+                            key={form.key('termsOfService')}
+                            {...form.getInputProps('termsOfService', {
+                                type: 'checkbox',
+                            })}
+                        />
                     </>
                 )}
-
-                <Checkbox
-                    pt={'1rem'}
-                    mt="md"
-                    label="I agree to terms of service"
-                    key={form.key('termsOfService')}
-                    {...form.getInputProps('termsOfService', {
-                        type: 'checkbox',
-                    })}
-                />
-
                 <Group justify="flex-end" mt="md">
+                    <Button
+                        color="orange.6"
+                        onClick={() => setIsRegistration(!isRegistration)}>
+                        {isRegistration
+                            ? 'Ya tengo una cuenta'
+                            : 'No tengo cuenta'}
+                    </Button>
                     <Button type="submit">
                         {isRegistration ? 'Registrarse' : 'Iniciar sesión'}
                     </Button>
