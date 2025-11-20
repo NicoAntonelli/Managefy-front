@@ -60,7 +60,7 @@ const LoginRegister = () => {
 
                 setNeedReload(true)
 
-                router.push('/businesses')
+                router.push('/user/validation')
             }
 
             const login: Login = {
@@ -75,7 +75,8 @@ const LoginRegister = () => {
 
             setNeedReload(true)
 
-            router.push('/businesses')
+            if (response.validated) router.push('/businesses')
+            else router.push('/user/validation')
         } catch (error) {
             console.error(error)
         } finally {
