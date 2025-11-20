@@ -46,9 +46,13 @@ const getUser = async () => {
     }
 }
 
-const logout = async (router: AppRouterInstance) => {
+const logout = async (
+    router: AppRouterInstance,
+    setCurrentUser: React.Dispatch<any>
+) => {
     try {
         await Users.logout()
+        setCurrentUser(null)
         router.push('/')
     } catch (error) {
         notifications.show({
@@ -121,7 +125,7 @@ const Navbar = () => {
                                 }
                                 small
                                 background="var(--mantine-color-gray-lightest)"
-                                onClick={() => logout(router)}
+                                onClick={() => logout(router, setCurrentUser)}
                                 link="#"
                             />
                         </>
