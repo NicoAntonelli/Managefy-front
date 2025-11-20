@@ -14,8 +14,10 @@ const email = (value: string): boolean => {
 const integer = (value: number): boolean => {
     if (!value) return false
     if (isNaN(value)) return false
-    if (!Number.isInteger(value)) return false
-    if (value < 0) return false
+
+    const num = typeof value === 'number' ? value : Number(value)
+    if (!Number.isInteger(num)) return false
+    if (num < 0) return false
 
     return true
 }
