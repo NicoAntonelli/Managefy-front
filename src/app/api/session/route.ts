@@ -7,16 +7,22 @@ import Token from '@/entities/Token'
 export async function GET() {
     const authToken = cookies().get('Authorization')
     if (!authToken?.value) {
-        return new Response(JSON.stringify({ message: 'Not logged in' }), {
-            status: 401,
-            headers: { 'Content-Type': 'application/json' },
-        })
+        return new Response(
+            JSON.stringify({ message: 'Not logged in', cookieExists: false }),
+            {
+                status: 200,
+                headers: { 'Content-Type': 'application/json' },
+            }
+        )
     }
 
-    return new Response(JSON.stringify({ token: authToken.value }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-    })
+    return new Response(
+        JSON.stringify({ message: authToken.value, cookieExists: true }),
+        {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+        }
+    )
 }
 
 // Handles a new session creation (login or register)

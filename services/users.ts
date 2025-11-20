@@ -5,6 +5,7 @@ import Helper from './helper'
 
 import Login from '@/entities/Login'
 import Registration from '@/entities/Registration'
+import SessionResponse from '@/entities/helpTypes/SessionResponse'
 import Token from '@/entities/Token'
 import User from '@/entities/User'
 
@@ -89,15 +90,17 @@ const sessionCreate = async (token: Token): Promise<User> => {
     }
 }
 
+// No API call, just reads the session cookie
 const sessionGet = async (): Promise<User | null> => {
     const endpoint = `${Env.baseURL}/api/session`
     try {
-        const response = await axios.get<string>(endpoint)
-        Helper.validateResponse(response)
+        const response = await axios.get<SessionResponse>(endpoint)
+        if (!response?.data) return null
 
-        const token: string = response.data
+        const { message, cookieExists } = response.data
+        if (!cookieExists) return null
 
-        const user: User | null = decodeToken(token) as User | null
+        const user: User | null = decodeToken(message) as User | null
         if (!user) throw new Error('Error decoding token')
 
         return user
