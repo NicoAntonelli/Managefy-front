@@ -1,4 +1,4 @@
-import axios from 'axios'
+import api from './api'
 import Env from '@/utils/Env'
 import Helper from './helper'
 
@@ -6,7 +6,7 @@ const prefix = Env.backendAPI
 
 const testAPI = async (): Promise<string> => {
     try {
-        const response = await axios.get<string>(prefix)
+        const response = await api.get<string>(prefix)
         if (!response) {
             throw new Error('No response from API')
         } else if (response.status !== 200) {
