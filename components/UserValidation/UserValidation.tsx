@@ -8,11 +8,11 @@ import { useMediaQuery } from '@mantine/hooks'
 import { IconLock } from '@tabler/icons-react'
 
 import Theme from '@/app/theme'
-import Users from '@/services/users'
+import Helper from '@/services/helper'
 import useSessionReloadStore from '@/utils/stores/useSessionReloadStore'
-import Validation from '@/utils/validation/Validation'
-
 import User from '@/entities/User'
+import Users from '@/services/users'
+import Validation from '@/utils/validation/Validation'
 
 interface UserValidationForm {
     code?: number
@@ -28,6 +28,7 @@ const UserValidation = () => {
     const [secondsRemaining, setSecondsRemaining] = useState<number>(0)
     const [sendingNewCode, setSendingNewCode] = useState<boolean>(false)
     const [submitting, setSubmitting] = useState<boolean>(false)
+    const [errorMessage, setErrorMessage] = useState<string>('')
 
     // Countdown effect
     useEffect(() => {
@@ -57,8 +58,10 @@ const UserValidation = () => {
             if (!response) {
                 throw new Error('Error validando usuario')
             }
+
+            setErrorMessage('')
         } catch (error) {
-            console.error(error)
+            setErrorMessage(Helper.parseError(error))
         } finally {
             setSendingNewCode(false)
         }
@@ -82,11 +85,12 @@ const UserValidation = () => {
                 throw new Error('Error validando usuario')
             }
 
+            setErrorMessage('')
             setNeedReload(true)
 
             router.push('/businesses')
         } catch (error) {
-            console.error(error)
+            setErrorMessage(Helper.parseError(error))
         } finally {
             setSubmitting(false)
         }
@@ -132,6 +136,16 @@ const UserValidation = () => {
                     key={form.key('code')}
                     {...form.getInputProps('code')}
                 />
+
+                {errorMessage && (
+                    <>
+                        <Group mt="md">
+                            <Text c="red" size="sm">
+                                {errorMessage}
+                            </Text>
+                        </Group>
+                    </>
+                )}
 
                 <Group justify="flex-end" mt="md">
                     <Button

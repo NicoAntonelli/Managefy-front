@@ -8,6 +8,7 @@ import { useMediaQuery } from '@mantine/hooks'
 import { IconLock, IconMail, IconUserCircle } from '@tabler/icons-react'
 
 import Theme from '@/app/theme'
+import Helper from '@/services/helper'
 import Users from '@/services/users'
 import useSessionReloadStore from '@/utils/stores/useSessionReloadStore'
 import Validation from '@/utils/validation/Validation'
@@ -33,6 +34,7 @@ const LoginRegister = () => {
 
     const [isRegistration, setIsRegistration] = useState<boolean>(false)
     const [submitting, setSubmitting] = useState<boolean>(false)
+    const [errorMessage, setErrorMessage] = useState<string>('')
 
     const handleLoginRegister = async (
         loginRegisterData: LoginRegisterForm,
@@ -58,6 +60,7 @@ const LoginRegister = () => {
                     throw new Error('Error registrando usuario')
                 }
 
+                setErrorMessage('')
                 setNeedReload(true)
 
                 router.push('/user/validation')
@@ -73,12 +76,13 @@ const LoginRegister = () => {
                 throw new Error('Error iniciando sesión')
             }
 
+            setErrorMessage('')
             setNeedReload(true)
 
             if (response.validated) router.push('/businesses')
-            else router.push('/user/validation')
+            else router.push('/users/validation')
         } catch (error) {
-            console.error(error)
+            setErrorMessage(Helper.parseError(error))
         } finally {
             setSubmitting(false)
         }
@@ -189,6 +193,17 @@ const LoginRegister = () => {
                         />
                     </>
                 )}
+
+                {errorMessage && (
+                    <>
+                        <Group mt="md">
+                            <Text c="red" size="sm">
+                                {errorMessage}
+                            </Text>
+                        </Group>
+                    </>
+                )}
+
                 <Group justify="flex-end" mt="md">
                     <Button
                         color="orange.6"
