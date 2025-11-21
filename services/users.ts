@@ -15,13 +15,11 @@ const getOneUser = async (id: number): Promise<User> => {
     const endpoint = `${prefix}/${id}`
     try {
         const response = await axios.get<User>(endpoint)
-        Helper.validateResponse(response)
+        Helper.validateResponseAPI(response)
 
         return response.data
     } catch (error: any) {
-        const errorMessage = `Error fetching ${endpoint}: '${error}'`
-        console.error(errorMessage)
-        throw new Error(error)
+        throw new Error(Helper.parseLogErrorAPI(error, endpoint))
     }
 }
 
@@ -29,15 +27,13 @@ const login = async (loginData: Login): Promise<User> => {
     const endpoint = `${prefix}/login`
     try {
         const response = await axios.post<Token>(endpoint, loginData)
-        Helper.validateResponse(response)
+        Helper.validateResponseAPI(response)
 
         const user = sessionCreate(response.data)
 
         return user
     } catch (error: any) {
-        const errorMessage = `Error fetching ${endpoint}: '${error}'`
-        console.error(errorMessage)
-        throw new Error(error)
+        throw new Error(Helper.parseLogErrorAPI(error, endpoint))
     }
 }
 
@@ -45,11 +41,9 @@ const logout = async (): Promise<void> => {
     const endpoint = `${Env.baseURL}/api/session`
     try {
         const response = await axios.delete<string>(endpoint)
-        Helper.validateResponse(response)
+        Helper.validateResponseAPI(response)
     } catch (error: any) {
-        const errorMessage = `Error fetching ${endpoint}: '${error}'`
-        console.error(errorMessage)
-        throw new Error(error)
+        throw new Error(Helper.parseLogErrorAPI(error, endpoint))
     }
 }
 
@@ -57,18 +51,18 @@ const register = async (registration: Registration): Promise<User> => {
     const endpoint = `${prefix}/register`
     try {
         const response = await axios.post<Token>(endpoint, registration)
-        Helper.validateResponse(response)
+
+        Helper.validateResponseAPI(response)
 
         const user = sessionCreate(response.data)
 
         return user
     } catch (error: any) {
-        const errorMessage = `Error fetching ${endpoint}: '${error}'`
-        console.error(errorMessage)
-        throw new Error(error)
+        throw new Error(Helper.parseLogErrorAPI(error, endpoint))
     }
 }
 
+// No API call, just sets a session cookie
 const sessionCreate = async (token: Token): Promise<User> => {
     const endpoint = `${Env.baseURL}/api/session`
     try {
@@ -77,16 +71,14 @@ const sessionCreate = async (token: Token): Promise<User> => {
         }
 
         const response = await axios.post<string>(endpoint, token)
-        Helper.validateResponse(response)
+        Helper.validateResponseAPI(response)
 
-        const user: User | null = decodeToken(token.accessToken) as User | null
+        const user: User | null = decodeToken(token.accessToken)
         if (!user) throw new Error('Error decoding token')
 
         return user
     } catch (error: any) {
-        const errorMessage = `Error fetching ${endpoint}: '${error}'`
-        console.error(errorMessage)
-        throw new Error(error)
+        throw new Error(Helper.parseLogErrorAPI(error, endpoint))
     }
 }
 
@@ -100,14 +92,12 @@ const sessionGet = async (): Promise<User | null> => {
         const { message, cookieExists } = response.data
         if (!cookieExists) return null
 
-        const user: User | null = decodeToken(message) as User | null
+        const user: User | null = decodeToken(message)
         if (!user) throw new Error('Error decoding token')
 
         return user
     } catch (error: any) {
-        const errorMessage = `Error fetching ${endpoint}: '${error}'`
-        console.error(errorMessage)
-        throw new Error(error)
+        throw new Error(Helper.parseLogErrorAPI(error, endpoint))
     }
 }
 
@@ -115,13 +105,11 @@ const validationStart = async (): Promise<boolean> => {
     const endpoint = `${prefix}/generateValidation`
     try {
         const response = await axios.put<boolean>(endpoint)
-        Helper.validateResponse(response)
+        Helper.validateResponseAPI(response)
 
         return response.data
     } catch (error: any) {
-        const errorMessage = `Error fetching ${endpoint}: '${error}'`
-        console.error(errorMessage)
-        throw new Error(error)
+        throw new Error(Helper.parseLogErrorAPI(error, endpoint))
     }
 }
 
@@ -129,15 +117,13 @@ const validate = async (validationCode: number): Promise<User> => {
     const endpoint = `${prefix}/validate/${validationCode}`
     try {
         const response = await axios.put<Token>(endpoint, validationCode)
-        Helper.validateResponse(response)
+        Helper.validateResponseAPI(response)
 
         const user = sessionCreate(response.data)
 
         return user
     } catch (error: any) {
-        const errorMessage = `Error fetching ${endpoint}: '${error}'`
-        console.error(errorMessage)
-        throw new Error(error)
+        throw new Error(Helper.parseLogErrorAPI(error, endpoint))
     }
 }
 

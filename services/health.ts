@@ -1,5 +1,6 @@
 import axios from 'axios'
 import Env from '@/utils/Env'
+import Helper from './helper'
 
 const prefix = Env.backendAPI
 
@@ -18,9 +19,7 @@ const testAPI = async (): Promise<string> => {
 
         return response.data
     } catch (error: any) {
-        const errorMessage = `Error fetching health status: '${error}'`
-        console.error(errorMessage)
-        throw new Error(error)
+        throw new Error(Helper.parseLogErrorAPI(error, '/'))
     }
 }
 
