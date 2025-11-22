@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 
-import { Button, Card, Checkbox, Group, Text, TextInput } from '@mantine/core'
+import { Button, Card, Group, Text, TextInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { useMediaQuery } from '@mantine/hooks'
 import { IconLock } from '@tabler/icons-react'
@@ -24,13 +24,25 @@ const UserValidation = () => {
     const setNeedReload = useSessionReloadStore((state) => state.setNeedReload)
     const isMobile = useMediaQuery(`(max-width: ${Theme.breakpoints?.lg})`)
 
+    // User data needed for account validation process
+    const [currentUser, setCurrentUser] = useState<User | null>(null)
     const [loading, setLoading] = useState(true)
 
     const router = useRouter()
 
     useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const user = await Helper.getUserOrAuthenticate(router, true)
+                setCurrentUser(user)
+            } catch (error) {
+                setCurrentUser(null)
+            } finally {
         setLoading(false)
-    }, [])
+            }
+        }
+        fetchUser()
+    }, [needReload])
 
     const [secondsRemaining, setSecondsRemaining] = useState<number>(0)
     const [sendingNewCode, setSendingNewCode] = useState<boolean>(false)
@@ -131,7 +143,8 @@ const UserValidation = () => {
             </Group>
             <Group justify="space-between" mb="xs">
                 <Text size="1rem">
-                    Se enviará un código de validación a su correo electrónico
+                    Se enviará un código de validación al correo{' '}
+                    {currentUser?.email}
                 </Text>
             </Group>
             <form
