@@ -119,7 +119,7 @@ const Navbar = () => {
                             )}
                             <NavbarItem
                                 text="Editar perfil"
-                                link="/account/profile"
+                                link="/users/profile"
                                 icon={
                                     <IconEdit
                                         style={{

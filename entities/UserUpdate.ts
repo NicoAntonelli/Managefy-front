@@ -3,7 +3,6 @@ interface UserUpdate {
     email: string
     password: string
     name: string
-    validated: boolean
     emailNotifications: boolean
 }
 
