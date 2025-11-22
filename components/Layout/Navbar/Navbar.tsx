@@ -19,6 +19,7 @@ import {
     IconUserDollar,
 } from '@tabler/icons-react'
 
+import Helper from '@/services/helper'
 import Users from '@/services/users'
 import User from '@/entities/User'
 import useSessionReloadStore from '@/utils/stores/useSessionReloadStore'
@@ -30,23 +31,6 @@ import SkeletonSmall from '@/components/Common/Loader/SkeletonSmall'
 // Icon properties
 const iconSize = 40
 
-const getUser = async () => {
-    try {
-        const user: User | null = await Users.sessionGet()
-        if (!user) return null
-
-        return user
-    } catch (error) {
-        notifications.show({
-            title: 'Error',
-            message: 'Error validando la sesión actual. Intente mas tarde.',
-            color: 'red',
-        })
-
-        return null
-    }
-}
-
 const logout = async (
     router: AppRouterInstance,
     setCurrentUser: React.Dispatch<any>
@@ -54,11 +38,11 @@ const logout = async (
     try {
         await Users.logout()
         setCurrentUser(null)
-        router.push('/')
+        router.push('/users/loginRegister')
     } catch (error) {
         notifications.show({
             title: 'Error',
-            message: 'No se pudo cerrar sesión. Intente mas tarde.',
+            message: 'Could not log out. Please try again later.',
             color: 'red',
         })
 
@@ -70,6 +54,7 @@ const Navbar = () => {
     const needReload = useSessionReloadStore((state) => state.needReload)
     const setNeedReload = useSessionReloadStore((state) => state.setNeedReload)
 
+    // User data needed for showing it in the navbar
     const [currentUser, setCurrentUser] = useState<User | null>(null)
     const [loading, setLoading] = useState(true)
 
@@ -79,10 +64,21 @@ const Navbar = () => {
 
     useEffect(() => {
         const fetchUser = async () => {
-            const user = await getUser()
+            try {
+                const user = await Helper.getUserOrAuthenticate(router, false)
             setCurrentUser(user)
+            } catch (error) {
+                setCurrentUser(null)
+                notifications.show({
+                    title: 'Error',
+                    message:
+                        'Error validating current session. Please try again later',
+                    color: 'red',
+                })
+            } finally {
             setNeedReload(false)
             setLoading(false)
+            }
         }
         fetchUser()
     }, [needReload])
