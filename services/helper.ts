@@ -1,5 +1,32 @@
 import axios, { AxiosResponse } from 'axios'
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
+
 import ErrorResponse from '@/entities/helpTypes/ErrorResponse'
+import User from '@/entities/User'
+import Users from './users'
+
+// Get current user, optionally redirect to login/register
+const getUserOrAuthenticate = async (
+    router: AppRouterInstance,
+    redirect: boolean
+) => {
+    try {
+        const user: User | null = await Users.sessionGet()
+        if (!user) {
+            if (redirect) router.push('/users/loginRegister')
+            return null
+        }
+
+        return user
+    } catch (error) {
+        // To-Do: Log error...
+        console.error(error)
+
+        if (redirect) router.push('/users/loginRegister')
+
+        return null
+    }
+}
 
 // Type guard to check if data is an ErrorResponse
 const isErrorResponse = (data: any): data is ErrorResponse => {
@@ -61,6 +88,7 @@ const validateResponseAPI = (response: AxiosResponse<any, any>) => {
 }
 
 const Helper = {
+    getUserOrAuthenticate,
     isErrorResponse,
     parseError,
     parseLogErrorAPI,
