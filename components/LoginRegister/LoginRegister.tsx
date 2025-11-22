@@ -15,8 +15,8 @@ import Validation from '@/utils/validation/Validation'
 
 import Login from '@/entities/Login'
 import Registration from '@/entities/Registration'
-import User from '@/entities/User'
 import SkeletonFull from '../Common/Loader/SkeletonFull'
+import User from '@/entities/User'
 
 interface LoginRegisterForm {
     email: string
@@ -41,6 +41,12 @@ const LoginRegister = () => {
     useEffect(() => {
         setLoading(false)
     }, [])
+
+    const toggleForm = () => {
+        setIsRegistration(!isRegistration)
+        setErrorMessage('')
+        form.clearErrors()
+    }
 
     const handleLoginRegister = async (
         loginRegisterData: LoginRegisterForm,
@@ -215,9 +221,7 @@ const LoginRegister = () => {
                 )}
 
                 <Group justify="flex-end" mt="md">
-                    <Button
-                        color="orange.6"
-                        onClick={() => setIsRegistration(!isRegistration)}>
+                    <Button color="orange.6" onClick={() => toggleForm()}>
                         {isRegistration
                             ? 'Ya tengo una cuenta'
                             : 'No tengo cuenta'}
