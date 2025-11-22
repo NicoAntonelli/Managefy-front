@@ -25,7 +25,7 @@ export async function GET() {
     )
 }
 
-// Handles a new session creation (login or register)
+// Handles a new session creation (login, register or update)
 export async function POST(req: Request) {
     const response: Token = (await req.json()) as Token
 
@@ -47,7 +47,7 @@ export async function POST(req: Request) {
 }
 
 // Handles session finalization (logout)
-export async function DELETE(req: Request) {
+export async function DELETE() {
     cookies().delete('Authorization')
 
     return new Response(JSON.stringify({ message: 'Logged out' }), {

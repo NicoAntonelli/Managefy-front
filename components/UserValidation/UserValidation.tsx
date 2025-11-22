@@ -73,7 +73,7 @@ const UserValidation = () => {
             setSendingNewCode(true)
             setSecondsRemaining(60)
 
-            const response: boolean = await Users.validationStart()
+            const response: boolean = await Users.generateValidation()
             if (!response) {
                 throw new Error('Error validando usuario')
             }

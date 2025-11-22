@@ -37,7 +37,7 @@ const logout = async (
     setCurrentUser: React.Dispatch<any>
 ) => {
     try {
-        await Users.logout()
+        await Users.sessionDelete()
         setCurrentUser(null)
         router.push('/users/loginRegister')
     } catch (error) {
