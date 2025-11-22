@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-import { Button, Card, Checkbox, Group, Text, TextInput } from '@mantine/core'
+import {
+    Button,
+    Card,
+    Checkbox,
+    Group,
+    Stack,
+    Text,
+    TextInput,
+} from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { useMediaQuery } from '@mantine/hooks'
 import {
+    IconAlertTriangle,
     IconCircleCheck,
     IconLock,
     IconMail,
@@ -101,6 +110,29 @@ const Profile = () => {
         }
     }
 
+    const handleDelete = () => async () => {
+        try {
+            if (submitting) return
+            if (!currentUser) return
+
+            const response: number = await Users.deleteUser()
+            if (!response) {
+                throw new Error('Error eliminando cuenta de usuario')
+            }
+
+            await Users.sessionDelete()
+            setCurrentUser(null)
+
+            setErrorMessage('')
+            setNeedReload(true)
+            router.push('/users/loginRegister')
+        } catch (error) {
+            setErrorMessage(Helper.parseError(error))
+        } finally {
+            setSubmitting(false)
+        }
+    }
+
     const form = useForm<ProfileForm>({
         mode: 'controlled',
         initialValues: {
@@ -158,89 +190,126 @@ const Profile = () => {
     }
 
     return (
-        <Card
-            shadow="sm"
-            padding="lg"
-            radius="md"
-            withBorder
-            className={isMobile ? 'min-w-full' : 'w-screen-l'}>
-            <Group justify="space-between" mt="md" mb="xs">
-                <Text size="2rem">Editar perfil</Text>
-            </Group>
-            <Group justify="space-between" mb="xs">
-                <Text size="1rem">
-                    Puede utilizar la misma o una nueva contraseña
-                </Text>
-            </Group>
-            <form
-                onSubmit={form.onSubmit((values) => handleUpdateUser(values))}>
-                <TextInput
-                    pt={'1rem'}
-                    withAsterisk
-                    label="Email"
-                    placeholder="your@email.com"
-                    leftSection={<IconMail />}
-                    key={form.key('email')}
-                    {...form.getInputProps('email')}
-                />
+        <>
+            <Card
+                shadow="sm"
+                padding="lg"
+                radius="md"
+                withBorder
+                className={isMobile ? 'min-w-full' : 'w-screen-l'}>
+                <Group justify="space-between" mt="md" mb="xs">
+                    <Text size="2rem">Editar perfil</Text>
+                </Group>
+                <Group justify="space-between" mb="xs">
+                    <Text size="1rem">
+                        Puede utilizar la misma o una nueva contraseña
+                    </Text>
+                </Group>
+                <form
+                    onSubmit={form.onSubmit((values) =>
+                        handleUpdateUser(values)
+                    )}>
+                    <TextInput
+                        pt={'1rem'}
+                        withAsterisk
+                        label="Email"
+                        placeholder="your@email.com"
+                        leftSection={<IconMail />}
+                        key={form.key('email')}
+                        {...form.getInputProps('email')}
+                    />
 
-                <TextInput
-                    pt={'1rem'}
-                    withAsterisk
-                    label="Contraseña"
-                    placeholder="..."
-                    leftSection={<IconLock />}
-                    key={form.key('password')}
-                    {...form.getInputProps('password')}
-                />
+                    <TextInput
+                        pt={'1rem'}
+                        withAsterisk
+                        label="Contraseña"
+                        placeholder="..."
+                        leftSection={<IconLock />}
+                        key={form.key('password')}
+                        {...form.getInputProps('password')}
+                    />
 
-                <TextInput
-                    pt={'1rem'}
-                    withAsterisk
-                    label="Confirmar contraseña"
-                    placeholder="..."
-                    leftSection={<IconLock />}
-                    key={form.key('confirmPassword')}
-                    {...form.getInputProps('confirmPassword')}
-                />
+                    <TextInput
+                        pt={'1rem'}
+                        withAsterisk
+                        label="Confirmar contraseña"
+                        placeholder="..."
+                        leftSection={<IconLock />}
+                        key={form.key('confirmPassword')}
+                        {...form.getInputProps('confirmPassword')}
+                    />
 
-                <TextInput
-                    pt={'1rem'}
-                    withAsterisk
-                    label="Nombre"
-                    placeholder="John Doe"
-                    leftSection={<IconUserCircle />}
-                    key={form.key('name')}
-                    {...form.getInputProps('name')}
-                />
+                    <TextInput
+                        pt={'1rem'}
+                        withAsterisk
+                        label="Nombre"
+                        placeholder="John Doe"
+                        leftSection={<IconUserCircle />}
+                        key={form.key('name')}
+                        {...form.getInputProps('name')}
+                    />
 
-                <Checkbox
-                    pt={'1rem'}
-                    mt="md"
-                    label="Recibir notificaciones por email"
-                    key={form.key('emailNotifications')}
-                    {...form.getInputProps('emailNotifications', {
-                        type: 'checkbox',
-                    })}
-                />
+                    <Checkbox
+                        pt={'1rem'}
+                        mt="md"
+                        label="Recibir notificaciones por email"
+                        key={form.key('emailNotifications')}
+                        {...form.getInputProps('emailNotifications', {
+                            type: 'checkbox',
+                        })}
+                    />
 
-                {errorMessage && (
-                    <>
-                        <Group mt="md">
-                            <Text c="red" size="sm">
-                                {errorMessage}
-                            </Text>
-                        </Group>
-                    </>
-                )}
+                    {errorMessage && (
+                        <>
+                            <Group mt="md">
+                                <Text c="red" size="sm">
+                                    {errorMessage}
+                                </Text>
+                            </Group>
+                        </>
+                    )}
 
-                <Group justify="flex-end" mt="md">
-                    <Button type="submit" disabled={submitting}>
-                        {submitting ? 'Cargando...' : 'Guardar cambios'}
+                    <Group justify="flex-end" mt="md">
+                        <Button type="submit" disabled={submitting}>
+                            {submitting ? 'Cargando...' : 'Guardar cambios'}
+                        </Button>
+                    </Group>
+                </form>
+            </Card>
+            <Card
+                mt="5rem"
+                shadow="sm"
+                padding="lg"
+                radius="md"
+                withBorder
+                className={isMobile ? 'min-w-full' : 'w-screen-l'}>
+                <Group justify="space-between" mt="md" mb="xs">
+                    <Text size="2rem">Eliminar cuenta</Text>
+                </Group>
+                <Group justify="flex-start" mb="xs" c="red">
+                    <IconAlertTriangle size="2rem" />
+                    <Stack gap="0.25rem">
+                        <Text size="1rem">
+                            CUIDADO: Esta acción es irreversible y eliminará
+                            toda su información de forma permanente.
+                        </Text>
+                        <Text size="1rem">
+                            Una vez eliminada, será redireccionado al inicio de
+                            sesión
+                        </Text>
+                    </Stack>
+                </Group>
+                <Group justify="flex-start" mt="md">
+                    <Button
+                        type="submit"
+                        disabled={submitting}
+                        color="red"
+                        onClick={handleDelete()}>
+                        {submitting ? 'Cargando...' : 'ELIMINAR CUENTA'}
                     </Button>
                 </Group>
-            </form>
-        </Card>
+            </Card>
+        </>
     )
 }
 
