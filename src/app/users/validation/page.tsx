@@ -1,5 +1,5 @@
 'use client'
-import UserValidation from '@/components/UserValidation/UserValidation'
+import UserValidation from '@/components/User/UserValidation/UserValidation'
 
 const ValidationPage = () => {
     return (

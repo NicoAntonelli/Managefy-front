@@ -6,14 +6,15 @@ import { Button, Card, Group, Text, TextInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { useMediaQuery } from '@mantine/hooks'
 import { IconLock, IconCircleCheck } from '@tabler/icons-react'
+import Theme from '@/app/theme'
 
 import Helper from '@/services/helper'
-import SkeletonFull from '../Common/Loader/SkeletonFull'
-import Theme from '@/app/theme'
-import useSessionReloadStore from '@/utils/stores/useSessionReloadStore'
-import User from '@/entities/User'
 import Users from '@/services/users'
+import useSessionReloadStore from '@/utils/stores/useSessionReloadStore'
 import Validation from '@/utils/validation/Validation'
+
+import SkeletonFull from '@/components//Common/Loader/SkeletonFull'
+import User from '@/entities/User'
 
 interface UserValidationForm {
     code?: number

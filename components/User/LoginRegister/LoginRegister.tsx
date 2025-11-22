@@ -6,8 +6,8 @@ import { Button, Card, Checkbox, Group, Text, TextInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { useMediaQuery } from '@mantine/hooks'
 import { IconLock, IconMail, IconUserCircle } from '@tabler/icons-react'
-
 import Theme from '@/app/theme'
+
 import Helper from '@/services/helper'
 import Users from '@/services/users'
 import useSessionReloadStore from '@/utils/stores/useSessionReloadStore'
@@ -15,7 +15,7 @@ import Validation from '@/utils/validation/Validation'
 
 import Login from '@/entities/Login'
 import Registration from '@/entities/Registration'
-import SkeletonFull from '../Common/Loader/SkeletonFull'
+import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 import User from '@/entities/User'
 
 interface LoginRegisterForm {
