@@ -13,6 +13,7 @@ import {
     IconDoorExit,
     IconEdit,
     IconHelp,
+    IconMailCheck,
     IconRocket,
     IconUserCircle,
     IconUserCog,
@@ -66,7 +67,7 @@ const Navbar = () => {
         const fetchUser = async () => {
             try {
                 const user = await Helper.getUserOrAuthenticate(router, false)
-            setCurrentUser(user)
+                setCurrentUser(user)
             } catch (error) {
                 setCurrentUser(null)
                 notifications.show({
@@ -76,8 +77,8 @@ const Navbar = () => {
                     color: 'red',
                 })
             } finally {
-            setNeedReload(false)
-            setLoading(false)
+                setNeedReload(false)
+                setLoading(false)
             }
         }
         fetchUser()
@@ -100,6 +101,22 @@ const Navbar = () => {
                     />
                     {userMenuOpened && (
                         <>
+                            {!currentUser.validated && (
+                                <NavbarItem
+                                    text="Validar usuario"
+                                    link="/users/validation"
+                                    icon={
+                                        <IconMailCheck
+                                            style={{
+                                                width: rem(14),
+                                                height: rem(14),
+                                            }}
+                                        />
+                                    }
+                                    small
+                                    background="var(--mantine-color-gray-lightest)"
+                                />
+                            )}
                             <NavbarItem
                                 text="Editar perfil"
                                 link="/account/profile"
