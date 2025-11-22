@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 
@@ -16,6 +16,7 @@ import Validation from '@/utils/validation/Validation'
 import Login from '@/entities/Login'
 import Registration from '@/entities/Registration'
 import User from '@/entities/User'
+import SkeletonFull from '../Common/Loader/SkeletonFull'
 
 interface LoginRegisterForm {
     email: string
@@ -27,14 +28,19 @@ interface LoginRegisterForm {
 
 const LoginRegister = () => {
     const setNeedReload = useSessionReloadStore((state) => state.setNeedReload)
-
     const isMobile = useMediaQuery(`(max-width: ${Theme.breakpoints?.lg})`)
+
+    const [loading, setLoading] = useState(true)
 
     const router = useRouter()
 
     const [isRegistration, setIsRegistration] = useState<boolean>(false)
     const [submitting, setSubmitting] = useState<boolean>(false)
     const [errorMessage, setErrorMessage] = useState<string>('')
+
+    useEffect(() => {
+        setLoading(false)
+    }, [])
 
     const handleLoginRegister = async (
         loginRegisterData: LoginRegisterForm,
@@ -63,7 +69,7 @@ const LoginRegister = () => {
                 setErrorMessage('')
                 setNeedReload(true)
 
-                router.push('/user/validation')
+                router.push('/users/validation')
             }
 
             const login: Login = {
@@ -123,6 +129,10 @@ const LoginRegister = () => {
                     : 'Debe aceptar los términos y condiciones de servicio para registrarse',
         },
     })
+
+    if (loading) {
+        return <SkeletonFull />
+    }
 
     return (
         <Card

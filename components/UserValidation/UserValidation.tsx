@@ -7,8 +7,9 @@ import { useForm } from '@mantine/form'
 import { useMediaQuery } from '@mantine/hooks'
 import { IconLock } from '@tabler/icons-react'
 
-import Theme from '@/app/theme'
 import Helper from '@/services/helper'
+import SkeletonFull from '../Common/Loader/SkeletonFull'
+import Theme from '@/app/theme'
 import useSessionReloadStore from '@/utils/stores/useSessionReloadStore'
 import User from '@/entities/User'
 import Users from '@/services/users'
@@ -19,11 +20,17 @@ interface UserValidationForm {
 }
 
 const UserValidation = () => {
+    const needReload = useSessionReloadStore((state) => state.needReload)
     const setNeedReload = useSessionReloadStore((state) => state.setNeedReload)
-
     const isMobile = useMediaQuery(`(max-width: ${Theme.breakpoints?.lg})`)
 
+    const [loading, setLoading] = useState(true)
+
     const router = useRouter()
+
+    useEffect(() => {
+        setLoading(false)
+    }, [])
 
     const [secondsRemaining, setSecondsRemaining] = useState<number>(0)
     const [sendingNewCode, setSendingNewCode] = useState<boolean>(false)
@@ -107,6 +114,10 @@ const UserValidation = () => {
                     : 'El código debe ser un número entero positivo',
         },
     })
+
+    if (loading) {
+        return <SkeletonFull />
+    }
 
     return (
         <Card
