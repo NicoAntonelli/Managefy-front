@@ -5,7 +5,7 @@ import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.share
 import { Button, Card, Group, Text, TextInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { useMediaQuery } from '@mantine/hooks'
-import { IconLock } from '@tabler/icons-react'
+import { IconLock, IconCircleCheck } from '@tabler/icons-react'
 
 import Helper from '@/services/helper'
 import SkeletonFull from '../Common/Loader/SkeletonFull'
@@ -38,7 +38,7 @@ const UserValidation = () => {
             } catch (error) {
                 setCurrentUser(null)
             } finally {
-        setLoading(false)
+                setLoading(false)
             }
         }
         fetchUser()
@@ -129,6 +129,32 @@ const UserValidation = () => {
 
     if (loading) {
         return <SkeletonFull />
+    }
+
+    if (currentUser?.validated) {
+        return (
+            <Card
+                shadow="sm"
+                padding="lg"
+                radius="md"
+                withBorder
+                className={isMobile ? 'min-w-full' : 'w-screen-l'}>
+                <Group justify="space-between" mt="md" mb="xs">
+                    <Text size="2rem">Validar cuenta</Text>
+                </Group>
+                <Group justify="flex-start" mt="md" mb="xs" c="green.8">
+                    <IconCircleCheck size="2rem" />
+                    <Text size="1.5rem">
+                        Tu cuenta ya ha sido validada correctamente
+                    </Text>
+                </Group>
+                <Group justify="flex-end" mt="md">
+                    <Button onClick={() => router.push('/businesses')}>
+                        Ir a Emprendimientos
+                    </Button>
+                </Group>
+            </Card>
+        )
     }
 
     return (
