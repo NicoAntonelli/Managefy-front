@@ -8,7 +8,7 @@ import Registration from '@/entities/users/Registration'
 import SessionResponse from '@/entities/helpTypes/SessionResponse'
 import Token from '@/entities/users/Token'
 import User from '@/entities/users/User'
-import UserUpdate from '@/entities/users/UserUpdate'
+import UserU from '@/entities/users/UserU'
 
 const prefix = `${Env.backendAPI}/users`
 
@@ -65,7 +65,7 @@ const register = async (registration: Registration): Promise<User> => {
     }
 }
 
-const updateUser = async (userUpdate: UserUpdate): Promise<User> => {
+const updateUser = async (userUpdate: UserU): Promise<User> => {
     const endpoint = prefix
     try {
         const response = await api.put<Token>(endpoint, userUpdate)

@@ -1,4 +1,4 @@
-interface UserUpdate {
+interface UserU {
     id: number
     email: string
     password: string
@@ -6,4 +6,4 @@ interface UserUpdate {
     emailNotifications: boolean
 }
 
-export default UserUpdate
+export default UserU

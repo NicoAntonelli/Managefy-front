@@ -28,7 +28,7 @@ import Validation from '@/utils/validation/Validation'
 
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 import User from '@/entities/users/User'
-import UserUpdate from '@/entities/users/UserUpdate'
+import UserU from '@/entities/users/UserU'
 
 interface ProfileForm {
     email: string
@@ -87,7 +87,7 @@ const Profile = () => {
 
             setSubmitting(true)
 
-            const userUpdate: UserUpdate = {
+            const userUpdate: UserU = {
                 id: currentUser.id,
                 email: profileData.email,
                 password: profileData.password,
