@@ -21,7 +21,7 @@ const About = () => {
                         gap={isMobile ? '1rem' : '2rem'}>
                         <Image
                             src="/Managefy-logo.jpeg"
-                            alt="Managefy banner"
+                            alt="Managefy logo"
                             w="25%"
                             radius="md"
                         />
