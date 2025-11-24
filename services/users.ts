@@ -3,16 +3,16 @@ import decodeToken from '@/middlewares/decodeToken'
 import Env from '@/utils/Env'
 import Helper from './helper'
 
-import Login from '@/entities/Login'
-import Registration from '@/entities/Registration'
+import Login from '@/entities/users/Login'
+import Registration from '@/entities/users/Registration'
 import SessionResponse from '@/entities/helpTypes/SessionResponse'
-import Token from '@/entities/Token'
-import User from '@/entities/User'
-import UserUpdate from '@/entities/UserUpdate'
+import Token from '@/entities/users/Token'
+import User from '@/entities/users/User'
+import UserUpdate from '@/entities/users/UserUpdate'
 
 const prefix = `${Env.backendAPI}/users`
 
-const listUsers = async (id: number): Promise<User[]> => {
+const listUsers = async (): Promise<User[]> => {
     const endpoint = prefix
     try {
         const response = await api.get<User[]>(endpoint)

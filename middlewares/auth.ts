@@ -1,7 +1,7 @@
 import decodeToken from './decodeToken'
 import Env from '@/utils/Env'
 
-import User from '@/entities/User'
+import User from '@/entities/users/User'
 
 // Auth middleware
 const auth = async (context: any) => {

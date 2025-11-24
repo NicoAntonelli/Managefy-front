@@ -14,7 +14,7 @@ import useSessionReloadStore from '@/utils/stores/useSessionReloadStore'
 import Validation from '@/utils/validation/Validation'
 
 import SkeletonFull from '@/components//Common/Loader/SkeletonFull'
-import User from '@/entities/User'
+import User from '@/entities/users/User'
 
 interface UserValidationForm {
     code?: number

@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers'
 
 import Env from '@/utils/Env'
-import Token from '@/entities/Token'
+import Token from '@/entities/users/Token'
 
 // Get current session
 export async function GET() {

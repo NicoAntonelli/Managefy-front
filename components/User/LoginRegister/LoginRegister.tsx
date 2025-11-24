@@ -13,10 +13,10 @@ import Users from '@/services/users'
 import useSessionReloadStore from '@/utils/stores/useSessionReloadStore'
 import Validation from '@/utils/validation/Validation'
 
-import Login from '@/entities/Login'
-import Registration from '@/entities/Registration'
+import Login from '@/entities/users/Login'
+import Registration from '@/entities/users/Registration'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
-import User from '@/entities/User'
+import User from '@/entities/users/User'
 
 interface LoginRegisterForm {
     email: string

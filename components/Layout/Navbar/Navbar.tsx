@@ -22,7 +22,7 @@ import {
 
 import Helper from '@/services/helper'
 import Users from '@/services/users'
-import User from '@/entities/User'
+import User from '@/entities/users/User'
 import useSessionReloadStore from '@/utils/stores/useSessionReloadStore'
 
 import NavbarItem from './NavbarItem'

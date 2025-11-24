@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import JWTPayload from '@/entities/helpTypes/JWTPayload'
-import User from '@/entities/User'
+import User from '@/entities/users/User'
 
 // Decode token without signature (validation) and return decoded values
 const decodeToken = (token: string): User | null => {

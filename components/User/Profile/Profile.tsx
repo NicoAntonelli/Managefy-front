@@ -27,8 +27,8 @@ import useSessionReloadStore from '@/utils/stores/useSessionReloadStore'
 import Validation from '@/utils/validation/Validation'
 
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
-import User from '@/entities/User'
-import UserUpdate from '@/entities/UserUpdate'
+import User from '@/entities/users/User'
+import UserUpdate from '@/entities/users/UserUpdate'
 
 interface ProfileForm {
     email: string

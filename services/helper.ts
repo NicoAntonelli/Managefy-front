@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 
 import ErrorResponse from '@/entities/helpTypes/ErrorResponse'
-import User from '@/entities/User'
+import User from '@/entities/users/User'
 import Users from './users'
 
 // Get current user, optionally redirect to login/register
