@@ -45,10 +45,12 @@ const isErrorResponse = (data: any): data is ErrorResponse => {
 // Log an error message to the error logging service
 const logError = async (message: string): Promise<void> => {
     try {
+        const ipAddress = await Users.getUserIPAddress()
+
         const errorLog: ErrorLogC = {
             description: message,
             browser: navigator.userAgent,
-            userIPAddress: '', // To-Do: Get user IP address
+            userIPAddress: ipAddress ?? '',
         }
 
         const response = await ErrorLogs.createLogError(errorLog)
