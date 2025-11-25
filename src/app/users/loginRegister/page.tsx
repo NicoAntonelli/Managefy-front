@@ -2,11 +2,7 @@
 import LoginRegister from '@/components/User/LoginRegister/LoginRegister'
 
 const LoginRegisterPage = () => {
-    return (
-        <div className="flex flex-col items-center min-w-full h-screen">
-            <LoginRegister />
-        </div>
-    )
+    return <LoginRegister />
 }
 
 export default LoginRegisterPage
