@@ -3,6 +3,7 @@ import decodeToken from '@/middlewares/decodeToken'
 import Env from '@/utils/Env'
 import Helper from './helper'
 
+import GenericResponse from '@/entities/helpTypes/GenericResponse'
 import Login from '@/entities/users/Login'
 import Registration from '@/entities/users/Registration'
 import SessionResponse from '@/entities/helpTypes/SessionResponse'
@@ -167,6 +168,22 @@ const sessionDelete = async (): Promise<void> => {
     }
 }
 
+// No backend API call, just obtains the user's IP address
+const getUserIPAddress = async (): Promise<string | null> => {
+    const endpoint = `${Env.baseURL}/api/ip`
+    try {
+        const response = await api.get<GenericResponse>(endpoint)
+        Helper.validateResponseAPI(response)
+        if (!response?.data?.message) return null
+
+        return response.data.message
+    } catch (error: any) {
+        // Don't throw error further to avoid infinite loops in case of logging service failure
+        console.log(error)
+        return null
+    }
+}
+
 const Users = {
     listUsers,
     getOneUser,
@@ -179,6 +196,7 @@ const Users = {
     sessionGet,
     sessionPost,
     sessionDelete,
+    getUserIPAddress,
 }
 
 export default Users
