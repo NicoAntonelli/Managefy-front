@@ -24,8 +24,9 @@ const Layout = (props: Layout) => {
     // Change between theme preferences
     const { setColorScheme } = useMantineColorScheme()
     const computedColorScheme = useComputedColorScheme('dark')
-    const toggleColorScheme = () =>
+    const toggleColorScheme = () => {
         setColorScheme(computedColorScheme === 'dark' ? 'light' : 'dark')
+    }
 
     // Hotkeys
     useHotkeys([['mod+J', () => toggleColorScheme()]])
