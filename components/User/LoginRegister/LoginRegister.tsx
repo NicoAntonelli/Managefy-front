@@ -2,7 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 
-import { Button, Card, Checkbox, Group, Text, TextInput } from '@mantine/core'
+import {
+    Anchor,
+    Button,
+    Card,
+    Checkbox,
+    Group,
+    Text,
+    TextInput,
+} from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { useMediaQuery } from '@mantine/hooks'
 import { IconLock, IconMail, IconUserCircle } from '@tabler/icons-react'
@@ -201,7 +209,20 @@ const LoginRegister = () => {
                         <Checkbox
                             pt={'1rem'}
                             mt="md"
-                            label="Acepto los términos y condiciones de servicio"
+                            size="1rem"
+                            label={
+                                <>
+                                    Acepto los{' '}
+                                    <Anchor
+                                        size="1rem"
+                                        href="/help#termsConditions"
+                                        target="_blank"
+                                        underline="hover"
+                                        c="orange.6">
+                                        términos y condiciones de servicio
+                                    </Anchor>
+                                </>
+                            }
                             key={form.key('termsOfService')}
                             {...form.getInputProps('termsOfService', {
                                 type: 'checkbox',
