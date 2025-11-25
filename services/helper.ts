@@ -1,9 +1,12 @@
 import axios, { AxiosResponse } from 'axios'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 
+import ErrorLogs from './errorLog'
+import Users from './users'
+
 import ErrorResponse from '@/entities/helpTypes/ErrorResponse'
 import User from '@/entities/users/User'
-import Users from './users'
+import ErrorLogC from '@/entities/errorLogs/ErrorLogC'
 
 // Get current user, optionally redirect to login/register
 const getUserOrAuthenticate = async (
@@ -19,8 +22,8 @@ const getUserOrAuthenticate = async (
 
         return user
     } catch (error) {
-        // To-Do: Log error...
         console.error(error)
+        parseLogError(error)
 
         if (redirect) router.push('/users/loginRegister')
 
@@ -39,7 +42,29 @@ const isErrorResponse = (data: any): data is ErrorResponse => {
     )
 }
 
-// Parse as error message from any type of error
+// Log an error message to the error logging service
+const logError = async (message: string): Promise<void> => {
+    try {
+        const errorLog: ErrorLogC = {
+            description: message,
+            browser: navigator.userAgent,
+            userIPAddress: '', // To-Do: Get user IP address
+        }
+
+        const response = await ErrorLogs.createLogError(errorLog)
+
+        if (!response) {
+            throw new Error('Failed to log the error to the logging service')
+        }
+
+        console.log('Previous error logged to the logging service')
+    } catch (error: any) {
+        // Don't throw error further to avoid infinite loops in case of logging service failure
+        console.error('Failed to log the previous error to the logging service')
+    }
+}
+
+// Parse as error message from any type of frontend error
 const parseError = (error: any): string => {
     let message = 'An error occurred while processing your request'
 
@@ -48,6 +73,16 @@ const parseError = (error: any): string => {
     } else if (typeof error === 'string') {
         message = error
     }
+
+    return message
+}
+
+// Parse as error message from any type of frontend error then log it
+const parseLogError = (error: any): string => {
+    let message = parseError(error)
+
+    console.log(message)
+    logError(message)
 
     return message
 }
@@ -66,7 +101,11 @@ const parseLogErrorAPI = (error: any, endpoint: string): string => {
         message = parseError(error)
     }
 
-    console.error(`Error fetching ${endpoint}: '${message}'`) // To-Do: Save to logging service...
+    message = `Error fetching ${endpoint}: '${message}'`
+
+    console.error(message)
+    logError(message)
+
     return message
 }
 
@@ -90,7 +129,9 @@ const validateResponseAPI = (response: AxiosResponse<any, any>) => {
 const Helper = {
     getUserOrAuthenticate,
     isErrorResponse,
+    logError,
     parseError,
+    parseLogError,
     parseLogErrorAPI,
     validateResponseAPI,
 }
