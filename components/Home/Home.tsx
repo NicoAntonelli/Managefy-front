@@ -56,7 +56,7 @@ const Home = () => {
                 padding="lg"
                 radius="md"
                 withBorder
-                className={isMobile ? 'min-w-full' : 'w-screen-l'}>
+                className="min-w-full">
                 <Card.Section p="1rem">
                     <Group
                         justify="flex-start"
@@ -64,14 +64,18 @@ const Home = () => {
                         <Image
                             src="/Managefy-logo.jpeg"
                             alt="Managefy logo"
-                            w="25%"
+                            h={isMobile ? 150 : 350}
+                            w="auto"
                             radius="md"
                         />
                         <Stack gap="0.25rem">
                             <Text size={isMobile ? '2rem' : '6rem'}>
                                 Managefy
                             </Text>
-                            <Text size={isMobile ? 'sm' : 'xl'} mt="0.5rem">
+                            <Text
+                                size={isMobile ? '1rem' : '2rem'}
+                                mt={isMobile ? '0.5rem' : '1.5rem'}
+                                mr="1rem">
                                 <b>
                                     Gestión de recursos fácil de usar para su
                                     negocio

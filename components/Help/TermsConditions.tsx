@@ -15,21 +15,24 @@ const TermsConditions = () => {
             radius="md"
             mt="3rem"
             withBorder
-            className={isMobile ? 'min-w-full' : 'w-screen-l'}>
+            className="min-w-full">
             <Card.Section p="1rem">
                 <Group justify="flex-start" gap={isMobile ? '1rem' : '2rem'}>
                     <Image
                         src="/Managefy-logo.jpeg"
                         alt="Managefy logo"
-                        w="25%"
+                        h={isMobile ? 150 : 350}
+                        w="auto"
                         radius="md"
                     />
                     <Stack gap="0.25rem">
-                        <Text size={isMobile ? '2rem' : '3rem'}>Managefy</Text>
-                        <Text size={isMobile ? '2rem' : '3rem'}>
+                        <Text size={isMobile ? '2rem' : '4rem'}>Managefy</Text>
+                        <Text size={isMobile ? '2rem' : '4rem'}>
                             Términos y Condiciones de Uso
                         </Text>
-                        <Text size={isMobile ? 'sm' : 'xl'} mt="0.5rem">
+                        <Text
+                            size={isMobile ? '1rem' : '2rem'}
+                            mt={isMobile ? '0.5rem' : '3rem'}>
                             Última actualización: <b>24/11/2025</b>
                         </Text>
                     </Stack>

@@ -139,7 +139,7 @@ const UserValidation = () => {
                 padding="lg"
                 radius="md"
                 withBorder
-                className={isMobile ? 'min-w-full' : 'w-screen-l'}>
+                className="min-w-full">
                 <Group justify="space-between" mt="md" mb="xs">
                     <Text size="2rem">Validar cuenta</Text>
                 </Group>
@@ -164,7 +164,7 @@ const UserValidation = () => {
             padding="lg"
             radius="md"
             withBorder
-            className={isMobile ? 'min-w-full' : 'w-screen-l'}>
+            className="min-w-full">
             <Group justify="space-between" mt="md" mb="xs">
                 <Text size="2rem">Validar cuenta</Text>
             </Group>

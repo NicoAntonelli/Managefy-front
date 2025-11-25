@@ -8,13 +8,13 @@ const About = () => {
     const isMobile = useMediaQuery(`(max-width: ${Theme.breakpoints?.lg})`)
 
     return (
-        <>
+        <div className="justify-start">
             <Card
                 shadow="sm"
                 padding="lg"
                 radius="md"
                 withBorder
-                className={isMobile ? 'min-w-full' : 'w-screen-l'}>
+                className="min-w-full">
                 <Card.Section p="1rem">
                     <Group
                         justify="flex-start"
@@ -22,7 +22,8 @@ const About = () => {
                         <Image
                             src="/Managefy-logo.jpeg"
                             alt="Managefy logo"
-                            w="25%"
+                            h={isMobile ? 150 : 350}
+                            w="auto"
                             radius="md"
                         />
                         <Stack gap="0.25rem">
@@ -97,7 +98,7 @@ const About = () => {
                     </Link>
                 </Button>
             </Card>
-        </>
+        </div>
     )
 }
 

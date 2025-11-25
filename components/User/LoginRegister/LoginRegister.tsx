@@ -154,7 +154,7 @@ const LoginRegister = () => {
             padding="lg"
             radius="md"
             withBorder
-            className={isMobile ? 'min-w-full' : 'w-screen-l'}>
+            className="min-w-full">
             <Group justify="space-between" mt="md" mb="xs">
                 <Text size="2rem">
                     {isRegistration ? 'Nueva cuenta' : 'Login'}
@@ -241,7 +241,7 @@ const LoginRegister = () => {
                     </>
                 )}
 
-                <Group justify="flex-end" mt="md">
+                <Group justify="flex-end" mt="lg">
                     <Button color="orange.6" onClick={() => toggleForm()}>
                         {isRegistration
                             ? 'Ya tengo una cuenta'
