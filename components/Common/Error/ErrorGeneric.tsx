@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import Link from 'next/link'
 
 import { Button, Flex, Group, Text } from '@mantine/core'
+import Helper from '@/services/helper'
 import Theme from '@/app/theme'
 
 interface ErrorProps {
@@ -11,7 +12,7 @@ interface ErrorProps {
 
 const ErrorGeneric = (props: ErrorProps) => {
     useEffect(() => {
-        console.error(props.error)
+        Helper.parseLogError(props.error)
     }, [props.error])
 
     return (

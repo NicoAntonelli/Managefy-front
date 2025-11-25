@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Link from 'next/link'
 
 import { Button, Flex, Group, Text } from '@mantine/core'
+import Helper from '@/services/helper'
 import Theme from '@/app/theme'
 
 const ErrorNotFound = () => {
+    useEffect(() => {
+        const endpoint = window.location.href.split('?')[0]
+        const message = `Página o recurso no encontrado en ${endpoint}`
+        Helper.parseLogError(message)
+    }, [])
+
     return (
         <Flex mt={'2rem'} direction={'column'} align={'center'}>
             <Text mt={'2rem'} size={'2.5rem'}>
