@@ -10,6 +10,7 @@ import {
     Stack,
     Text,
     TextInput,
+    Title,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { useDisclosure, useMediaQuery } from '@mantine/hooks'
@@ -171,7 +172,7 @@ const Profile = () => {
                 withBorder
                 className="min-w-full">
                 <Group justify="space-between" mt="md" mb="xs">
-                    <Text size="2rem">Editar perfil</Text>
+                    <Title size="2rem">Editar perfil</Title>
                 </Group>
                 <Group justify="flex-start" mt="md" mb="xs" c="green.8">
                     <IconCircleCheck size="2rem" />
@@ -201,7 +202,7 @@ const Profile = () => {
                 withBorder
                 className="min-w-full">
                 <Group justify="space-between" mt="md" mb="xs">
-                    <Text size="2rem">Editar perfil</Text>
+                    <Title size="2rem">Editar perfil</Title>
                 </Group>
                 <Group justify="space-between" mb="xs">
                     <Text size="1rem">
@@ -287,7 +288,7 @@ const Profile = () => {
                 withBorder
                 className="min-w-full">
                 <Group justify="space-between" mt="md" mb="xs">
-                    <Text size="2rem">Eliminar cuenta</Text>
+                    <Title size="2rem">Eliminar cuenta</Title>
                 </Group>
                 <Group justify="flex-start" mb="xs" c="red">
                     <IconAlertTriangle size="2rem" />
@@ -312,7 +313,7 @@ const Profile = () => {
             <Modal
                 opened={opened}
                 onClose={close}
-                title="Eliminar cuenta"
+                title={<Title size="1.5rem">Eliminar cuenta</Title>}
                 centered>
                 <Group mt="md">
                     <Text size="1rem">

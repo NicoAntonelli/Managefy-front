@@ -8,7 +8,7 @@ import Theme from '@/app/theme'
 
 import LoginRegister from '@/components/User/LoginRegister/LoginRegister'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
-import { Card, Group, Image, Stack, Text } from '@mantine/core'
+import { Card, Group, Image, Stack, Text, Title } from '@mantine/core'
 
 const getHealth = async () => {
     try {
@@ -69,9 +69,9 @@ const Home = () => {
                             radius="md"
                         />
                         <Stack gap="0.25rem">
-                            <Text size={isMobile ? '2rem' : '6rem'}>
+                            <Title size={isMobile ? '2rem' : '6rem'}>
                                 Managefy
-                            </Text>
+                            </Title>
                             <Text
                                 size={isMobile ? '1rem' : '2rem'}
                                 mt={isMobile ? '0.5rem' : '1.5rem'}

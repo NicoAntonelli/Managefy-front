@@ -1,5 +1,5 @@
 import React from 'react'
-import { Anchor, Card, Group, Image, Stack, Text } from '@mantine/core'
+import { Anchor, Card, Group, Image, Stack, Text, Title } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import Theme from '@/app/theme'
 import Env from '@/utils/Env'
@@ -25,10 +25,12 @@ const TermsConditions = () => {
                         radius="md"
                     />
                     <Stack gap="0.25rem">
-                        <Text size={isMobile ? '2rem' : '4rem'}>Managefy</Text>
-                        <Text size={isMobile ? '2rem' : '4rem'}>
+                        <Title size={isMobile ? '2rem' : '4rem'}>
+                            Managefy
+                        </Title>
+                        <Title size={isMobile ? '1.5rem' : '3.5rem'}>
                             Términos y Condiciones de Uso
-                        </Text>
+                        </Title>
                         <Text
                             size={isMobile ? '1rem' : '2rem'}
                             mt={isMobile ? '0.5rem' : '3rem'}>

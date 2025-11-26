@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 
-import { Button, Card, Group, NumberInput, Text } from '@mantine/core'
+import { Button, Card, Group, NumberInput, Text, Title } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { useMediaQuery } from '@mantine/hooks'
 import { IconLock, IconCircleCheck } from '@tabler/icons-react'
@@ -141,7 +141,7 @@ const UserValidation = () => {
                 withBorder
                 className="min-w-full">
                 <Group justify="space-between" mt="md" mb="xs">
-                    <Text size="2rem">Validar cuenta</Text>
+                    <Title size="2rem">Validar cuenta</Title>
                 </Group>
                 <Group justify="flex-start" mt="md" mb="xs" c="green.8">
                     <IconCircleCheck size="2rem" />
@@ -166,7 +166,7 @@ const UserValidation = () => {
             withBorder
             className="min-w-full">
             <Group justify="space-between" mt="md" mb="xs">
-                <Text size="2rem">Validar cuenta</Text>
+                <Title size="2rem">Validar cuenta</Title>
             </Group>
             <Group justify="space-between" mb="xs">
                 <Text size="1rem">

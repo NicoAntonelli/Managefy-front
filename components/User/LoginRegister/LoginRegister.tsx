@@ -12,6 +12,7 @@ import {
     PasswordInput,
     Text,
     TextInput,
+    Title,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { useDisclosure } from '@mantine/hooks'
@@ -159,9 +160,9 @@ const LoginRegister = () => {
                 withBorder
                 className="min-w-full">
                 <Group justify="space-between" mt="md" mb="xs">
-                    <Text size="2rem">
+                    <Title size="2rem">
                         {isRegistration ? 'Nueva cuenta' : 'Login'}
-                    </Text>
+                    </Title>
                 </Group>
                 <form
                     onSubmit={form.onSubmit((values) =>
@@ -265,7 +266,9 @@ const LoginRegister = () => {
                 opened={opened}
                 onClose={close}
                 size="75vw"
-                title="Términos y condiciones de uso"
+                title={
+                    <Title size="1.5rem">Términos y condiciones de uso</Title>
+                }
                 centered>
                 <TermsConditions />
             </Modal>

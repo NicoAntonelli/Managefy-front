@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import Link from 'next/link'
 
-import { Button, Flex, Group, Text } from '@mantine/core'
+import { Button, Flex, Group, Text, Title } from '@mantine/core'
 import Helper from '@/services/helper'
 import Theme from '@/app/theme'
 
@@ -14,10 +14,10 @@ const ErrorNotFound = () => {
 
     return (
         <Flex mt={'2rem'} direction={'column'} align={'center'}>
-            <Text mt={'2rem'} size={'2.5rem'}>
+            <Title mt={'2rem'} size={'2.5rem'}>
                 MANAGEFY
-            </Text>
-            <Text size={'8rem'}>404</Text>
+            </Title>
+            <Title size={'8rem'}>404</Title>
             <Text
                 mt={'2rem'}
                 pt={'2rem'}

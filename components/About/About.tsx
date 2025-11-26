@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { Button, Card, Group, Image, Stack, Text } from '@mantine/core'
+import { Button, Card, Group, Image, Stack, Text, Title } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import Theme from '@/app/theme'
 
@@ -27,9 +27,9 @@ const About = () => {
                             radius="md"
                         />
                         <Stack gap="0.25rem">
-                            <Text size={isMobile ? '2rem' : '6rem'}>
+                            <Title size={isMobile ? '2rem' : '6rem'}>
                                 Managefy
-                            </Text>
+                            </Title>
                             <Text size={isMobile ? 'sm' : 'xl'} mt="0.5rem">
                                 <b>
                                     Gestión de recursos fácil de usar para su
@@ -65,7 +65,7 @@ const About = () => {
                 mt="3rem"
                 withBorder
                 className="min-w-full">
-                <Text size="2rem">Desarrollo</Text>
+                <Title size="2rem">Desarrollo</Title>
                 <Text size="sm" mt="0.5rem">
                     <b>@NicoAntonelli</b>
                 </Text>

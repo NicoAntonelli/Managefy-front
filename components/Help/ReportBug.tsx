@@ -10,6 +10,7 @@ import {
     Stack,
     Text,
     TextInput,
+    Title,
 } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import { useForm } from '@mantine/form'
@@ -67,15 +68,16 @@ const ReportBug = () => {
                 <Flex justify="flex-start" align="center" gap="2rem">
                     <Image
                         src="/olivia_hunts_bugs.png"
-                        h={isMobile ? '300' : '450'}
+                        h={isMobile ? '350' : '480'}
                         w="auto"
                         alt="Bug report with Olivia"
                         p="rem"
                         radius="md"
                     />
                     <Stack>
-                        <Text size="2rem">
-                            Reportar bug a{' '}
+                        <Title size="2rem">Reportar bug</Title>
+                        <Text size={isMobile ? '1.2rem' : '2rem'}>
+                            Reporta un bug a{' '}
                             <Anchor
                                 href={`mailto:${Env.contactMail}`}
                                 target="_blank"
