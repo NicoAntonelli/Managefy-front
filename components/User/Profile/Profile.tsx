@@ -6,12 +6,13 @@ import {
     Card,
     Checkbox,
     Group,
+    Modal,
     Stack,
     Text,
     TextInput,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
-import { useMediaQuery } from '@mantine/hooks'
+import { useDisclosure, useMediaQuery } from '@mantine/hooks'
 import {
     IconAlertTriangle,
     IconCircleCheck,
@@ -41,7 +42,7 @@ interface ProfileForm {
 const Profile = () => {
     const needReload = useSessionReloadStore((state) => state.needReload)
     const setNeedReload = useSessionReloadStore((state) => state.setNeedReload)
-    const isMobile = useMediaQuery(`(max-width: ${Theme.breakpoints?.lg})`)
+    const [opened, { open, close }] = useDisclosure(false)
 
     // User data needed for profile edition
     const [currentUser, setCurrentUser] = useState<User | null>(null)
@@ -114,6 +115,8 @@ const Profile = () => {
         try {
             if (submitting) return
             if (!currentUser) return
+
+            setSubmitting(true)
 
             const response: number = await Users.deleteUser()
             if (!response) {
@@ -295,20 +298,44 @@ const Profile = () => {
                         </Text>
                         <Text size="1rem">
                             Una vez eliminada, será redireccionado al inicio de
-                            sesión
+                            sesión.
                         </Text>
                     </Stack>
                 </Group>
                 <Group justify="flex-start" mt="md">
+                    <Button disabled={submitting} color="red" onClick={open}>
+                        {submitting ? 'Cargando...' : 'ELIMINAR CUENTA'}
+                    </Button>
+                </Group>
+            </Card>
+
+            <Modal
+                opened={opened}
+                onClose={close}
+                title="Eliminar cuenta"
+                centered>
+                <Group mt="md">
+                    <Text size="1rem">
+                        ¿Está seguro que desea eliminar su cuenta?
+                    </Text>
+                    <Text size="1rem">
+                        Esta acción es irreversible y eliminará toda su
+                        información de forma permanente.
+                    </Text>
+                    <Text size="1rem">
+                        Una vez eliminada, será redireccionado al inicio de
+                        sesión.
+                    </Text>
+                </Group>
+                <Group mt="xl">
                     <Button
-                        type="submit"
                         disabled={submitting}
                         color="red"
                         onClick={handleDelete()}>
                         {submitting ? 'Cargando...' : 'ELIMINAR CUENTA'}
                     </Button>
                 </Group>
-            </Card>
+            </Modal>
         </>
     )
 }
