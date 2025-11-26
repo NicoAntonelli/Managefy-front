@@ -8,14 +8,43 @@ import ErrorResponse from '@/entities/helpTypes/ErrorResponse'
 import User from '@/entities/users/User'
 import ErrorLogC from '@/entities/errorLogs/ErrorLogC'
 
+// Check if there is a valid user logged, otherwise redirect to login/register or validation
+const authenticate = async (
+    router: AppRouterInstance,
+    validatedOnly: boolean
+): Promise<void> => {
+    try {
+        const user: User | null = await Users.sessionGet()
+        if (!user?.email) {
+            console.log('No valid user found in session')
+            router.push('/users/loginRegister')
+            return
+        }
+        if (validatedOnly && !user.validated) {
+            console.log('User correctly logged but not validated')
+            router.push('/users/validation')
+            return
+        }
+
+        return
+    } catch (error) {
+        console.error(error)
+        parseLogError(error)
+
+        router.push('/users/loginRegister')
+        return
+    }
+}
+
 // Get current user, optionally redirect to login/register
 const getUserOrAuthenticate = async (
     router: AppRouterInstance,
     redirect: boolean
-) => {
+): Promise<User | null> => {
     try {
         const user: User | null = await Users.sessionGet()
-        if (!user) {
+        if (!user?.email) {
+            console.log('No valid user found in session')
             if (redirect) router.push('/users/loginRegister')
             return null
         }
@@ -112,7 +141,7 @@ const parseLogErrorAPI = (error: any, endpoint: string): string => {
 }
 
 // Validate standard API response
-const validateResponseAPI = (response: AxiosResponse<any, any>) => {
+const validateResponseAPI = (response: AxiosResponse<any, any>): void => {
     if (!response) {
         throw new Error('No response from API')
     }
@@ -129,6 +158,7 @@ const validateResponseAPI = (response: AxiosResponse<any, any>) => {
 }
 
 const Helper = {
+    authenticate,
     getUserOrAuthenticate,
     isErrorResponse,
     logError,
