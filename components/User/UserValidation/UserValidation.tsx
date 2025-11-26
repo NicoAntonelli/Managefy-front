@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 
-import { Button, Card, Group, Text, TextInput } from '@mantine/core'
+import { Button, Card, Group, NumberInput, Text } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { useMediaQuery } from '@mantine/hooks'
 import { IconLock, IconCircleCheck } from '@tabler/icons-react'
@@ -178,12 +178,15 @@ const UserValidation = () => {
                 onSubmit={form.onSubmit((values) =>
                     handleValidateUser(values, router)
                 )}>
-                <TextInput
+                <NumberInput
                     pt={'1rem'}
                     withAsterisk
                     label="Código de validación"
                     placeholder="123456"
                     leftSection={<IconLock />}
+                    hideControls
+                    allowDecimal={false}
+                    allowNegative={false}
                     key={form.key('code')}
                     {...form.getInputProps('code')}
                 />
