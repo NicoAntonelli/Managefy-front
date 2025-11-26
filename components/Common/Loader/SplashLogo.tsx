@@ -1,3 +1,4 @@
+import Theme from '@/app/theme'
 import React from 'react'
 
 const twinkleKeyframes = `
@@ -41,7 +42,7 @@ const SplashLogo = () => {
                 <h1
                     style={{
                         paddingTop: '1rem',
-                        fontFamily: 'Roboto',
+                        fontFamily: Theme.headings?.fontFamily,
                         letterSpacing: '0.1rem',
                         color: '#16303d',
                         fontSizeAdjust: '1',
