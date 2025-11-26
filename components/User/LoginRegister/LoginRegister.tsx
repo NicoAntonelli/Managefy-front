@@ -8,14 +8,14 @@ import {
     Card,
     Checkbox,
     Group,
+    Modal,
     PasswordInput,
     Text,
     TextInput,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
-import { useMediaQuery } from '@mantine/hooks'
+import { useDisclosure } from '@mantine/hooks'
 import { IconLock, IconMail, IconUserCircle } from '@tabler/icons-react'
-import Theme from '@/app/theme'
 
 import Helper from '@/services/helper'
 import Users from '@/services/users'
@@ -25,6 +25,7 @@ import Validation from '@/utils/validation/Validation'
 import Login from '@/entities/users/Login'
 import Registration from '@/entities/users/Registration'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
+import TermsConditions from '@/components/Help/TermsConditions'
 import User from '@/entities/users/User'
 
 interface LoginRegisterForm {
@@ -37,7 +38,7 @@ interface LoginRegisterForm {
 
 const LoginRegister = () => {
     const setNeedReload = useSessionReloadStore((state) => state.setNeedReload)
-    const isMobile = useMediaQuery(`(max-width: ${Theme.breakpoints?.lg})`)
+    const [opened, { open, close }] = useDisclosure(false)
 
     const [loading, setLoading] = useState(true)
 
@@ -150,114 +151,125 @@ const LoginRegister = () => {
     }
 
     return (
-        <Card
-            shadow="sm"
-            padding="lg"
-            radius="md"
-            withBorder
-            className="min-w-full">
-            <Group justify="space-between" mt="md" mb="xs">
-                <Text size="2rem">
-                    {isRegistration ? 'Nueva cuenta' : 'Login'}
-                </Text>
-            </Group>
-            <form
-                onSubmit={form.onSubmit((values) =>
-                    handleLoginRegister(values, isRegistration, router)
-                )}>
-                <TextInput
-                    pt={'1rem'}
-                    withAsterisk
-                    label="Email"
-                    placeholder="your@email.com"
-                    leftSection={<IconMail />}
-                    key={form.key('email')}
-                    {...form.getInputProps('email')}
-                />
-
-                <PasswordInput
-                    pt={'1rem'}
-                    withAsterisk
-                    label="Contraseña"
-                    placeholder="..."
-                    leftSection={<IconLock />}
-                    key={form.key('password')}
-                    {...form.getInputProps('password')}
-                />
-
-                {isRegistration && (
-                    <>
-                        <PasswordInput
-                            pt={'1rem'}
-                            withAsterisk
-                            label="Confirmar contraseña"
-                            placeholder="..."
-                            leftSection={<IconLock />}
-                            key={form.key('confirmPassword')}
-                            {...form.getInputProps('confirmPassword')}
-                        />
-
-                        <TextInput
-                            pt={'1rem'}
-                            withAsterisk
-                            label="Nombre"
-                            placeholder="John Doe"
-                            leftSection={<IconUserCircle />}
-                            key={form.key('name')}
-                            {...form.getInputProps('name')}
-                        />
-
-                        <Checkbox
-                            pt={'1rem'}
-                            mt="md"
-                            size="1rem"
-                            label={
-                                <>
-                                    Acepto los{' '}
-                                    <Anchor
-                                        size="1rem"
-                                        href="/help#termsConditions"
-                                        target="_blank"
-                                        underline="hover"
-                                        c="orange.6">
-                                        términos y condiciones de servicio
-                                    </Anchor>
-                                </>
-                            }
-                            key={form.key('termsOfService')}
-                            {...form.getInputProps('termsOfService', {
-                                type: 'checkbox',
-                            })}
-                        />
-                    </>
-                )}
-
-                {errorMessage && (
-                    <>
-                        <Group mt="md">
-                            <Text c="red" size="sm">
-                                {errorMessage}
-                            </Text>
-                        </Group>
-                    </>
-                )}
-
-                <Group justify="flex-end" mt="lg">
-                    <Button color="orange.6" onClick={() => toggleForm()}>
-                        {isRegistration
-                            ? 'Ya tengo una cuenta'
-                            : 'No tengo cuenta'}
-                    </Button>
-                    <Button type="submit" disabled={submitting}>
-                        {submitting
-                            ? 'Cargando...'
-                            : isRegistration
-                            ? 'Registrarse'
-                            : 'Iniciar sesión'}
-                    </Button>
+        <>
+            <Card
+                shadow="sm"
+                padding="lg"
+                radius="md"
+                withBorder
+                className="min-w-full">
+                <Group justify="space-between" mt="md" mb="xs">
+                    <Text size="2rem">
+                        {isRegistration ? 'Nueva cuenta' : 'Login'}
+                    </Text>
                 </Group>
-            </form>
-        </Card>
+                <form
+                    onSubmit={form.onSubmit((values) =>
+                        handleLoginRegister(values, isRegistration, router)
+                    )}>
+                    <TextInput
+                        pt={'1rem'}
+                        withAsterisk
+                        label="Email"
+                        placeholder="your@email.com"
+                        leftSection={<IconMail />}
+                        key={form.key('email')}
+                        {...form.getInputProps('email')}
+                    />
+
+                    <PasswordInput
+                        pt={'1rem'}
+                        withAsterisk
+                        label="Contraseña"
+                        placeholder="..."
+                        leftSection={<IconLock />}
+                        key={form.key('password')}
+                        {...form.getInputProps('password')}
+                    />
+
+                    {isRegistration && (
+                        <>
+                            <PasswordInput
+                                pt={'1rem'}
+                                withAsterisk
+                                label="Confirmar contraseña"
+                                placeholder="..."
+                                leftSection={<IconLock />}
+                                key={form.key('confirmPassword')}
+                                {...form.getInputProps('confirmPassword')}
+                            />
+
+                            <TextInput
+                                pt={'1rem'}
+                                withAsterisk
+                                label="Nombre"
+                                placeholder="John Doe"
+                                leftSection={<IconUserCircle />}
+                                key={form.key('name')}
+                                {...form.getInputProps('name')}
+                            />
+
+                            <Checkbox
+                                pt={'1rem'}
+                                mt="md"
+                                size="1rem"
+                                label={
+                                    <>
+                                        Acepto los{' '}
+                                        <Anchor
+                                            size="1rem"
+                                            target="_blank"
+                                            underline="hover"
+                                            c="orange.6"
+                                            onClick={open}>
+                                            términos y condiciones de servicio
+                                        </Anchor>
+                                    </>
+                                }
+                                key={form.key('termsOfService')}
+                                {...form.getInputProps('termsOfService', {
+                                    type: 'checkbox',
+                                })}
+                            />
+                        </>
+                    )}
+
+                    {errorMessage && (
+                        <>
+                            <Group mt="md">
+                                <Text c="red" size="sm">
+                                    {errorMessage}
+                                </Text>
+                            </Group>
+                        </>
+                    )}
+
+                    <Group justify="flex-end" mt="lg">
+                        <Button color="orange.6" onClick={() => toggleForm()}>
+                            {isRegistration
+                                ? 'Ya tengo una cuenta'
+                                : 'No tengo cuenta'}
+                        </Button>
+                        <Button type="submit" disabled={submitting}>
+                            {submitting
+                                ? 'Cargando...'
+                                : isRegistration
+                                ? 'Registrarse'
+                                : 'Iniciar sesión'}
+                        </Button>
+                    </Group>
+                </form>
+            </Card>
+
+            <Modal
+                opened={opened}
+                onClose={close}
+                size="75vw"
+                title="Términos y condiciones de uso"
+                centered>
+                <TermsConditions />
+            </Modal>
+        </>
     )
 }
 

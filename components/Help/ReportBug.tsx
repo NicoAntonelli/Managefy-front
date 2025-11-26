@@ -60,6 +60,7 @@ const ReportBug = () => {
             shadow="sm"
             padding="lg"
             radius="md"
+            mb="3rem"
             withBorder
             className="min-w-full">
             <Card.Section p="1rem">

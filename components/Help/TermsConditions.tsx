@@ -13,7 +13,6 @@ const TermsConditions = () => {
             shadow="sm"
             padding="lg"
             radius="md"
-            mt="3rem"
             withBorder
             className="min-w-full">
             <Card.Section p="1rem">
