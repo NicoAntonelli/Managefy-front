@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { Box, Flex, Text } from '@mantine/core'
+import { Box, Flex, Text, useMantineColorScheme } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 
 import CustomLink from '@/components/Common/CustomLink/CustomLink'
@@ -23,10 +23,20 @@ const NavbarItem = ({
     link,
     icon,
     small = false,
-    textColor = 'var(--mantine-color-white)',
+    textColor,
     background = 'var(--mantine-color-gray-light)',
     onClick,
 }: NavbarItemProps) => {
+    const { colorScheme } = useMantineColorScheme()
+
+    // If no textColor provided, set default based on color scheme
+    if (!textColor) {
+        textColor =
+            colorScheme === 'light'
+                ? 'var(--mantine-color-black)'
+                : 'var(--mantine-color-white)'
+    }
+
     const isMobile = useMediaQuery(`(max-width: ${Theme.breakpoints?.lg})`)
     const toggle = useSidebarStore((state) => state.toggle)
 

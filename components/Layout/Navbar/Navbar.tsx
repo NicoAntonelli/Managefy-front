@@ -114,7 +114,7 @@ const Navbar = () => {
                                         />
                                     }
                                     small
-                                    background="var(--mantine-color-gray)"
+                                    background="inherit"
                                 />
                             )}
                             <NavbarItem
@@ -129,7 +129,7 @@ const Navbar = () => {
                                     />
                                 }
                                 small
-                                background="var(--mantine-color-gray)"
+                                background="inherit"
                             />
                             <NavbarItem
                                 text="Cerrar sesión"
@@ -143,7 +143,7 @@ const Navbar = () => {
                                     />
                                 }
                                 small
-                                background="var(--mantine-color-gray)"
+                                background="inherit"
                                 onClick={() => logout(router, setCurrentUser)}
                             />
                         </>
