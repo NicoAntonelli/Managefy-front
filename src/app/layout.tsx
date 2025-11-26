@@ -34,6 +34,13 @@ export default function RootLayout({
                     content="Easy-to-use resource management for your business"
                 />
                 <link rel="icon" href="/favicon.ico" />
+                {/* Google Fonts - Montserrat & Roboto */}
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" />
+                <link
+                    href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+                    rel="stylesheet"
+                />
             </head>
             <body className={inter.className}>
                 <MantineProvider

@@ -9,7 +9,7 @@ const Theme = createTheme({
     },
     fontFamily: 'Roboto, Verdana, sans-serif',
     fontFamilyMonospace: 'Monaco, Courier, monospace',
-    headings: { fontFamily: 'Greycliff CF, sans-serif' },
+    headings: { fontFamily: 'Montserrat, Greycliff CF, sans-serif' },
     breakpoints: {
         xs: '36rem',
         sm: '72rem',
