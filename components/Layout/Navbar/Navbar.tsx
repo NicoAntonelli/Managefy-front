@@ -114,7 +114,7 @@ const Navbar = () => {
                                         />
                                     }
                                     small
-                                    background="var(--mantine-color-gray-lightest)"
+                                    background="var(--mantine-color-gray)"
                                 />
                             )}
                             <NavbarItem
@@ -129,10 +129,11 @@ const Navbar = () => {
                                     />
                                 }
                                 small
-                                background="var(--mantine-color-gray-lightest)"
+                                background="var(--mantine-color-gray)"
                             />
                             <NavbarItem
                                 text="Cerrar sesión"
+                                link="#"
                                 icon={
                                     <IconDoorExit
                                         style={{
@@ -142,9 +143,8 @@ const Navbar = () => {
                                     />
                                 }
                                 small
-                                background="var(--mantine-color-gray-lightest)"
+                                background="var(--mantine-color-gray)"
                                 onClick={() => logout(router, setCurrentUser)}
-                                link="#"
                             />
                         </>
                     )}
