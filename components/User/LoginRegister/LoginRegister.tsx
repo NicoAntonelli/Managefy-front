@@ -8,6 +8,7 @@ import {
     Card,
     Checkbox,
     Group,
+    PasswordInput,
     Text,
     TextInput,
 } from '@mantine/core'
@@ -174,7 +175,7 @@ const LoginRegister = () => {
                     {...form.getInputProps('email')}
                 />
 
-                <TextInput
+                <PasswordInput
                     pt={'1rem'}
                     withAsterisk
                     label="Contraseña"
@@ -186,7 +187,7 @@ const LoginRegister = () => {
 
                 {isRegistration && (
                     <>
-                        <TextInput
+                        <PasswordInput
                             pt={'1rem'}
                             withAsterisk
                             label="Confirmar contraseña"
