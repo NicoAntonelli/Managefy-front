@@ -12,6 +12,7 @@ interface NavbarItemProps {
     link?: string
     icon?: JSX.Element
     small?: boolean
+    textColor?: string
     background?: string
     onClick?: () => void
 }
@@ -22,6 +23,7 @@ const NavbarItem = ({
     link,
     icon,
     small = false,
+    textColor = 'var(--mantine-color-white)',
     background = 'var(--mantine-color-gray-light)',
     onClick,
 }: NavbarItemProps) => {
@@ -45,6 +47,7 @@ const NavbarItem = ({
             <Flex
                 h={small ? 45 : 60}
                 bg={background}
+                c={textColor}
                 pl={20}
                 onClick={handleClick}
                 align="center"
