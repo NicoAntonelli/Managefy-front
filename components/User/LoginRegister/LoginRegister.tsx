@@ -16,6 +16,7 @@ import {
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { useDisclosure } from '@mantine/hooks'
+import { notifications } from '@mantine/notifications'
 import { IconLock, IconMail, IconUserCircle } from '@tabler/icons-react'
 
 import Helper from '@/services/helper'
@@ -106,6 +107,12 @@ const LoginRegister = () => {
             else router.push('/users/validation')
         } catch (error) {
             setErrorMessage(Helper.parseError(error))
+            notifications.show({
+                title: 'Error',
+                message:
+                    'Error while trying to login or register user. Please try again later.',
+                color: 'red',
+            })
         } finally {
             setSubmitting(false)
         }

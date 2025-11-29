@@ -73,7 +73,7 @@ const Navbar = () => {
                 notifications.show({
                     title: 'Error',
                     message:
-                        'Error validating current session. Please try again later',
+                        'Error validating current session. Please try again later.',
                     color: 'red',
                 })
             } finally {

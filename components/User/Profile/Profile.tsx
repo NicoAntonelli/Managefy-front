@@ -13,7 +13,8 @@ import {
     Title,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
-import { useDisclosure, useMediaQuery } from '@mantine/hooks'
+import { useDisclosure } from '@mantine/hooks'
+import { notifications } from '@mantine/notifications'
 import {
     IconAlertTriangle,
     IconCircleCheck,
@@ -21,7 +22,6 @@ import {
     IconMail,
     IconUserCircle,
 } from '@tabler/icons-react'
-import Theme from '@/app/theme'
 
 import Helper from '@/services/helper'
 import Users from '@/services/users'
@@ -107,6 +107,11 @@ const Profile = () => {
             setFinalized(true)
         } catch (error) {
             setErrorMessage(Helper.parseError(error))
+            notifications.show({
+                title: 'Error',
+                message: 'Error updating user profile. Please try again later.',
+                color: 'red',
+            })
         } finally {
             setSubmitting(false)
         }
@@ -132,6 +137,11 @@ const Profile = () => {
             router.push('/users/loginRegister')
         } catch (error) {
             setErrorMessage(Helper.parseError(error))
+            notifications.show({
+                title: 'Error',
+                message: 'Error deleting user account. Please try again later.',
+                color: 'red',
+            })
         } finally {
             setSubmitting(false)
         }

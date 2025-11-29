@@ -5,6 +5,7 @@ import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.share
 import { Button, Card, Group, NumberInput, Text, Title } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { useMediaQuery } from '@mantine/hooks'
+import { notifications } from '@mantine/notifications'
 import { IconLock, IconCircleCheck } from '@tabler/icons-react'
 import Theme from '@/app/theme'
 
@@ -82,6 +83,12 @@ const UserValidation = () => {
             setErrorMessage('')
         } catch (error) {
             setErrorMessage(Helper.parseError(error))
+            notifications.show({
+                title: 'Error',
+                message:
+                    'Error sending validation code. Please try again later.',
+                color: 'red',
+            })
         } finally {
             setSendingNewCode(false)
         }
@@ -111,6 +118,11 @@ const UserValidation = () => {
             router.push('/businesses')
         } catch (error) {
             setErrorMessage(Helper.parseError(error))
+            notifications.show({
+                title: 'Error',
+                message: 'Error validating user. Please try again later',
+                color: 'red',
+            })
         } finally {
             setSubmitting(false)
         }
