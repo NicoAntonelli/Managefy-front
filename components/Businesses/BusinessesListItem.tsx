@@ -1,6 +1,8 @@
 import React from 'react'
 
+import Theme from '@/app/theme'
 import { Button, Card, Text, Title } from '@mantine/core'
+import { IconSettings } from '@tabler/icons-react'
 
 import Business from '@/entities/businesses/Business'
 import Link from 'next/link'
@@ -32,7 +34,11 @@ const BusinessesListItem = (props: BusinessesListItemProps) => {
             <Link
                 href={`/businesses/${business.id}`}
                 style={{ marginTop: 'auto' }}>
-                <Button color="orange.6">Manage business</Button>
+                <Button
+                    color={Theme.primaryColor}
+                    leftSection={<IconSettings size={24} />}>
+                    Manage business
+                </Button>
             </Link>
         </Card>
     )
