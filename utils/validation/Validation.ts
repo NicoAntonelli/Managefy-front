@@ -32,6 +32,14 @@ const password = (value: string): boolean => {
     return true
 }
 
+// URL path segment validation
+const urlSegment = (value: string): boolean => {
+    if (!string(value)) return false
+    if (!RegEx.urlSegment.test(value)) return false
+
+    return true
+}
+
 // String field validation
 const string = (value?: string): boolean => {
     if (!value) return false
@@ -40,5 +48,5 @@ const string = (value?: string): boolean => {
     return true
 }
 
-const Validation = { email, integer, password, string }
+const Validation = { email, integer, password, string, urlSegment }
 export default Validation
