@@ -1,5 +1,6 @@
 import WeekDay from '../helpTypes/WeekDay'
 
+// Also used as "BusinessCU"
 interface Business {
     id: number
     name: string
