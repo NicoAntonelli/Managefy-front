@@ -1,3 +1,3 @@
-type Role = 'collaborator' | 'admin' | 'manager'
+type Role = 'Manager' | 'Admin' | 'Collaborator'
 
 export default Role
