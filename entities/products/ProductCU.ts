@@ -1,7 +1,7 @@
 import SupplierCU from '@/entities/suppliers/SupplierCU'
 
 interface ProductCU {
-    id: number
+    id?: number
     code: string
     name: string
     description: string
