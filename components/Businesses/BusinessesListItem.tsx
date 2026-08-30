@@ -1,12 +1,14 @@
 import React from 'react'
 
+import Link from 'next/link'
 import Theme from '@/app/theme'
 import { Button, Card, Text, Title } from '@mantine/core'
 import { IconSettings } from '@tabler/icons-react'
 
 import Business from '@/entities/businesses/Business'
-import Link from 'next/link'
-import SkeletonSmall from '../Common/Loader/SkeletonSmall'
+
+import BusinessesRoleBadge from '@/components/Businesses/BusinesRoleBadge'
+import SkeletonSmall from '@/components/Common/Loader/SkeletonSmall'
 
 interface BusinessesListItemProps {
     business: Business
@@ -27,8 +29,16 @@ const BusinessesListItem = (props: BusinessesListItemProps) => {
                 minHeight: '30vh',
                 display: 'flex',
                 flexDirection: 'column',
+                position: 'relative',
             }}>
-            <Title size="2rem">{business.name}</Title>
+            {business.currentUserRole && (
+                <BusinessesRoleBadge role={business.currentUserRole} />
+            )}
+            <Title
+                size="2rem"
+                style={{ paddingTop: '0.25rem', paddingRight: '7rem' }}>
+                {business.name}
+            </Title>
             <Text mt="1rem">{business.description}</Text>
 
             <Link
