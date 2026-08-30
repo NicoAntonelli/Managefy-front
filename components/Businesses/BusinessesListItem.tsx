@@ -7,7 +7,8 @@ import { IconSettings } from '@tabler/icons-react'
 
 import Business from '@/entities/businesses/Business'
 
-import BusinessesRoleBadge from '@/components/Businesses/BusinesRoleBadge'
+import BusinessRoleBadge from '@/components/Businesses/BusinessRoleBadge'
+import BusinessVisibilityBadge from '@/components/Businesses/BusinessVisibilityBadge'
 import SkeletonSmall from '@/components/Common/Loader/SkeletonSmall'
 
 interface BusinessesListItemProps {
@@ -31,9 +32,21 @@ const BusinessesListItem = (props: BusinessesListItemProps) => {
                 flexDirection: 'column',
                 position: 'relative',
             }}>
-            {business.currentUserRole && (
-                <BusinessesRoleBadge role={business.currentUserRole} />
-            )}
+            <div
+                style={{
+                    position: 'absolute',
+                    top: '0.75rem',
+                    right: '0.75rem',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    gap: '0.5rem',
+                    alignItems: 'center',
+                }}>
+                <BusinessVisibilityBadge isPublic={business.isPublic} />
+                {business.currentUserRole && (
+                    <BusinessRoleBadge role={business.currentUserRole} />
+                )}
+            </div>
             <Title
                 size="2rem"
                 style={{ paddingTop: '0.25rem', paddingRight: '7rem' }}>

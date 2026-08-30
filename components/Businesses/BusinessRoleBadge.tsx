@@ -7,13 +7,13 @@ interface BusinessesRoleBadgeProps {
     role?: Role | null
 }
 
-const BusinessesRoleBadge = (props: BusinessesRoleBadgeProps) => {
+const BusinessRoleBadge = (props: BusinessesRoleBadgeProps) => {
     const { role } = props
 
     const roleColors: Record<NonNullable<Role>, string> = {
-        Manager: 'orange.6',
+        Manager: 'pink',
         Admin: 'red',
-        Collaborator: 'pink',
+        Collaborator: 'green',
     }
 
     // Empty role, return a blank fragment
@@ -25,13 +25,12 @@ const BusinessesRoleBadge = (props: BusinessesRoleBadgeProps) => {
             variant="filled"
             color={roleColors[role]}
             style={{
-                position: 'absolute',
-                top: '0.75rem',
-                right: '0.75rem',
+                display: 'inline-flex',
+                whiteSpace: 'nowrap',
             }}>
             {role}
         </Badge>
     )
 }
 
-export default BusinessesRoleBadge
+export default BusinessRoleBadge
