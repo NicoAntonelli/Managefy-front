@@ -1,7 +1,7 @@
 import WeekDay from '@/entities/helpTypes/WeekDay'
 
 interface BusinessCU {
-    id: number
+    id?: number
     name: string
     description: string
     link: string

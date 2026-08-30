@@ -36,7 +36,6 @@ import Business from '@/entities/businesses/Business'
 import WeekDay from '@/entities/helpTypes/WeekDay'
 
 interface BusinessCreateForm {
-    id: number
     name: string
     description: string
     link: string
@@ -68,7 +67,6 @@ const BusinessCreate = () => {
     const form = useForm<BusinessCreateForm>({
         mode: 'controlled',
         initialValues: {
-            id: 0,
             name: '',
             description: '',
             link: '',
