@@ -1,14 +1,12 @@
-import Role from '@/entities/helpTypes/Role'
 import WeekDay from '@/entities/helpTypes/WeekDay'
 
-interface Business {
+interface BusinessCU {
     id: number
     name: string
     description: string
     link: string
     isPublic: boolean
     businessDays: Record<WeekDay, boolean>
-    currentUserRole?: Role
 }
 
-export default Business
+export default BusinessCU

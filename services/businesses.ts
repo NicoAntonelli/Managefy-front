@@ -3,6 +3,7 @@ import Env from '@/utils/Env'
 import Helper from './helper'
 
 import Business from '@/entities/businesses/Business'
+import BusinessCU from '@/entities/businesses/BusinessCU'
 
 const prefix = `${Env.backendAPI}/businesses`
 
@@ -54,7 +55,9 @@ const getOneBusinessByLinkPublic = async (link: string): Promise<Business> => {
     }
 }
 
-const createBusiness = async (businessCreate: Business): Promise<Business> => {
+const createBusiness = async (
+    businessCreate: BusinessCU
+): Promise<Business> => {
     const endpoint = prefix
     try {
         const response = await api.post<Business>(endpoint, businessCreate)
@@ -66,7 +69,9 @@ const createBusiness = async (businessCreate: Business): Promise<Business> => {
     }
 }
 
-const updateBusiness = async (businessUpdate: Business): Promise<Business> => {
+const updateBusiness = async (
+    businessUpdate: BusinessCU
+): Promise<Business> => {
     const endpoint = prefix
     try {
         const response = await api.put<Business>(endpoint, businessUpdate)
