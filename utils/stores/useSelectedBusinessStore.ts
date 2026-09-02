@@ -1,17 +1,20 @@
 import { create } from 'zustand'
 
+import BusinessMinInfo from '@/entities/businesses/BusinessMinInfo'
+
 interface SelectedBusinessStoreState {
-    selectedBusiness: number | null
-    setSelectedBusiness: (businessID: number | null) => void
-    initializeSelectedBusiness: (businessIDs: number[]) => void
+    selectedBusiness: BusinessMinInfo | null
+    setSelectedBusiness: (business: BusinessMinInfo | null) => void
+    initializeSelectedBusiness: (businesses: BusinessMinInfo[]) => void
 }
 
 const useSelectedBusinessStore = create<SelectedBusinessStoreState>((set) => ({
     selectedBusiness: null,
-    setSelectedBusiness: (businessID) => set({ selectedBusiness: businessID }),
-    initializeSelectedBusiness: (businessIDs) =>
+    setSelectedBusiness: (business) => set({ selectedBusiness: business }),
+    initializeSelectedBusiness: (businesses) =>
         set((state) => ({
-            selectedBusiness: state.selectedBusiness ?? businessIDs[0] ?? null,
+            selectedBusiness:
+                state.selectedBusiness ?? businesses[0] ?? null,
         })),
 }))
 

@@ -6,11 +6,12 @@ import { Button, Card, Group, Text, Title } from '@mantine/core'
 import { IconCheck, IconEye, IconSettings } from '@tabler/icons-react'
 
 import Business from '@/entities/businesses/Business'
+import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 
+import BusinessMinInfo from '@/entities/businesses/BusinessMinInfo'
 import BusinessRoleBadge from '@/components/Businesses/BusinessRoleBadge'
 import BusinessVisibilityBadge from '@/components/Businesses/BusinessVisibilityBadge'
 import SkeletonSmall from '@/components/Common/Loader/SkeletonSmall'
-import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 
 interface BusinessesListItemProps {
     business: Business
@@ -20,14 +21,14 @@ interface BusinessesListItemProps {
 const BusinessesListItem = (props: BusinessesListItemProps) => {
     const { business, showSelectedState = true } = props
 
-    const selectedBusinessID = useSelectedBusinessStore(
+    const selectedBusiness: BusinessMinInfo | null = useSelectedBusinessStore(
         (state) => state.selectedBusiness
     )
     const setSelectedBusiness = useSelectedBusinessStore(
         (state) => state.setSelectedBusiness
     )
 
-    const isSelected = showSelectedState && selectedBusinessID === business.id
+    const isSelected = showSelectedState && selectedBusiness?.id === business.id
 
     if (!business) return <SkeletonSmall />
 
@@ -85,7 +86,13 @@ const BusinessesListItem = (props: BusinessesListItemProps) => {
                                 <IconSettings size={18} />
                             )
                         }
-                        onClick={() => setSelectedBusiness(business.id)}>
+                        onClick={() =>
+                            setSelectedBusiness({
+                                id: business.id,
+                                name: business.name,
+                                currentUserRole: business.currentUserRole,
+                            })
+                        }>
                         {isSelected ? 'Selected' : 'Manage business'}
                     </Button>
                 )}

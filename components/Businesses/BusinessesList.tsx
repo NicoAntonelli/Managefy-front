@@ -11,6 +11,7 @@ import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 
 import Business from '@/entities/businesses/Business'
+import BusinessMinInfo from '@/entities/businesses/BusinessMinInfo'
 
 const BusinessesList = () => {
     const [businesses, setBusinesses] = useState<Business[] | null>(null)
@@ -28,13 +29,19 @@ const BusinessesList = () => {
 
                 setBusinesses(response)
 
-                const currentSelectedBusinessId =
+                const currentSelectedBusiness =
                     useSelectedBusinessStore.getState().selectedBusiness
 
-                if (!currentSelectedBusinessId && response?.length) {
-                    initializeSelectedBusiness(
-                        response.map((business) => business.id)
+                if (!currentSelectedBusiness && response?.length) {
+                    const businessesMinInfo: BusinessMinInfo[] = response.map(
+                        ({ id, name, currentUserRole }) => ({
+                            id,
+                            name,
+                            currentUserRole,
+                        })
                     )
+
+                    initializeSelectedBusiness(businessesMinInfo)
                 }
             } catch (error) {
                 setBusinesses(null)
