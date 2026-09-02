@@ -2,21 +2,32 @@ import React from 'react'
 
 import Link from 'next/link'
 import Theme from '@/app/theme'
-import { Button, Card, Text, Title } from '@mantine/core'
-import { IconSettings } from '@tabler/icons-react'
+import { Button, Card, Group, Text, Title } from '@mantine/core'
+import { IconCheck, IconEye, IconSettings } from '@tabler/icons-react'
 
 import Business from '@/entities/businesses/Business'
 
 import BusinessRoleBadge from '@/components/Businesses/BusinessRoleBadge'
 import BusinessVisibilityBadge from '@/components/Businesses/BusinessVisibilityBadge'
 import SkeletonSmall from '@/components/Common/Loader/SkeletonSmall'
+import useSelectedBusinessStore from '@/utils/stores/useSelectedBusiness'
 
 interface BusinessesListItemProps {
     business: Business
+    showSelectedState?: boolean
 }
 
 const BusinessesListItem = (props: BusinessesListItemProps) => {
-    const { business } = props
+    const { business, showSelectedState = true } = props
+
+    const selectedBusinessID = useSelectedBusinessStore(
+        (state) => state.selectedBusiness
+    )
+    const setSelectedBusiness = useSelectedBusinessStore(
+        (state) => state.setSelectedBusiness
+    )
+
+    const isSelected = showSelectedState && selectedBusinessID === business.id
 
     if (!business) return <SkeletonSmall />
 
@@ -54,15 +65,31 @@ const BusinessesListItem = (props: BusinessesListItemProps) => {
             </Title>
             <Text mt="1rem">{business.description}</Text>
 
-            <Link
-                href={`/businesses/${business.id}`}
-                style={{ marginTop: 'auto' }}>
-                <Button
-                    color={Theme.primaryColor}
-                    leftSection={<IconSettings size={24} />}>
-                    Manage business
-                </Button>
-            </Link>
+            <Group justify="flex-start" mt="auto" gap="sm">
+                <Link href={`/businesses/${business.id}`}>
+                    <Button
+                        color={Theme.primaryColor}
+                        leftSection={<IconEye size={24} />}>
+                        View details
+                    </Button>
+                </Link>
+
+                {showSelectedState && (
+                    <Button
+                        color={isSelected ? 'teal' : 'gray'}
+                        variant={isSelected ? 'filled' : 'light'}
+                        leftSection={
+                            isSelected ? (
+                                <IconCheck size={18} />
+                            ) : (
+                                <IconSettings size={18} />
+                            )
+                        }
+                        onClick={() => setSelectedBusiness(business.id)}>
+                        {isSelected ? 'Selected' : 'Manage business'}
+                    </Button>
+                )}
+            </Group>
         </Card>
     )
 }
