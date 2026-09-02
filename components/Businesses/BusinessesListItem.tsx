@@ -10,7 +10,7 @@ import Business from '@/entities/businesses/Business'
 import BusinessRoleBadge from '@/components/Businesses/BusinessRoleBadge'
 import BusinessVisibilityBadge from '@/components/Businesses/BusinessVisibilityBadge'
 import SkeletonSmall from '@/components/Common/Loader/SkeletonSmall'
-import useSelectedBusinessStore from '@/utils/stores/useSelectedBusiness'
+import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 
 interface BusinessesListItemProps {
     business: Business

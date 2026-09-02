@@ -8,7 +8,7 @@ import Businesses from '@/services/businesses'
 
 import BusinessesListItem from './BusinessesListItem'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
-import useSelectedBusinessStore from '@/utils/stores/useSelectedBusiness'
+import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 
 import Business from '@/entities/businesses/Business'
 
