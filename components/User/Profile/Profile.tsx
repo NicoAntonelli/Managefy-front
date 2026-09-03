@@ -291,7 +291,7 @@ const Profile = () => {
                 </form>
             </Card>
             <Card
-                mt="5rem"
+                mt="3rem"
                 shadow="sm"
                 padding="lg"
                 radius="md"
