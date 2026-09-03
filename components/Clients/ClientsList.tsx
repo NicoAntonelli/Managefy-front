@@ -7,6 +7,7 @@ import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 import ClientListItem from './ClientListItem'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 import BusinessSelection from '@/components/Common/BusinessSelection'
+import SelectedBusinessBar from '@/components/Common/SelectedBusinessBar'
 
 import Client from '@/entities/clients/Client'
 
@@ -62,6 +63,7 @@ const ClientsList = () => {
 
     return (
         <Stack gap="lg" style={{ width: '100%' }}>
+            <SelectedBusinessBar business={selectedBusiness} />
             {clients.map((client) => (
                 <ClientListItem key={client.id} client={client} />
             ))}
