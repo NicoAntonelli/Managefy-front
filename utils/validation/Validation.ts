@@ -22,6 +22,13 @@ const integer = (value: number): boolean => {
     return true
 }
 
+// String field validation for positive integers contained in string format
+const integerString = (value: string): boolean => {
+    if (!string(value)) return false
+
+    return integer(Number(value))
+}
+
 // Password field validation
 const password = (value: string): boolean => {
     if (!string(value)) return false
@@ -48,5 +55,12 @@ const string = (value?: string): boolean => {
     return true
 }
 
-const Validation = { email, integer, password, string, urlSegment }
+const Validation = {
+    email,
+    integer,
+    integerString,
+    password,
+    string,
+    urlSegment,
+}
 export default Validation
