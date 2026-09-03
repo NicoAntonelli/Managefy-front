@@ -5,10 +5,11 @@ import { Button, Stack, Text, Title } from '@mantine/core'
 import { IconHexagonPlus } from '@tabler/icons-react'
 
 import Businesses from '@/services/businesses'
+import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 
 import BusinessesListItem from './BusinessesListItem'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
-import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
+import BusinessSelection from '@/components/Common/BusinessSelection'
 
 import Business from '@/entities/businesses/Business'
 import BusinessMinInfo from '@/entities/businesses/BusinessMinInfo'
@@ -58,21 +59,10 @@ const BusinessesList = () => {
 
     if (!businesses?.length) {
         return (
-            <Stack align="center" gap="md" py="xl">
-                <Title size="2rem">Your business hub is waiting</Title>
-                <Text ta="center" maw={480}>
-                    You do not have any businesses yet. Start by creating your
-                    first one and bring your work into one place.
-                </Text>
-                <Button
-                    color="orange.6"
-                    w={{ base: '100%', sm: 'fit-content' }}
-                    leftSection={<IconHexagonPlus size={24} />}>
-                    <Link href="/businesses/new">
-                        Create your first business
-                    </Link>
-                </Button>
-            </Stack>
+            <BusinessSelection
+                resourceName="businesses"
+                isBusinessPage={true}
+            />
         )
     }
 
