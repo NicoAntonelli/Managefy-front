@@ -10,7 +10,7 @@ interface ClientContactProps {
 }
 
 const ClientContact = ({ client }: ClientContactProps) => (
-    <Group gap="lg" mt="md">
+    <Group gap="md" mt="sm">
         <Group gap="xs">
             <IconMail size={18} />
             <Text>{client.email}</Text>

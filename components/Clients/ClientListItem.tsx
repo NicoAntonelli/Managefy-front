@@ -21,20 +21,19 @@ const ClientListItem = (props: ClientListItemProps) => {
     return (
         <Card
             shadow="sm"
-            padding="xl"
+            padding="lg"
             withBorder
             style={{
                 width: '100%',
-                minHeight: '30vh',
                 display: 'flex',
                 flexDirection: 'column',
             }}>
-            <Title size="2rem">{client.name}</Title>
-            <Text mt="1rem">{client.description}</Text>
+            <Title size="1.5rem">{client.name}</Title>
+            <Text mt="xs">{client.description}</Text>
 
             <ClientContact client={client} />
 
-            <Group justify="flex-start" mt="auto" gap="sm">
+            <Group justify="flex-start" mt="md" gap="sm">
                 <Link href={`/clients/${client.id}`}>
                     <Button
                         color={Theme.primaryColor}
