@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { Stack, Text, Title } from '@mantine/core'
+import { Button } from '@mantine/core'
+import { IconHexagonPlus } from '@tabler/icons-react'
 
 import Clients from '@/services/clients'
 import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
@@ -50,23 +53,38 @@ const ClientsList = () => {
         return <SkeletonFull />
     }
 
-    if (!clients?.length) {
-        return (
-            <Stack align="center" gap="md" py="xl">
-                <Title size="2rem">No clients yet</Title>
-                <Text ta="center" maw={480}>
-                    This business does not have any clients yet.
-                </Text>
-            </Stack>
-        )
-    }
+    const createClientButton = (
+        <Button
+            component={Link}
+            href="/clients/new"
+            color="orange.6"
+            w={{ base: '100%', sm: 'fit-content' }}
+            leftSection={<IconHexagonPlus size={24} />}>
+            Create a new client
+        </Button>
+    )
 
     return (
         <Stack gap="lg" style={{ width: '100%' }}>
-            <SelectedBusinessBar business={selectedBusiness} />
-            {clients.map((client) => (
-                <ClientListItem key={client.id} client={client} />
-            ))}
+            <div style={{ marginBottom: 'var(--mantine-spacing-xl)' }}>
+                <SelectedBusinessBar business={selectedBusiness} />
+            </div>
+            {!clients?.length ? (
+                <Stack align="center" gap="md" py="xl">
+                    <Title size="2rem">No clients yet</Title>
+                    <Text ta="center" maw={480}>
+                        This business does not have any clients yet.
+                    </Text>
+                    {createClientButton}
+                </Stack>
+            ) : (
+                <Stack gap="lg">
+                    {createClientButton}
+                    {clients.map((client) => (
+                        <ClientListItem key={client.id} client={client} />
+                    ))}
+                </Stack>
+            )}
         </Stack>
     )
 }
