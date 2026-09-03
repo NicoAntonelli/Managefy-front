@@ -35,9 +35,10 @@ const BusinessesList = () => {
 
                 if (!currentSelectedBusiness && response?.length) {
                     const businessesMinInfo: BusinessMinInfo[] = response.map(
-                        ({ id, name, currentUserRole }) => ({
+                        ({ id, name, isPublic, currentUserRole }) => ({
                             id,
                             name,
+                            isPublic,
                             currentUserRole,
                         })
                     )

@@ -90,6 +90,7 @@ const BusinessesListItem = (props: BusinessesListItemProps) => {
                             setSelectedBusiness({
                                 id: business.id,
                                 name: business.name,
+                                isPublic: business.isPublic,
                                 currentUserRole: business.currentUserRole,
                             })
                         }>
