@@ -30,9 +30,9 @@ const BusinessSelection = ({
         )}
         <Text ta="center" maw={480}>
             {isBusinessPage
-                ? 'Aún no tienes emprendimientos. '
-                : 'Si aún no tienes emprendimientos, '}
-            Empieza creando el primero y reúne tu trabajo en un solo lugar.
+                ? 'Aún no tienes emprendimientos. Empieza '
+                : 'Si aún no tienes emprendimientos, empieza '}
+            creando el primero y reúne tu trabajo en un solo lugar.
         </Text>
         <Button
             color="orange.6"
