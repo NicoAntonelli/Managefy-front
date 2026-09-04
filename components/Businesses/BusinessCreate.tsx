@@ -176,7 +176,7 @@ const BusinessCreate = () => {
                     pt="1rem"
                     withAsterisk
                     label="Descripción"
-                    placeholder="¿A qué se dedica tu emprendimiento?"
+                        placeholder="Describe tu emprendimiento"
                     autosize
                     minRows={3}
                     leftSection={<IconBook />}
