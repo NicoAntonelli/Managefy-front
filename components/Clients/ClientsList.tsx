@@ -46,7 +46,7 @@ const ClientsList = () => {
     }, [businessID])
 
     if (!selectedBusiness) {
-        return <BusinessSelection resourceName="clients" />
+        return <BusinessSelection resourceName="clientes" />
     }
 
     if (loading) {
@@ -60,7 +60,7 @@ const ClientsList = () => {
             color="orange.6"
             w={{ base: '100%', sm: 'fit-content' }}
             leftSection={<IconHexagonPlus size={24} />}>
-            Create a new client
+            Crear un nuevo cliente
         </Button>
     )
 
@@ -71,9 +71,9 @@ const ClientsList = () => {
             </div>
             {!clients?.length ? (
                 <Stack align="center" gap="md" py="xl">
-                    <Title size="2rem">No clients yet</Title>
+                    <Title size="2rem">Aún no hay clientes</Title>
                     <Text ta="center" maw={480}>
-                        This business does not have any clients yet.
+                        Este emprendimiento aún no tiene clientes.
                     </Text>
                     {createClientButton}
                 </Stack>

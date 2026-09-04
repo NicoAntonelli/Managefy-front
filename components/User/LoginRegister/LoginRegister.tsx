@@ -110,7 +110,7 @@ const LoginRegister = () => {
             notifications.show({
                 title: 'Error',
                 message:
-                    'Error while trying to login or register user. Please try again later.',
+                    'Error al iniciar sesión o registrar al usuario. Inténtalo de nuevo más tarde.',
                 color: 'red',
             })
         } finally {
@@ -137,8 +137,8 @@ const LoginRegister = () => {
                         ? null
                         : 'Debe especificar una contraseña'
                     : Validation.password(value)
-                    ? null
-                    : 'Contraseña no válida (Al menos una letra mayúscula, una letra minúscula, un número y un símbolo. 8 a 30 caracteres.)',
+                      ? null
+                      : 'Contraseña no válida (Al menos una letra mayúscula, una letra minúscula, un número y un símbolo. 8 a 30 caracteres.)',
             confirmPassword: (value, values) =>
                 !isRegistration || value === values.password
                     ? null
@@ -168,7 +168,7 @@ const LoginRegister = () => {
                 className="min-w-full">
                 <Group justify="space-between" mt="md" mb="xs">
                     <Title size="2rem">
-                        {isRegistration ? 'Nueva cuenta' : 'Login'}
+                        {isRegistration ? 'Nueva cuenta' : 'Iniciar sesión'}
                     </Title>
                 </Group>
                 <form
@@ -262,8 +262,8 @@ const LoginRegister = () => {
                             {submitting
                                 ? 'Cargando...'
                                 : isRegistration
-                                ? 'Registrarse'
-                                : 'Iniciar sesión'}
+                                  ? 'Registrarse'
+                                  : 'Iniciar sesión'}
                         </Button>
                     </Group>
                 </form>

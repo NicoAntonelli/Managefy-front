@@ -53,6 +53,16 @@ const initialBusinessDays: Record<WeekDay, boolean> = {
     Sunday: false,
 }
 
+const weekDayLabels: Record<WeekDay, string> = {
+    Monday: 'Lunes',
+    Tuesday: 'Martes',
+    Wednesday: 'Miércoles',
+    Thursday: 'Jueves',
+    Friday: 'Viernes',
+    Saturday: 'Sábado',
+    Sunday: 'Domingo',
+}
+
 const BusinessCreate = () => {
     const [loading, setLoading] = useState(true)
     const [submitting, setSubmitting] = useState(false)
@@ -83,7 +93,7 @@ const BusinessCreate = () => {
             link: (value) =>
                 Validation.urlSegment(value)
                     ? null
-                    : 'Debe ingresar un enlace válido (por ejemplo, mi-negocio)',
+                    : 'Debe ingresar un enlace válido (por ejemplo, mi-emprendimiento)',
         },
     })
 
@@ -93,7 +103,7 @@ const BusinessCreate = () => {
         setSubmitting(true)
         try {
             const response: Business = await Businesses.createBusiness(values)
-            if (!response?.id) throw new Error('Error creando negocio')
+            if (!response?.id) throw new Error('Error creando emprendimiento')
 
             setErrorMessage('')
             router.push('/businesses')
@@ -103,7 +113,7 @@ const BusinessCreate = () => {
             notifications.show({
                 title: 'Error',
                 message:
-                    'Error while trying to create the business. Please try again later.',
+                    'Error al crear el emprendimiento. Inténtalo de nuevo más tarde.',
                 color: 'red',
             })
         } finally {
@@ -139,14 +149,14 @@ const BusinessCreate = () => {
             withBorder
             className="min-w-full">
             <Group justify="space-between" mt="md" mb="xs">
-                <Title size="2rem">New business</Title>
+                <Title size="2rem">Nuevo emprendimiento</Title>
                 <Button
                     component={Link}
                     href="/businesses"
                     variant="subtle"
                     color={Theme.primaryColor}
                     leftSection={<IconArrowLeft size={18} />}>
-                    Back to businesses
+                    Volver a emprendimientos
                 </Button>
             </Group>
 
@@ -154,8 +164,8 @@ const BusinessCreate = () => {
                 <TextInput
                     pt="1rem"
                     withAsterisk
-                    label="Name"
-                    placeholder="My business"
+                    label="Nombre"
+                    placeholder="Mi emprendimiento"
                     leftSection={<IconBuildingStore />}
                     key={form.key('name')}
                     {...form.getInputProps('name')}
@@ -165,8 +175,8 @@ const BusinessCreate = () => {
                 <Textarea
                     pt="1rem"
                     withAsterisk
-                    label="Description"
-                    placeholder="What does your business do?"
+                    label="Descripción"
+                    placeholder="¿A qué se dedica tu emprendimiento?"
                     autosize
                     minRows={3}
                     leftSection={<IconBook />}
@@ -183,8 +193,8 @@ const BusinessCreate = () => {
                 <TextInput
                     pt="1rem"
                     withAsterisk
-                    label="Custom link"
-                    placeholder="my-business"
+                    label="Enlace personalizado"
+                    placeholder="mi-emprendimiento"
                     leftSection={<IconLink />}
                     key={form.key('link')}
                     {...form.getInputProps('link')}
@@ -193,18 +203,18 @@ const BusinessCreate = () => {
                 <Checkbox
                     pt="1rem"
                     mt="md"
-                    label="Make this business public"
+                    label="Hacer público este emprendimiento"
                     key={form.key('isPublic')}
                     {...form.getInputProps('isPublic', { type: 'checkbox' })}
                 />
 
                 <Stack gap="xs" mt="lg">
-                    <Text fw={500}>Business days</Text>
+                    <Text fw={500}>Días laborables</Text>
                     <SimpleGrid cols={{ base: 1, sm: 4 }} spacing="sm">
                         {TextHelper.weekDaysComplete.map((day: WeekDay) => (
                             <Checkbox
                                 key={day}
-                                label={day}
+                                label={weekDayLabels[day]}
                                 {...form.getInputProps(`businessDays.${day}`, {
                                     type: 'checkbox',
                                 })}
@@ -221,14 +231,14 @@ const BusinessCreate = () => {
 
                 <Group justify="flex-end" mt="2rem">
                     <Button component={Link} href="/businesses" color="red">
-                        Cancel
+                        Cancelar
                     </Button>
                     <Button
                         type="submit"
                         color={Theme.primaryColor}
                         leftSection={<IconWorld size={20} />}
                         disabled={submitting}>
-                        {submitting ? 'Loading...' : 'Create business'}
+                        {submitting ? 'Cargando...' : 'Crear emprendimiento'}
                     </Button>
                 </Group>
             </form>

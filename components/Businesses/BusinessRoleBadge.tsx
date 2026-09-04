@@ -16,6 +16,12 @@ const BusinessRoleBadge = (props: BusinessesRoleBadgeProps) => {
         Collaborator: 'green',
     }
 
+    const roleLabels: Record<NonNullable<Role>, string> = {
+        Manager: 'Manager',
+        Admin: 'Admin',
+        Collaborator: 'Colaborador',
+    }
+
     // Empty role, return a blank fragment
     if (!role) return <></>
 
@@ -28,7 +34,7 @@ const BusinessRoleBadge = (props: BusinessesRoleBadgeProps) => {
                 display: 'inline-flex',
                 whiteSpace: 'nowrap',
             }}>
-            {role}
+            {roleLabels[role]}
         </Badge>
     )
 }

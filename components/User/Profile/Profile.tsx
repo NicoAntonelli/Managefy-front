@@ -109,7 +109,8 @@ const Profile = () => {
             setErrorMessage(Helper.parseError(error))
             notifications.show({
                 title: 'Error',
-                message: 'Error updating user profile. Please try again later.',
+                message:
+                    'Error al actualizar el perfil de usuario. Inténtalo de nuevo más tarde.',
                 color: 'red',
             })
         } finally {
@@ -139,7 +140,8 @@ const Profile = () => {
             setErrorMessage(Helper.parseError(error))
             notifications.show({
                 title: 'Error',
-                message: 'Error deleting user account. Please try again later.',
+                message:
+                    'Error al eliminar la cuenta de usuario. Inténtalo de nuevo más tarde.',
                 color: 'red',
             })
         } finally {

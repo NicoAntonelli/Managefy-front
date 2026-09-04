@@ -38,7 +38,7 @@ const ClientListItem = (props: ClientListItemProps) => {
                     <Button
                         color={Theme.primaryColor}
                         leftSection={<IconEye size={24} />}>
-                        View details
+                        Ver detalles
                     </Button>
                 </Link>
             </Group>

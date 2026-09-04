@@ -71,7 +71,7 @@ const BusinessesListItem = (props: BusinessesListItemProps) => {
                     <Button
                         color={Theme.primaryColor}
                         leftSection={<IconEye size={24} />}>
-                        View details
+                        Ver detalles
                     </Button>
                 </Link>
 
@@ -94,7 +94,7 @@ const BusinessesListItem = (props: BusinessesListItemProps) => {
                                 currentUserRole: business.currentUserRole,
                             })
                         }>
-                        {isSelected ? 'Selected' : 'Manage business'}
+                        {isSelected ? 'Seleccionado' : 'Gestionar emprendimiento'}
                     </Button>
                 )}
             </Group>

@@ -33,7 +33,7 @@ const About = () => {
                             <Text size={isMobile ? 'sm' : 'xl'} mt="0.5rem">
                                 <b>
                                     Gestión de recursos fácil de usar para su
-                                    negocio
+                                    emprendimiento
                                 </b>
                             </Text>
                         </Stack>
@@ -42,11 +42,11 @@ const About = () => {
 
                 <Text size="sm" mt="1rem">
                     Managefy es una app para administrar y gestionar mejor tu
-                    empresa o negocio, con herramientas útiles y fáciles de usar
-                    como gestión de stock, clientes y ventas, entre otras, que
-                    todo emprendedor necesita. Además, te permite analizar el
-                    progreso de tu negocio con múltiples gráficos fáciles de
-                    entender... en una sola app gratuita.
+                    empresa o emprendimiento, con herramientas útiles y fáciles
+                    de usar como gestión de stock, clientes y ventas, entre
+                    otras, que todo emprendedor necesita. Además, te permite
+                    analizar el progreso de tu emprendimiento con múltiples
+                    gráficos fáciles de entender... en una sola app gratuita.
                 </Text>
                 <Text size="sm" mt="1rem">
                     Managefy es un mini ERP (Sistema de Planificación de

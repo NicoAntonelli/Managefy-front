@@ -17,28 +17,28 @@ const BusinessSelection = ({
     <Stack align="center" gap="md" py="xl">
         <Title size="2rem">
             {isBusinessPage
-                ? 'Your business hub is waiting'
-                : `Select a business to view its ${resourceName}`}
+                ? 'Da el primer paso con tu emprendimiento'
+                : `Selecciona un emprendimiento para ver sus ${resourceName}`}
         </Title>
         {!isBusinessPage && (
             <Button
                 color={Theme.primaryColor}
                 w={{ base: '100%', sm: 'fit-content' }}
                 leftSection={<IconBuildingStore size={24} />}>
-                <Link href="/businesses">Go to businesses</Link>
+                <Link href="/businesses">Ir a emprendimientos</Link>
             </Button>
         )}
         <Text ta="center" maw={480}>
             {isBusinessPage
-                ? "You don't have any businesses yet. "
-                : "If you don't have any businesses yet, "}
-            Start by creating your first one and bring your work into one place.
+                ? 'Aún no tienes emprendimientos. '
+                : 'Si aún no tienes emprendimientos, '}
+            Empieza creando el primero y reúne tu trabajo en un solo lugar.
         </Text>
         <Button
             color="orange.6"
             w={{ base: '100%', sm: 'fit-content' }}
             leftSection={<IconHexagonPlus size={24} />}>
-            <Link href="/businesses/new">Create your first business</Link>
+            <Link href="/businesses/new">Crea tu primer emprendimiento</Link>
         </Button>
     </Stack>
 )

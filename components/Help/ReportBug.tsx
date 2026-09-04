@@ -37,7 +37,7 @@ const ReportBug = () => {
     // Format mail body
     const bodyFormat = (values: ReportInputs) => {
         const newLine = '%0D%0A'
-        return `[Name: ${values.name}]${newLine}[Email: ${values.email}]${newLine}${newLine}${values.message}`
+        return `[Nombre: ${values.name}]${newLine}[Email: ${values.email}]${newLine}${newLine}${values.message}`
     }
 
     const handleSubmit = (values: ReportInputs) => {
@@ -70,7 +70,7 @@ const ReportBug = () => {
                         src="/olivia_hunts_bugs.png"
                         h={isMobile ? '350' : '480'}
                         w="auto"
-                        alt="Bug report with Olivia"
+                        alt="Reporte de errores con Olivia"
                         p="rem"
                         radius="md"
                     />

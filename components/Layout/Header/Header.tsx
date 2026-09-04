@@ -42,7 +42,7 @@ const Header = (props: HeaderProps) => {
                 <ActionIcon
                     variant="filled"
                     color="orange.4"
-                    aria-label="Toggle dark/light theme"
+                    aria-label="Cambiar entre tema claro y oscuro"
                     onClick={props.toggleColorScheme}>
                     <IconSunMoon
                         style={{ width: '70%', height: '70%' }}

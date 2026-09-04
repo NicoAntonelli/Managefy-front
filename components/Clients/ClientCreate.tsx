@@ -101,7 +101,7 @@ const ClientCreate = () => {
             notifications.show({
                 title: 'Error',
                 message:
-                    'Error while trying to create the client. Please try again later.',
+                    'Error al crear el cliente. Inténtalo de nuevo más tarde.',
                 color: 'red',
             })
         } finally {
@@ -114,7 +114,7 @@ const ClientCreate = () => {
     }
 
     if (!selectedBusiness) {
-        return <BusinessSelection resourceName="clients" />
+        return <BusinessSelection resourceName="clientes" />
     }
 
     return (
@@ -125,14 +125,14 @@ const ClientCreate = () => {
             withBorder
             className="min-w-full">
             <Group justify="space-between" mt="md" mb="xs">
-                <Title size="2rem">New client</Title>
+                <Title size="2rem">Nuevo cliente</Title>
                 <Button
                     component={Link}
                     href="/clients"
                     variant="subtle"
                     color={Theme.primaryColor}
                     leftSection={<IconArrowLeft size={18} />}>
-                    Back to clients
+                    Volver a clientes
                 </Button>
             </Group>
 
@@ -140,8 +140,8 @@ const ClientCreate = () => {
                 <TextInput
                     pt="1rem"
                     withAsterisk
-                    label="Name"
-                    placeholder="Client name"
+                    label="Nombre"
+                    placeholder="Nombre del cliente"
                     leftSection={<IconUser />}
                     key={form.key('name')}
                     {...form.getInputProps('name')}
@@ -150,8 +150,8 @@ const ClientCreate = () => {
                 <Textarea
                     pt="1rem"
                     withAsterisk
-                    label="Description"
-                    placeholder="Client description"
+                    label="Descripción"
+                    placeholder="Descripción del cliente"
                     autosize
                     minRows={3}
                     leftSection={<IconBook />}
@@ -179,8 +179,8 @@ const ClientCreate = () => {
                 <TextInput
                     pt="1rem"
                     withAsterisk
-                    label="Phone"
-                    placeholder="Phone number"
+                    label="Teléfono"
+                    placeholder="Número de teléfono"
                     leftSection={<IconPhone />}
                     key={form.key('phone')}
                     {...form.getInputProps('phone')}
@@ -202,14 +202,14 @@ const ClientCreate = () => {
 
                 <Group justify="flex-end" mt="2rem">
                     <Button component={Link} href="/clients" color="red">
-                        Cancel
+                        Cancelar
                     </Button>
                     <Button
                         type="submit"
                         color={Theme.primaryColor}
                         leftSection={<IconUser size={20} />}
                         disabled={submitting}>
-                        {submitting ? 'Loading...' : 'Create client'}
+                        {submitting ? 'Cargando...' : 'Crear cliente'}
                     </Button>
                 </Group>
             </form>

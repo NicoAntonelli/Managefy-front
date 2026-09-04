@@ -86,7 +86,7 @@ const UserValidation = () => {
             notifications.show({
                 title: 'Error',
                 message:
-                    'Error sending validation code. Please try again later.',
+                    'Error al enviar el código de validación. Inténtalo de nuevo más tarde.',
                 color: 'red',
             })
         } finally {
@@ -120,7 +120,7 @@ const UserValidation = () => {
             setErrorMessage(Helper.parseError(error))
             notifications.show({
                 title: 'Error',
-                message: 'Error validating user. Please try again later',
+                message: 'Error al validar el usuario. Inténtalo de nuevo más tarde.',
                 color: 'red',
             })
         } finally {

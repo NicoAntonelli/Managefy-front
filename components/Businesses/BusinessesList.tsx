@@ -61,7 +61,7 @@ const BusinessesList = () => {
     if (!businesses?.length) {
         return (
             <BusinessSelection
-                resourceName="businesses"
+                resourceName="emprendimientos"
                 isBusinessPage={true}
             />
         )
@@ -73,7 +73,7 @@ const BusinessesList = () => {
                 color="orange.6"
                 w={{ base: '100%', sm: 'fit-content' }}
                 leftSection={<IconHexagonPlus size={24} />}>
-                <Link href="/businesses/new">Create a new business</Link>
+                <Link href="/businesses/new">Crear un nuevo emprendimiento</Link>
             </Button>
             <Stack gap="lg">
                 {businesses.map((business: Business) => (

@@ -43,7 +43,7 @@ const logout = async (
     } catch (error) {
         notifications.show({
             title: 'Error',
-            message: 'Could not log out. Please try again later.',
+            message: 'No se pudo cerrar la sesión. Inténtalo de nuevo más tarde.',
             color: 'red',
         })
 
@@ -73,7 +73,7 @@ const Navbar = () => {
                 notifications.show({
                     title: 'Error',
                     message:
-                        'Error validating current session. Please try again later.',
+                        'Error al validar la sesión actual. Inténtalo de nuevo más tarde.',
                     color: 'red',
                 })
             } finally {

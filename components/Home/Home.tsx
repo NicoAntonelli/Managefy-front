@@ -15,7 +15,9 @@ const getHealth = async () => {
         const health = await Health.testAPI()
         console.log(health)
     } catch (error) {
-        console.log("Can't connect to Managefy API right now. Try again later.")
+        console.log(
+            'No se puede conectar con la API de Managefy en este momento. Inténtalo de nuevo más tarde.'
+        )
     }
 }
 
@@ -78,7 +80,7 @@ const Home = () => {
                                 mr="1rem">
                                 <b>
                                     Gestión de recursos fácil de usar para su
-                                    negocio
+                                    emprendimiento
                                 </b>
                             </Text>
                         </Stack>

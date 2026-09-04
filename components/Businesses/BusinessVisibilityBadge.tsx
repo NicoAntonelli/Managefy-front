@@ -12,7 +12,7 @@ const BusinessVisibilityBadge = (props: BusinessVisibilityBadgeProps) => {
     // Empty info, return a blank fragment
     if (isPublic === null || isPublic === undefined) return <></>
 
-    const visibilityLabel = isPublic ? 'Public' : 'Private'
+    const visibilityLabel = isPublic ? 'Público' : 'Privado'
     const visibilityColor = isPublic ? 'blue' : 'orange.6'
 
     return (
