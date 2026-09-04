@@ -29,7 +29,6 @@ const Header = (props: HeaderProps) => {
                 )}
                 <ActionIcon
                     variant="transparent"
-                    color="blue.4"
                     onClick={() => router.push('/')}
                     aria-label="Managefy Icon">
                     <Image
