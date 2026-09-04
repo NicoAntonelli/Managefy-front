@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useForm } from '@mantine/form'
 import {
-    Button,
     Card,
     Checkbox,
     Group,
@@ -16,20 +14,15 @@ import {
     Title,
 } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
-import {
-    IconArrowLeft,
-    IconBook,
-    IconBuildingStore,
-    IconLink,
-    IconWorld,
-} from '@tabler/icons-react'
+import { IconBook, IconBuildingStore, IconLink } from '@tabler/icons-react'
 
 import Businesses from '@/services/businesses'
 import Helper from '@/services/helper'
 import TextHelper from '@/utils/string/TextHelper'
-import Theme from '@/app/theme'
 import Validation from '@/utils/validation/Validation'
 
+import ButtonGoBack from '@/components/Common/Buttons/ButtonGoBack'
+import ButtonsSubmitAndCancel from '@/components/Common/Buttons/ButtonsSubmitAndCancel'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 
 import Business from '@/entities/businesses/Business'
@@ -142,107 +135,103 @@ const BusinessCreate = () => {
     }
 
     return (
-        <Card
-            shadow="sm"
-            padding="lg"
-            radius="md"
-            withBorder
-            className="min-w-full">
-            <Group justify="space-between" mt="md" mb="xs">
-                <Title size="2rem">Nuevo emprendimiento</Title>
-                <Button
-                    component={Link}
-                    href="/businesses"
-                    variant="subtle"
-                    color={Theme.primaryColor}
-                    leftSection={<IconArrowLeft size={18} />}>
-                    Volver a emprendimientos
-                </Button>
-            </Group>
+        <Stack gap="xs">
+            <ButtonGoBack href="/businesses" text="emprendimientos" />
 
-            <form onSubmit={form.onSubmit(handleSubmit)}>
-                <TextInput
-                    pt="1rem"
-                    withAsterisk
-                    label="Nombre"
-                    placeholder="Mi emprendimiento"
-                    leftSection={<IconBuildingStore />}
-                    key={form.key('name')}
-                    {...form.getInputProps('name')}
-                    onBlur={handleNameBlur}
-                />
-
-                <Textarea
-                    pt="1rem"
-                    withAsterisk
-                    label="Descripción"
-                        placeholder="Describe tu emprendimiento"
-                    autosize
-                    minRows={3}
-                    leftSection={<IconBook />}
-                    styles={{
-                        section: {
-                            alignItems: 'flex-start',
-                            paddingTop: '0.2rem',
-                        },
-                    }}
-                    key={form.key('description')}
-                    {...form.getInputProps('description')}
-                />
-
-                <TextInput
-                    pt="1rem"
-                    withAsterisk
-                    label="Enlace personalizado"
-                    placeholder="mi-emprendimiento"
-                    leftSection={<IconLink />}
-                    key={form.key('link')}
-                    {...form.getInputProps('link')}
-                />
-
-                <Checkbox
-                    pt="1rem"
-                    mt="md"
-                    label="Hacer público este emprendimiento"
-                    key={form.key('isPublic')}
-                    {...form.getInputProps('isPublic', { type: 'checkbox' })}
-                />
-
-                <Stack gap="xs" mt="lg">
-                    <Text fw={500}>Días laborables</Text>
-                    <SimpleGrid cols={{ base: 1, sm: 4 }} spacing="sm">
-                        {TextHelper.weekDaysComplete.map((day: WeekDay) => (
-                            <Checkbox
-                                key={day}
-                                label={weekDayLabels[day]}
-                                {...form.getInputProps(`businessDays.${day}`, {
-                                    type: 'checkbox',
-                                })}
-                            />
-                        ))}
-                    </SimpleGrid>
-                </Stack>
-
-                {errorMessage && (
-                    <Text c="red" size="sm" mt="md">
-                        {errorMessage}
-                    </Text>
-                )}
-
-                <Group justify="flex-end" mt="2rem">
-                    <Button component={Link} href="/businesses" color="red">
-                        Cancelar
-                    </Button>
-                    <Button
-                        type="submit"
-                        color={Theme.primaryColor}
-                        leftSection={<IconWorld size={20} />}
-                        disabled={submitting}>
-                        {submitting ? 'Cargando...' : 'Crear emprendimiento'}
-                    </Button>
+            <Card
+                shadow="sm"
+                padding="lg"
+                radius="md"
+                withBorder
+                className="min-w-full">
+                <Group mt="md" mb="xs">
+                    <Title size="2rem">Nuevo emprendimiento</Title>
                 </Group>
-            </form>
-        </Card>
+
+                <form onSubmit={form.onSubmit(handleSubmit)}>
+                    <TextInput
+                        pt="1rem"
+                        withAsterisk
+                        label="Nombre"
+                        placeholder="Mi emprendimiento"
+                        leftSection={<IconBuildingStore />}
+                        key={form.key('name')}
+                        {...form.getInputProps('name')}
+                        onBlur={handleNameBlur}
+                    />
+
+                    <Textarea
+                        pt="1rem"
+                        withAsterisk
+                        label="Descripción"
+                        placeholder="Describe tu emprendimiento"
+                        autosize
+                        minRows={3}
+                        leftSection={<IconBook />}
+                        styles={{
+                            section: {
+                                alignItems: 'flex-start',
+                                paddingTop: '0.2rem',
+                            },
+                        }}
+                        key={form.key('description')}
+                        {...form.getInputProps('description')}
+                    />
+
+                    <TextInput
+                        pt="1rem"
+                        withAsterisk
+                        label="Enlace personalizado"
+                        placeholder="mi-emprendimiento"
+                        leftSection={<IconLink />}
+                        key={form.key('link')}
+                        {...form.getInputProps('link')}
+                    />
+
+                    <Checkbox
+                        pt="1rem"
+                        mt="md"
+                        label="Hacer público este emprendimiento"
+                        key={form.key('isPublic')}
+                        {...form.getInputProps('isPublic', {
+                            type: 'checkbox',
+                        })}
+                    />
+
+                    <Stack gap="xs" mt="lg">
+                        <Text fw={500}>Días laborables</Text>
+                        <SimpleGrid cols={{ base: 1, sm: 4 }} spacing="sm">
+                            {TextHelper.weekDaysComplete.map((day: WeekDay) => (
+                                <Checkbox
+                                    key={day}
+                                    label={weekDayLabels[day]}
+                                    {...form.getInputProps(
+                                        `businessDays.${day}`,
+                                        {
+                                            type: 'checkbox',
+                                        }
+                                    )}
+                                />
+                            ))}
+                        </SimpleGrid>
+                    </Stack>
+
+                    {errorMessage && (
+                        <Text c="red" size="sm" mt="md">
+                            {errorMessage}
+                        </Text>
+                    )}
+
+                    <ButtonsSubmitAndCancel
+                        text="emprendimiento"
+                        leftIcon={<IconBuildingStore size={20} />}
+                        isCreate
+                        submitting={submitting}
+                        cancelHref="/businesses"
+                    />
+                </form>
+            </Card>
+        </Stack>
     )
 }
 

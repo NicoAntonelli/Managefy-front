@@ -2,35 +2,29 @@
 
 import React, { useEffect, useState } from 'react'
 
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useForm } from '@mantine/form'
 import {
-    Button,
     Card,
     Group,
+    Stack,
     Text,
     TextInput,
     Textarea,
     Title,
 } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
-import {
-    IconArrowLeft,
-    IconBook,
-    IconMail,
-    IconPhone,
-    IconUser,
-} from '@tabler/icons-react'
+import { IconBook, IconMail, IconPhone, IconUser } from '@tabler/icons-react'
 
 import Clients from '@/services/clients'
 import Helper from '@/services/helper'
-import Theme from '@/app/theme'
 import Validation from '@/utils/validation/Validation'
 import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 
-import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 import BusinessSelection from '@/components/Common/BusinessSelection'
+import ButtonGoBack from '@/components/Common/Buttons/ButtonGoBack'
+import ButtonsSubmitAndCancel from '@/components/Common/Buttons/ButtonsSubmitAndCancel'
+import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 
 import Client from '@/entities/clients/Client'
 import ClientCU from '@/entities/clients/ClientCU'
@@ -118,102 +112,93 @@ const ClientCreate = () => {
     }
 
     return (
-        <Card
-            shadow="sm"
-            padding="lg"
-            radius="md"
-            withBorder
-            className="min-w-full">
-            <Group justify="space-between" mt="md" mb="xs">
-                <Title size="2rem">Nuevo cliente</Title>
-                <Button
-                    component={Link}
-                    href="/clients"
-                    variant="subtle"
-                    color={Theme.primaryColor}
-                    leftSection={<IconArrowLeft size={18} />}>
-                    Volver a clientes
-                </Button>
-            </Group>
+        <Stack gap="xs">
+            <ButtonGoBack href="/clients" text="clientes" />
 
-            <form onSubmit={form.onSubmit(handleSubmit)}>
-                <TextInput
-                    pt="1rem"
-                    withAsterisk
-                    label="Nombre"
-                    placeholder="Nombre del cliente"
-                    leftSection={<IconUser />}
-                    key={form.key('name')}
-                    {...form.getInputProps('name')}
-                />
-
-                <Textarea
-                    pt="1rem"
-                    withAsterisk
-                    label="Descripción"
-                    placeholder="Descripción del cliente"
-                    autosize
-                    minRows={3}
-                    leftSection={<IconBook />}
-                    styles={{
-                        section: {
-                            alignItems: 'flex-start',
-                            paddingTop: '0.2rem',
-                        },
-                    }}
-                    key={form.key('description')}
-                    {...form.getInputProps('description')}
-                />
-
-                <TextInput
-                    pt="1rem"
-                    withAsterisk
-                    type="email"
-                    label="Email"
-                    placeholder="client@example.com"
-                    leftSection={<IconMail />}
-                    key={form.key('email')}
-                    {...form.getInputProps('email')}
-                />
-
-                <TextInput
-                    pt="1rem"
-                    withAsterisk
-                    label="Teléfono"
-                    placeholder="Número de teléfono"
-                    leftSection={<IconPhone />}
-                    key={form.key('phone')}
-                    {...form.getInputProps('phone')}
-                    inputMode="numeric"
-                    pattern="[0-9]*"
-                    onChange={(event) =>
-                        form.setFieldValue(
-                            'phone',
-                            event.currentTarget.value.replace(/\D/g, '')
-                        )
-                    }
-                />
-
-                {errorMessage && (
-                    <Text c="red" size="sm" mt="md">
-                        {errorMessage}
-                    </Text>
-                )}
-
-                <Group justify="flex-end" mt="2rem">
-                    <Button component={Link} href="/clients" color="red">
-                        Cancelar
-                    </Button>
-                    <Button
-                        type="submit"
-                        color={Theme.primaryColor}
-                        leftSection={<IconUser size={20} />}
-                        disabled={submitting}>
-                        {submitting ? 'Cargando...' : 'Crear cliente'}
-                    </Button>
+            <Card
+                shadow="sm"
+                padding="lg"
+                radius="md"
+                withBorder
+                className="min-w-full">
+                <Group mt="md" mb="xs">
+                    <Title size="2rem">Nuevo cliente</Title>
                 </Group>
-            </form>
-        </Card>
+
+                <form onSubmit={form.onSubmit(handleSubmit)}>
+                    <TextInput
+                        pt="1rem"
+                        withAsterisk
+                        label="Nombre"
+                        placeholder="Nombre del cliente"
+                        leftSection={<IconUser />}
+                        key={form.key('name')}
+                        {...form.getInputProps('name')}
+                    />
+
+                    <Textarea
+                        pt="1rem"
+                        withAsterisk
+                        label="Descripción"
+                        placeholder="Descripción del cliente"
+                        autosize
+                        minRows={3}
+                        leftSection={<IconBook />}
+                        styles={{
+                            section: {
+                                alignItems: 'flex-start',
+                                paddingTop: '0.2rem',
+                            },
+                        }}
+                        key={form.key('description')}
+                        {...form.getInputProps('description')}
+                    />
+
+                    <TextInput
+                        pt="1rem"
+                        withAsterisk
+                        type="email"
+                        label="Email"
+                        placeholder="client@example.com"
+                        leftSection={<IconMail />}
+                        key={form.key('email')}
+                        {...form.getInputProps('email')}
+                    />
+
+                    <TextInput
+                        pt="1rem"
+                        withAsterisk
+                        label="Teléfono"
+                        placeholder="Número de teléfono"
+                        leftSection={<IconPhone />}
+                        key={form.key('phone')}
+                        {...form.getInputProps('phone')}
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                        onChange={(event) =>
+                            form.setFieldValue(
+                                'phone',
+                                event.currentTarget.value.replace(/\D/g, '')
+                            )
+                        }
+                    />
+
+                    {errorMessage && (
+                        <Text c="red" size="sm" mt="md">
+                            {errorMessage}
+                        </Text>
+                    )}
+
+                    <ButtonsSubmitAndCancel
+                        text="cliente"
+                        leftIcon={<IconUser size={20} />}
+                        isCreate
+                        submitting={submitting}
+                        cancelHref="/clients"
+                    />
+                </form>
+            </Card>
+        </Stack>
     )
 }
 
