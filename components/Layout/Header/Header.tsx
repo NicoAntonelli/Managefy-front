@@ -6,6 +6,8 @@ import { IconSunMoon } from '@tabler/icons-react'
 import { useRouter } from 'next/navigation'
 import useSidebarStore from '@/utils/stores/useSidebarStore'
 
+import Theme from '@/app/theme'
+
 interface HeaderProps {
     showNavbar: boolean
     toggleColorScheme: () => void
@@ -40,7 +42,7 @@ const Header = (props: HeaderProps) => {
                 </ActionIcon>
                 <ActionIcon
                     variant="filled"
-                    color="orange.4"
+                    color={Theme.other!.secondaryColor}
                     aria-label="Cambiar entre tema claro y oscuro"
                     onClick={props.toggleColorScheme}>
                     <IconSunMoon

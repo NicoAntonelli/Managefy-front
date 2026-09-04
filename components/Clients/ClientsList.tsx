@@ -13,6 +13,7 @@ import BusinessSelection from '@/components/Common/BusinessSelection'
 import SelectedBusinessBar from '@/components/Common/SelectedBusinessBar'
 
 import Client from '@/entities/clients/Client'
+import Theme from '@/app/theme'
 
 const ClientsList = () => {
     const selectedBusiness = useSelectedBusinessStore(
@@ -57,7 +58,7 @@ const ClientsList = () => {
         <Button
             component={Link}
             href="/clients/new"
-            color="orange.6"
+            color={Theme.other!.secondaryColor}
             w={{ base: '100%', sm: 'fit-content' }}
             leftSection={<IconHexagonPlus size={24} />}>
             Crear un nuevo cliente

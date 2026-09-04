@@ -25,6 +25,7 @@ import {
 
 import Helper from '@/services/helper'
 import Users from '@/services/users'
+import Theme from '@/app/theme'
 import useSessionReloadStore from '@/utils/stores/useSessionReloadStore'
 import Validation from '@/utils/validation/Validation'
 
@@ -111,7 +112,7 @@ const Profile = () => {
                 title: 'Error',
                 message:
                     'Error al actualizar el perfil de usuario. Inténtalo de nuevo más tarde.',
-                color: 'red',
+                color: Theme.other!.danger,
             })
         } finally {
             setSubmitting(false)
@@ -142,7 +143,7 @@ const Profile = () => {
                 title: 'Error',
                 message:
                     'Error al eliminar la cuenta de usuario. Inténtalo de nuevo más tarde.',
-                color: 'red',
+                color: Theme.other!.danger,
             })
         } finally {
             setSubmitting(false)
@@ -186,7 +187,11 @@ const Profile = () => {
                 <Group justify="space-between" mt="md" mb="xs">
                     <Title size="2rem">Editar perfil</Title>
                 </Group>
-                <Group justify="flex-start" mt="md" mb="xs" c="green.8">
+                <Group
+                    justify="flex-start"
+                    mt="md"
+                    mb="xs"
+                    c={Theme.other!.success}>
                     <IconCircleCheck size="2rem" />
                     <Text size="1.5rem">
                         Tu perfil ha sido actualizado correctamente
@@ -278,7 +283,7 @@ const Profile = () => {
                     {errorMessage && (
                         <>
                             <Group mt="md">
-                                <Text c="red" size="sm">
+                                <Text c={Theme.other!.danger} size="sm">
                                     {errorMessage}
                                 </Text>
                             </Group>
@@ -302,7 +307,7 @@ const Profile = () => {
                 <Group justify="space-between" mt="md" mb="xs">
                     <Title size="2rem">Eliminar cuenta</Title>
                 </Group>
-                <Group justify="flex-start" mb="xs" c="red">
+                <Group justify="flex-start" mb="xs" c={Theme.other!.danger}>
                     <IconAlertTriangle size="2rem" />
                     <Stack gap="0.25rem">
                         <Text size="1rem">
@@ -316,7 +321,10 @@ const Profile = () => {
                     </Stack>
                 </Group>
                 <Group justify="flex-start" mt="md">
-                    <Button disabled={submitting} color="red" onClick={open}>
+                    <Button
+                        disabled={submitting}
+                        color={Theme.other!.danger}
+                        onClick={open}>
                         {submitting ? 'Cargando...' : 'ELIMINAR CUENTA'}
                     </Button>
                 </Group>
@@ -343,7 +351,7 @@ const Profile = () => {
                 <Group mt="xl">
                     <Button
                         disabled={submitting}
-                        color="red"
+                        color={Theme.other!.danger}
                         onClick={handleDelete()}>
                         {submitting ? 'Cargando...' : 'ELIMINAR CUENTA'}
                     </Button>

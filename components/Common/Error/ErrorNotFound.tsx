@@ -3,6 +3,7 @@ import Link from 'next/link'
 
 import { Button, Flex, Group, Text, Title } from '@mantine/core'
 import Helper from '@/services/helper'
+
 import Theme from '@/app/theme'
 
 const ErrorNotFound = () => {
@@ -21,7 +22,9 @@ const ErrorNotFound = () => {
             <Text
                 mt={'2rem'}
                 pt={'2rem'}
-                style={{ borderTop: '1px solid orange' }}>
+                style={{
+                    borderTop: `1px solid var(--mantine-color-orange-6)`,
+                }}>
                 Error: Página o recurso no encontrado
             </Text>
             <Group mt={'2rem'}>
@@ -31,7 +34,9 @@ const ErrorNotFound = () => {
             </Group>
             <Group mt={'2rem'}>
                 <Link href="/help#reportBug">
-                    <Button color="orange.6">Reportar bug</Button>
+                    <Button color={Theme.other!.secondaryColor}>
+                        Reportar bug
+                    </Button>
                 </Link>
             </Group>
         </Flex>

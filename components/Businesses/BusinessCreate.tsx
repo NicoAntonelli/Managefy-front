@@ -19,6 +19,7 @@ import { IconBook, IconBuildingStore, IconLink } from '@tabler/icons-react'
 import Businesses from '@/services/businesses'
 import Helper from '@/services/helper'
 import TextHelper from '@/utils/string/TextHelper'
+import Theme from '@/app/theme'
 import Validation from '@/utils/validation/Validation'
 
 import ButtonGoBack from '@/components/Common/Buttons/ButtonGoBack'
@@ -107,7 +108,7 @@ const BusinessCreate = () => {
                 title: 'Error',
                 message:
                     'Error al crear el emprendimiento. Inténtalo de nuevo más tarde.',
-                color: 'red',
+                color: Theme.other!.danger,
             })
         } finally {
             setSubmitting(false)
@@ -217,7 +218,7 @@ const BusinessCreate = () => {
                     </Stack>
 
                     {errorMessage && (
-                        <Text c="red" size="sm" mt="md">
+                        <Text c={Theme.other!.danger} size="sm" mt="md">
                             {errorMessage}
                         </Text>
                     )}

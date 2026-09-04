@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { Button, Stack, Text, Title } from '@mantine/core'
 import { IconHexagonPlus } from '@tabler/icons-react'
 
+import Theme from '@/app/theme'
+
 import Businesses from '@/services/businesses'
 import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 
@@ -70,10 +72,12 @@ const BusinessesList = () => {
     return (
         <Stack gap="lg" style={{ width: '100%' }}>
             <Button
-                color="orange.6"
+                color={Theme.other!.secondaryColor}
                 w={{ base: '100%', sm: 'fit-content' }}
                 leftSection={<IconHexagonPlus size={24} />}>
-                <Link href="/businesses/new">Crear un nuevo emprendimiento</Link>
+                <Link href="/businesses/new">
+                    Crear un nuevo emprendimiento
+                </Link>
             </Button>
             <Stack gap="lg">
                 {businesses.map((business: Business) => (

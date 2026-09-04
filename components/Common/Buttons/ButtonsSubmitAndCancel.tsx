@@ -23,12 +23,17 @@ const ButtonsSubmitAndCancel = ({
 
     return (
         <Group justify="flex-end" mt="2rem">
-            <Button component={Link} href={cancelHref} color="red">
+            <Button
+                component={Link}
+                href={cancelHref}
+                color={Theme.other!.danger}>
                 Cancelar
             </Button>
             <Button
                 type="submit"
-                color={isCreate ? Theme.primaryColor : 'orange.6'}
+                color={
+                    isCreate ? Theme.primaryColor : Theme.other!.secondaryColor
+                }
                 leftSection={leftIcon}
                 disabled={submitting}>
                 {submitting ? 'Cargando...' : `${action} ${text}`}

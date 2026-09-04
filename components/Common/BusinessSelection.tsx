@@ -35,7 +35,7 @@ const BusinessSelection = ({
             creando el primero y reúne tu trabajo en un solo lugar.
         </Text>
         <Button
-            color="orange.6"
+            color={Theme.other!.secondaryColor}
             w={{ base: '100%', sm: 'fit-content' }}
             leftSection={<IconHexagonPlus size={24} />}>
             <Link href="/businesses/new">Crea tu primer emprendimiento</Link>

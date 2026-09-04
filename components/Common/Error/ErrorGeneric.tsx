@@ -24,7 +24,9 @@ const ErrorGeneric = (props: ErrorProps) => {
             <Text
                 mt={'2rem'}
                 pt={'2rem'}
-                style={{ borderTop: `1px solid $'orange.4'` }}>
+                style={{
+                    borderTop: `1px solid var(--mantine-color-orange-6)`,
+                }}>
                 Ha ocurrido un problema en la pantalla anterior
             </Text>
             <Group mt={'2rem'}>
@@ -34,10 +36,15 @@ const ErrorGeneric = (props: ErrorProps) => {
             </Group>
             <Group mt={'2rem'}>
                 <Link href="/help#reportBug">
-                    <Button color="orange.6">Reportar bug</Button>
+                    <Button color={Theme.other!.secondaryColor}>
+                        Reportar bug
+                    </Button>
                 </Link>
             </Group>
-            <Button mt={'2rem'} color="orange.6" onClick={() => props.reset()}>
+            <Button
+                mt={'2rem'}
+                color={Theme.other!.secondaryColor}
+                onClick={() => props.reset()}>
                 Intentar nuevamente
             </Button>
         </Flex>

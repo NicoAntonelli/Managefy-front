@@ -21,6 +21,7 @@ import { IconLock, IconMail, IconUserCircle } from '@tabler/icons-react'
 
 import Helper from '@/services/helper'
 import Users from '@/services/users'
+import Theme from '@/app/theme'
 import useSessionReloadStore from '@/utils/stores/useSessionReloadStore'
 import Validation from '@/utils/validation/Validation'
 
@@ -111,7 +112,7 @@ const LoginRegister = () => {
                 title: 'Error',
                 message:
                     'Error al iniciar sesión o registrar al usuario. Inténtalo de nuevo más tarde.',
-                color: 'red',
+                color: Theme.other!.danger,
             })
         } finally {
             setSubmitting(false)
@@ -228,7 +229,7 @@ const LoginRegister = () => {
                                             size="1rem"
                                             target="_blank"
                                             underline="hover"
-                                            c="orange.6"
+                                            c={Theme.other!.secondaryColor}
                                             onClick={open}>
                                             términos y condiciones de servicio
                                         </Anchor>
@@ -245,7 +246,7 @@ const LoginRegister = () => {
                     {errorMessage && (
                         <>
                             <Group mt="md">
-                                <Text c="red" size="sm">
+                                <Text c={Theme.other!.danger} size="sm">
                                     {errorMessage}
                                 </Text>
                             </Group>
@@ -253,7 +254,9 @@ const LoginRegister = () => {
                     )}
 
                     <Group justify="flex-end" mt="lg">
-                        <Button color="orange.6" onClick={() => toggleForm()}>
+                        <Button
+                            color={Theme.other!.secondaryColor}
+                            onClick={() => toggleForm()}>
                             {isRegistration
                                 ? 'Ya tengo una cuenta'
                                 : 'No tengo cuenta'}

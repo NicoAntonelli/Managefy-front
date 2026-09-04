@@ -23,6 +23,7 @@ import {
 import Helper from '@/services/helper'
 import Users from '@/services/users'
 import User from '@/entities/users/User'
+import Theme from '@/app/theme'
 import useSessionReloadStore from '@/utils/stores/useSessionReloadStore'
 
 import NavbarItem from './NavbarItem'
@@ -43,8 +44,9 @@ const logout = async (
     } catch (error) {
         notifications.show({
             title: 'Error',
-            message: 'No se pudo cerrar la sesión. Inténtalo de nuevo más tarde.',
-            color: 'red',
+            message:
+                'No se pudo cerrar la sesión. Inténtalo de nuevo más tarde.',
+            color: Theme.other!.danger,
         })
 
         return null
@@ -74,7 +76,7 @@ const Navbar = () => {
                     title: 'Error',
                     message:
                         'Error al validar la sesión actual. Inténtalo de nuevo más tarde.',
-                    color: 'red',
+                    color: Theme.other!.danger,
                 })
             } finally {
                 setNeedReload(false)

@@ -87,7 +87,7 @@ const UserValidation = () => {
                 title: 'Error',
                 message:
                     'Error al enviar el código de validación. Inténtalo de nuevo más tarde.',
-                color: 'red',
+                color: Theme.other!.danger,
             })
         } finally {
             setSendingNewCode(false)
@@ -120,8 +120,9 @@ const UserValidation = () => {
             setErrorMessage(Helper.parseError(error))
             notifications.show({
                 title: 'Error',
-                message: 'Error al validar el usuario. Inténtalo de nuevo más tarde.',
-                color: 'red',
+                message:
+                    'Error al validar el usuario. Inténtalo de nuevo más tarde.',
+                color: Theme.other!.danger,
             })
         } finally {
             setSubmitting(false)
@@ -155,7 +156,11 @@ const UserValidation = () => {
                 <Group justify="space-between" mt="md" mb="xs">
                     <Title size="2rem">Validar cuenta</Title>
                 </Group>
-                <Group justify="flex-start" mt="md" mb="xs" c="green.8">
+                <Group
+                    justify="flex-start"
+                    mt="md"
+                    mb="xs"
+                    c={Theme.other!.success}>
                     <IconCircleCheck size="2rem" />
                     <Text size="1.5rem">
                         Tu cuenta ya ha sido validada correctamente
@@ -206,7 +211,7 @@ const UserValidation = () => {
                 {errorMessage && (
                     <>
                         <Group mt="md">
-                            <Text c="red" size="sm">
+                            <Text c={Theme.other!.danger} size="sm">
                                 {errorMessage}
                             </Text>
                         </Group>
@@ -215,14 +220,14 @@ const UserValidation = () => {
 
                 <Group justify="flex-end" mt="md">
                     <Button
-                        color="orange.6"
+                        color={Theme.other!.secondaryColor}
                         disabled={sendingNewCode || secondsRemaining > 0}
                         onClick={() => handleGenerateValidation()}>
                         {secondsRemaining > 0
                             ? `Reenviar código en ${secondsRemaining}s`
                             : sendingNewCode
-                            ? 'Cargando...'
-                            : 'Enviar código'}
+                              ? 'Cargando...'
+                              : 'Enviar código'}
                     </Button>
                     <Button type="submit" disabled={submitting}>
                         {submitting ? 'Cargando...' : 'Validar código'}

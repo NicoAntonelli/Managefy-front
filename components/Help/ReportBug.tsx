@@ -82,7 +82,7 @@ const ReportBug = () => {
                                 href={`mailto:${Env.contactMail}`}
                                 target="_blank"
                                 underline="hover"
-                                c="orange.6">
+                                c={Theme.other!.secondaryColor}>
                                 {Env.contactMail}
                             </Anchor>
                         </Text>

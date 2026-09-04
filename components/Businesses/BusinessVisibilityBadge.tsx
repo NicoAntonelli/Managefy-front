@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { Badge } from '@mantine/core'
-
 import Theme from '@/app/theme'
 
 interface BusinessVisibilityBadgeProps {
@@ -15,7 +14,9 @@ const BusinessVisibilityBadge = (props: BusinessVisibilityBadgeProps) => {
     if (isPublic === null || isPublic === undefined) return <></>
 
     const visibilityLabel = isPublic ? 'Público' : 'Privado'
-    const visibilityColor = isPublic ? Theme.primaryColor : 'orange.6'
+    const visibilityColor = isPublic
+        ? Theme.primaryColor
+        : Theme.other!.secondaryColor
 
     return (
         <Badge

@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { Button, Card, Group, Image, Stack, Text, Title } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
+
 import Theme from '@/app/theme'
 
 const About = () => {
@@ -81,7 +82,7 @@ const About = () => {
                         Visitar GitHub.com/NicoAntonelli
                     </Link>
                 </Button>
-                <Button color="orange.6" mt="md" radius="md">
+                <Button color={Theme.other!.secondaryColor} mt="md" radius="md">
                     <Link
                         target="_blank"
                         href="https://github.com/NicoAntonelli/Managefy"
@@ -89,7 +90,7 @@ const About = () => {
                         Visitar repo backend de Managefy
                     </Link>
                 </Button>
-                <Button color="orange.6" mt="md" radius="md">
+                <Button color={Theme.other!.secondaryColor} mt="md" radius="md">
                     <Link
                         target="_blank"
                         href="https://github.com/NicoAntonelli/Managefy-front"

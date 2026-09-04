@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Badge } from '@mantine/core'
+
 import Role from '@/entities/helpTypes/Role'
 
 interface BusinessesRoleBadgeProps {
