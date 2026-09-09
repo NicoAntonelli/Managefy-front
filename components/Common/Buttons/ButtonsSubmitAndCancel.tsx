@@ -12,13 +12,9 @@ interface ButtonsSubmitAndCancelProps {
     cancelHref: string
 }
 
-const ButtonsSubmitAndCancel = ({
-    text,
-    leftIcon,
-    isCreate,
-    submitting,
-    cancelHref,
-}: ButtonsSubmitAndCancelProps) => {
+const ButtonsSubmitAndCancel = (props: ButtonsSubmitAndCancelProps) => {
+    const { text, leftIcon, isCreate, submitting, cancelHref } = props
+
     const action = isCreate ? 'Crear' : 'Actualizar'
 
     return (

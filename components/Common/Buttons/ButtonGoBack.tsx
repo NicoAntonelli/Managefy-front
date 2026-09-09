@@ -9,7 +9,9 @@ interface ButtonGoBackProps {
     text: string
 }
 
-const ButtonGoBack = ({ href, text }: ButtonGoBackProps) => {
+const ButtonGoBack = (props: ButtonGoBackProps) => {
+    const { href, text } = props
+
     return (
         <Button
             component={Link}
