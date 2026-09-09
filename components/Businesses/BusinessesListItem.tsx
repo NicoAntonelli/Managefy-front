@@ -3,7 +3,7 @@ import React from 'react'
 import Link from 'next/link'
 import Theme from '@/app/theme'
 import { Button, Card, Group, Text, Title } from '@mantine/core'
-import { IconCheck, IconEye, IconSettings } from '@tabler/icons-react'
+import { IconCheck, IconChevronRight, IconSettings } from '@tabler/icons-react'
 
 import Business from '@/entities/businesses/Business'
 import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
@@ -70,7 +70,7 @@ const BusinessesListItem = (props: BusinessesListItemProps) => {
                 <Link href={`/businesses/${business.id}`}>
                     <Button
                         color={Theme.primaryColor}
-                        leftSection={<IconEye size={24} />}>
+                        leftSection={<IconChevronRight size={24} />}>
                         Ver detalles
                     </Button>
                 </Link>
@@ -94,7 +94,9 @@ const BusinessesListItem = (props: BusinessesListItemProps) => {
                                 currentUserRole: business.currentUserRole,
                             })
                         }>
-                        {isSelected ? 'Seleccionado' : 'Gestionar emprendimiento'}
+                        {isSelected
+                            ? 'Seleccionado'
+                            : 'Gestionar emprendimiento'}
                     </Button>
                 )}
             </Group>
