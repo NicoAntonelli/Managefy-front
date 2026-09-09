@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import Link from 'next/link'
 import { Stack, Text, Title } from '@mantine/core'
-import { Button } from '@mantine/core'
-import { IconHexagonPlus } from '@tabler/icons-react'
 
 import Clients from '@/services/clients'
 import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 
-import ClientListItem from './ClientListItem'
-import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 import BusinessSelection from '@/components/Common/BusinessSelection'
+import ButtonCreate from '@/components/Common/Buttons/ButtonCreate'
 import SelectedBusinessBar from '@/components/Common/SelectedBusinessBar'
+import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
+import ClientListItem from './ClientListItem'
 
 import Client from '@/entities/clients/Client'
-import Theme from '@/app/theme'
 
 const ClientsList = () => {
     const selectedBusiness = useSelectedBusinessStore(
@@ -54,17 +51,6 @@ const ClientsList = () => {
         return <SkeletonFull />
     }
 
-    const createClientButton = (
-        <Button
-            component={Link}
-            href="/clients/new"
-            color={Theme.other!.secondaryColor}
-            w={{ base: '100%', sm: 'fit-content' }}
-            leftSection={<IconHexagonPlus size={24} />}>
-            Crear un nuevo cliente
-        </Button>
-    )
-
     return (
         <Stack gap="lg" style={{ width: '100%' }}>
             <div style={{ marginBottom: 'var(--mantine-spacing-xl)' }}>
@@ -76,11 +62,11 @@ const ClientsList = () => {
                     <Text ta="center" maw={480}>
                         Este emprendimiento aún no tiene clientes.
                     </Text>
-                    {createClientButton}
+                    <ButtonCreate href="/clients/new" resourceName="cliente" />
                 </Stack>
             ) : (
                 <Stack gap="lg">
-                    {createClientButton}
+                    <ButtonCreate href="/clients/new" resourceName="cliente" />
                     {clients.map((client) => (
                         <ClientListItem key={client.id} client={client} />
                     ))}

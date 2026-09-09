@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react'
-
-import Link from 'next/link'
-import { Button, Stack, Text, Title } from '@mantine/core'
-import { IconHexagonPlus } from '@tabler/icons-react'
-
-import Theme from '@/app/theme'
+import { Stack } from '@mantine/core'
 
 import Businesses from '@/services/businesses'
 import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 
 import BusinessesListItem from './BusinessesListItem'
-import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 import BusinessSelection from '@/components/Common/BusinessSelection'
+import ButtonCreate from '@/components/Common/Buttons/ButtonCreate'
+import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 
 import Business from '@/entities/businesses/Business'
 import BusinessMinInfo from '@/entities/businesses/BusinessMinInfo'
@@ -71,14 +67,10 @@ const BusinessesList = () => {
 
     return (
         <Stack gap="lg" style={{ width: '100%' }}>
-            <Button
-                color={Theme.other!.secondaryColor}
-                w={{ base: '100%', sm: 'fit-content' }}
-                leftSection={<IconHexagonPlus size={24} />}>
-                <Link href="/businesses/new">
-                    Crear un nuevo emprendimiento
-                </Link>
-            </Button>
+            <ButtonCreate
+                href="/businesses/new"
+                resourceName="emprendimiento"
+            />
             <Stack gap="lg">
                 {businesses.map((business: Business) => (
                     <BusinessesListItem
