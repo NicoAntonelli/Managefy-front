@@ -2,7 +2,8 @@ import type { InputHTMLAttributes, ReactNode } from 'react'
 import { TextInput } from '@mantine/core'
 
 interface InputTextProps {
-    withAsterisk?: boolean
+    required?: boolean
+    flex?: number | string
     label: string
     placeholder?: string
     leftIcon?: ReactNode
@@ -10,12 +11,14 @@ interface InputTextProps {
 }
 
 const InputText = (props: InputTextProps) => {
-    const { withAsterisk, label, placeholder, leftIcon, InputProps } = props
+    const { required, flex, label, placeholder, leftIcon, InputProps } = props
 
     return (
         <TextInput
             pt="1rem"
-            withAsterisk={withAsterisk}
+            required={required}
+            flex={flex}
+            withAsterisk={required}
             label={label}
             placeholder={placeholder}
             leftSection={leftIcon}

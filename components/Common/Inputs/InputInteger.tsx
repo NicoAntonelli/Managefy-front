@@ -4,7 +4,7 @@ import { TextInput } from '@mantine/core'
 import RegEx from '@/utils/string/RegEx'
 
 interface InputIntegerProps {
-    withAsterisk?: boolean
+    required?: boolean
     label: string
     placeholder?: string
     leftIcon?: ReactNode
@@ -13,14 +13,14 @@ interface InputIntegerProps {
 }
 
 const InputInteger = (props: InputIntegerProps) => {
-    const { name, withAsterisk, label, placeholder, leftIcon, InputProps } =
-        props
+    const { name, required, label, placeholder, leftIcon, InputProps } = props
 
     return (
         <TextInput
             name={name}
             pt="1rem"
-            withAsterisk={withAsterisk}
+            required={required}
+            withAsterisk={required}
             type="text"
             inputMode="numeric"
             pattern="[0-9]*"

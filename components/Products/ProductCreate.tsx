@@ -152,7 +152,7 @@ const ProductCreate = () => {
                 <form onSubmit={form.onSubmit(handleSubmit)}>
                     <InputText
                         key={form.key('code')}
-                        withAsterisk
+                        required
                         label="Código"
                         placeholder="Código del producto"
                         leftIcon={<IconBarcode />}
@@ -161,7 +161,7 @@ const ProductCreate = () => {
 
                     <InputText
                         key={form.key('name')}
-                        withAsterisk
+                        required
                         label="Nombre"
                         placeholder="Nombre del producto"
                         leftIcon={<IconRocket />}
@@ -170,7 +170,7 @@ const ProductCreate = () => {
 
                     <InputDescription
                         key={form.key('description')}
-                        withAsterisk
+                        required
                         placeholder="Descripción del producto"
                         InputProps={{ ...form.getInputProps('description') }}
                     />
@@ -178,7 +178,7 @@ const ProductCreate = () => {
                     <InputDecimal
                         key={form.key('unitCost')}
                         name="unitCost"
-                        withAsterisk
+                        required
                         label="Costo unitario"
                         placeholder="10.50"
                         leftIcon={<IconCoins />}
@@ -188,7 +188,7 @@ const ProductCreate = () => {
                     <InputDecimal
                         key={form.key('unitPrice')}
                         name="unitPrice"
-                        withAsterisk
+                        required
                         label="Precio unitario"
                         placeholder="25.00"
                         leftIcon={<IconCoins />}
@@ -198,7 +198,7 @@ const ProductCreate = () => {
                     <InputInteger
                         key={form.key('stock')}
                         name="stock"
-                        withAsterisk
+                        required
                         label="Stock"
                         placeholder="50"
                         leftIcon={<IconBox />}

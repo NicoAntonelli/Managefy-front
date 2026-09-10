@@ -2,7 +2,8 @@ import type { ReactNode, TextareaHTMLAttributes } from 'react'
 import { Textarea } from '@mantine/core'
 
 interface InputTextAreaProps {
-    withAsterisk?: boolean
+    required?: boolean
+    flex?: number | string
     label: string
     placeholder?: string
     leftIcon?: ReactNode
@@ -10,12 +11,14 @@ interface InputTextAreaProps {
 }
 
 const InputTextArea = (props: InputTextAreaProps) => {
-    const { withAsterisk, label, placeholder, leftIcon, InputProps } = props
+    const { required, flex, label, placeholder, leftIcon, InputProps } = props
 
     return (
         <Textarea
             pt="1rem"
-            withAsterisk={withAsterisk}
+            required={required}
+            flex={flex}
+            withAsterisk={required}
             label={label}
             placeholder={placeholder}
             autosize

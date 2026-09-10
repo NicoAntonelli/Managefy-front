@@ -152,7 +152,7 @@ const BusinessCreate = () => {
                 <form onSubmit={form.onSubmit(handleSubmit)}>
                     <InputText
                         key={form.key('name')}
-                        withAsterisk
+                        required
                         label="Nombre"
                         placeholder="Mi emprendimiento"
                         leftIcon={<IconBuildingStore />}
@@ -164,14 +164,14 @@ const BusinessCreate = () => {
 
                     <InputDescription
                         key={form.key('description')}
-                        withAsterisk
+                        required
                         placeholder="Describe tu emprendimiento"
                         InputProps={{ ...form.getInputProps('description') }}
                     />
 
                     <InputText
                         key={form.key('link')}
-                        withAsterisk
+                        required
                         label="Enlace personalizado"
                         placeholder="mi-emprendimiento"
                         leftIcon={<IconLink />}

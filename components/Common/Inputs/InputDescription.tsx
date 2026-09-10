@@ -4,17 +4,17 @@ import { IconBook } from '@tabler/icons-react'
 import InputTextArea from './InputTextArea'
 
 interface InputDescriptionProps {
-    withAsterisk?: boolean
+    required?: boolean
     placeholder?: string
     InputProps?: TextareaHTMLAttributes<HTMLTextAreaElement>
 }
 
 const InputDescription = (props: InputDescriptionProps) => {
-    const { withAsterisk, placeholder, InputProps } = props
+    const { required, placeholder, InputProps } = props
 
     return (
         <InputTextArea
-            withAsterisk={withAsterisk}
+            required={required}
             label="Descripción"
             placeholder={placeholder}
             leftIcon={<IconBook />}

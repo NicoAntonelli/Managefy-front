@@ -123,7 +123,7 @@ const ClientCreate = () => {
                 <form onSubmit={form.onSubmit(handleSubmit)}>
                     <InputText
                         key={form.key('name')}
-                        withAsterisk
+                        required
                         label="Nombre"
                         placeholder="Nombre del cliente"
                         leftIcon={<IconUser />}
@@ -132,21 +132,21 @@ const ClientCreate = () => {
 
                     <InputDescription
                         key={form.key('description')}
-                        withAsterisk
+                        required
                         placeholder="Descripción del cliente"
                         InputProps={{ ...form.getInputProps('description') }}
                     />
 
                     <InputEmail
                         key={form.key('email')}
-                        withAsterisk
+                        required
                         InputProps={{ ...form.getInputProps('email') }}
                     />
 
                     <InputInteger
                         key={form.key('phone')}
                         name="phone"
-                        withAsterisk
+                        required
                         label="Teléfono"
                         placeholder="Número de teléfono"
                         leftIcon={<IconPhone />}

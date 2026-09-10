@@ -3,19 +3,22 @@ import { TextInput } from '@mantine/core'
 import { IconMail } from '@tabler/icons-react'
 
 interface InputTextProps {
-    withAsterisk?: boolean
+    required?: boolean
+    flex?: number | string
     InputProps?: Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>
 }
 
 const InputEmail = (props: InputTextProps) => {
-    const { withAsterisk, InputProps } = props
+    const { required, flex, InputProps } = props
 
     return (
         <TextInput
             pt="1rem"
-            withAsterisk={withAsterisk}
-            label="persona@example.com"
-            placeholder="Email"
+            required={required}
+            flex={flex}
+            withAsterisk={required}
+            label="Email"
+            placeholder="correo@mail.com"
             leftSection={<IconMail />}
             type="email"
             inputMode="email"
