@@ -6,7 +6,7 @@ import RegEx from '@/utils/string/RegEx'
 const MAX_SAFE_NUMBER = 1000000000000 // Billon (Short scale) or Thousand Million (Long scale)
 
 // Positive decimal field validation
-const decimal = (value: number, allowZero: boolean = false): boolean => {
+const decimal = (value: number | null, allowZero: boolean = false): boolean => {
     if (value === null || value === undefined) return false
     if (isNaN(value)) return false
     if (value === 0 && !allowZero) return false
@@ -34,7 +34,7 @@ const email = (value: string): boolean => {
 }
 
 // Positive integer field validation
-const integer = (value: number, allowZero: boolean = false): boolean => {
+const integer = (value: number | null, allowZero: boolean = false): boolean => {
     if (!decimal(value, allowZero)) return false
     if (!Number.isInteger(Number(value))) return false
 
