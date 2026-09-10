@@ -70,7 +70,7 @@ const ClientCreate = () => {
                     ? null
                     : 'Debe ingresar un correo válido',
             phone: (value) =>
-                Validation.integerString(value)
+                Validation.phone(value)
                     ? null
                     : 'Debe ingresar un teléfono válido',
         },

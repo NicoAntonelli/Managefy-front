@@ -34,7 +34,13 @@ const password = (value: string): boolean => {
     if (!string(value)) return false
     if (!RegEx.password.test(value)) return false
 
-    console.log('Password is valid')
+    return true
+}
+
+// Phone field validation
+const phone = (value: string): boolean => {
+    if (!string(value)) return false
+    if (!RegEx.phone.test(value)) return false
 
     return true
 }
@@ -60,7 +66,9 @@ const Validation = {
     integer,
     integerString,
     password,
+    phone,
     string,
     urlSegment,
 }
+
 export default Validation

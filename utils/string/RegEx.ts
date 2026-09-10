@@ -10,8 +10,11 @@ const password: RegExp = new RegExp(
     /^(?=.*[0-9])(?=.*[- ?!@#$%^&*\/\\])(?=.*[A-Z])(?=.*[a-z])[a-zA-Z0-9- ?!@#$%^&*\/\\]{8,30}$/
 )
 
+// Phone: only digits, between 5 and 18 characters
+const phone: RegExp = new RegExp(/^\d{5,18}$/)
+
 // URL path segment: words separated by single hyphens
 const urlSegment: RegExp = new RegExp(/^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/)
 
-const RegEx = { email, password, urlSegment }
+const RegEx = { email, password, phone, urlSegment }
 export default RegEx
