@@ -2,13 +2,13 @@ import type { InputHTMLAttributes } from 'react'
 import { TextInput } from '@mantine/core'
 import { IconMail } from '@tabler/icons-react'
 
-interface InputTextProps {
+interface InputEmailProps {
     required?: boolean
     flex?: number | string
     InputProps?: Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>
 }
 
-const InputEmail = (props: InputTextProps) => {
+const InputEmail = (props: InputEmailProps) => {
     const { required, flex, InputProps } = props
 
     return (
