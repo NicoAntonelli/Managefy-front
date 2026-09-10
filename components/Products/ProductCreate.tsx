@@ -267,7 +267,7 @@ const ProductCreate = () => {
                         pt="1rem"
                         type="text"
                         inputMode="numeric"
-                        label="Cantidad mínima de venta (opcional)"
+                        label="Cantidad mínima por venta (opcional)"
                         placeholder="5"
                         leftSection={<IconBox />}
                         key={form.key('saleMinAmount')}
