@@ -1,15 +1,12 @@
 import React from 'react'
 import {
     Anchor,
-    Badge,
     Button,
     Card,
     Flex,
-    Group,
     Image,
     Stack,
     Text,
-    TextInput,
     Title,
 } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
@@ -20,8 +17,12 @@ import {
     IconMail,
     IconUser,
 } from '@tabler/icons-react'
+
 import Env from '@/utils/Env'
 import Theme from '@/app/theme'
+
+import InputText from '@/components/Common/Inputs/InputText'
+import InputTextArea from '@/components/Common/Inputs/InputTextArea'
 
 const ReportBug = () => {
     const isMobile = useMediaQuery(`(max-width: ${Theme.breakpoints?.lg})`)
@@ -68,10 +69,10 @@ const ReportBug = () => {
                 <Flex justify="flex-start" align="center" gap="2rem">
                     <Image
                         src="/olivia_hunts_bugs.png"
-                        h={isMobile ? '350' : '480'}
+                        h={isMobile ? '400' : '580'}
                         w="auto"
+                        mt={isMobile ? '4rem' : '0rem'}
                         alt="Reporte de errores con Olivia"
-                        p="rem"
                         radius="md"
                     />
                     <Stack>
@@ -91,44 +92,65 @@ const ReportBug = () => {
                             onSubmit={form.onSubmit((values) =>
                                 handleSubmit(values)
                             )}>
-                            <Flex align={'center'} mt={'1rem'} gap={'1rem'}>
-                                <IconUser size={'2rem'} />
-                                <TextInput
+                            <Flex align="flex-start" mt="1rem" gap="1rem">
+                                <IconUser
+                                    size="2rem"
+                                    style={{ marginTop: '1.5rem' }}
+                                />
+                                <InputText
                                     flex={1}
                                     label="Nombre"
                                     placeholder="John Doe"
                                     required
-                                    {...form.getInputProps('name')}
+                                    InputProps={{
+                                        ...form.getInputProps('name'),
+                                    }}
                                 />
                             </Flex>
-                            <Flex align={'center'} mt={'1rem'} gap={'1rem'}>
-                                <IconMail size={'2rem'} />
-                                <TextInput
+                            <Flex align="flex-start" mt="1rem" gap="1rem">
+                                <IconMail
+                                    size="2rem"
+                                    style={{ marginTop: '1.5rem' }}
+                                />
+                                <InputText
                                     flex={1}
                                     label="Email"
                                     placeholder="johndoe@mail.com"
                                     required
-                                    {...form.getInputProps('email')}
+                                    InputProps={{
+                                        ...form.getInputProps('email'),
+                                        type: 'email',
+                                    }}
                                 />
                             </Flex>
-                            <Flex align={'center'} mt={'1rem'} gap={'1rem'}>
-                                <IconInfoSquareRounded size={'2rem'} />
-                                <TextInput
+                            <Flex align="flex-start" mt="1rem" gap="1rem">
+                                <IconInfoSquareRounded
+                                    size="2rem"
+                                    style={{ marginTop: '1.5rem' }}
+                                />
+                                <InputText
                                     flex={1}
                                     label="Asunto"
                                     placeholder="Me llegan demasiadas notificaciones"
                                     required
-                                    {...form.getInputProps('subject')}
+                                    InputProps={{
+                                        ...form.getInputProps('subject'),
+                                    }}
                                 />
                             </Flex>
-                            <Flex align={'center'} mt={'1rem'} gap={'1rem'}>
-                                <IconAlignBoxLeftBottom size={'2rem'} />
-                                <TextInput
+                            <Flex align="flex-start" mt="1rem" gap="1rem">
+                                <IconAlignBoxLeftBottom
+                                    size="2rem"
+                                    style={{ marginTop: '1.5rem' }}
+                                />
+                                <InputTextArea
                                     flex={1}
                                     label="Mensaje"
                                     placeholder="Las notificaciones son muy molestas!"
                                     required
-                                    {...form.getInputProps('message')}
+                                    InputProps={{
+                                        ...form.getInputProps('message'),
+                                    }}
                                 />
                             </Flex>
 

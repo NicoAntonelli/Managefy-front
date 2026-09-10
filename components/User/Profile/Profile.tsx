@@ -9,7 +9,6 @@ import {
     Modal,
     Stack,
     Text,
-    TextInput,
     Title,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
@@ -18,8 +17,6 @@ import { notifications } from '@mantine/notifications'
 import {
     IconAlertTriangle,
     IconCircleCheck,
-    IconLock,
-    IconMail,
     IconUserCircle,
 } from '@tabler/icons-react'
 
@@ -30,6 +27,9 @@ import useSessionReloadStore from '@/utils/stores/useSessionReloadStore'
 import Validation from '@/utils/validation/Validation'
 
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
+import InputEmail from '@/components/Common/Inputs/InputEmail'
+import InputPassword from '@/components/Common/Inputs/InputPassword'
+import InputText from '@/components/Common/Inputs/InputText'
 import User from '@/entities/users/User'
 import UserU from '@/entities/users/UserU'
 
@@ -230,44 +230,34 @@ const Profile = () => {
                     onSubmit={form.onSubmit((values) =>
                         handleUpdateUser(values)
                     )}>
-                    <TextInput
-                        pt={'1rem'}
-                        withAsterisk
-                        label="Email"
-                        placeholder="your@email.com"
-                        leftSection={<IconMail />}
+                    <InputEmail
                         key={form.key('email')}
-                        {...form.getInputProps('email')}
+                        required
+                        InputProps={{ ...form.getInputProps('email') }}
                     />
 
-                    <TextInput
-                        pt={'1rem'}
-                        withAsterisk
-                        label="Contraseña"
-                        placeholder="..."
-                        leftSection={<IconLock />}
+                    <InputPassword
                         key={form.key('password')}
-                        {...form.getInputProps('password')}
+                        required
+                        InputProps={{ ...form.getInputProps('password') }}
                     />
 
-                    <TextInput
-                        pt={'1rem'}
-                        withAsterisk
-                        label="Confirmar contraseña"
-                        placeholder="..."
-                        leftSection={<IconLock />}
+                    <InputPassword
                         key={form.key('confirmPassword')}
-                        {...form.getInputProps('confirmPassword')}
+                        required
+                        isConfirmation
+                        InputProps={{
+                            ...form.getInputProps('confirmPassword'),
+                        }}
                     />
 
-                    <TextInput
-                        pt={'1rem'}
-                        withAsterisk
+                    <InputText
+                        key={form.key('name')}
+                        required
                         label="Nombre"
                         placeholder="John Doe"
-                        leftSection={<IconUserCircle />}
-                        key={form.key('name')}
-                        {...form.getInputProps('name')}
+                        leftIcon={<IconUserCircle />}
+                        InputProps={{ ...form.getInputProps('name') }}
                     />
 
                     <Checkbox
