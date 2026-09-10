@@ -162,12 +162,7 @@ const LoginRegister = () => {
 
     return (
         <>
-            <Card
-                shadow="sm"
-                padding="lg"
-                radius="md"
-                withBorder
-                className="min-w-full">
+            <Card shadow="sm" padding="lg" radius="md" withBorder w="100%">
                 <Group justify="space-between" mt="md" mb="xs">
                     <Title size="2rem">
                         {isRegistration ? 'Nueva cuenta' : 'Iniciar sesión'}

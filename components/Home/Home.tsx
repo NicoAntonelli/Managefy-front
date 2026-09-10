@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { useMediaQuery } from '@mantine/hooks'
 import { useRouter } from 'next/navigation'
+import { Stack } from '@mantine/core'
 
 import Health from '@/services/health'
 import Helper from '@/services/helper'
-import Theme from '@/app/theme'
 
+import HomePresentation from '@/components/Home/HomePresentation'
 import LoginRegister from '@/components/User/LoginRegister/LoginRegister'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
-import { Card, Group, Image, Stack, Text, Title } from '@mantine/core'
 
 const getHealth = async () => {
     try {
@@ -22,7 +21,6 @@ const getHealth = async () => {
 }
 
 const Home = () => {
-    const isMobile = useMediaQuery(`(max-width: ${Theme.breakpoints?.md})`)
     useEffect(() => {
         getHealth()
 
@@ -52,41 +50,8 @@ const Home = () => {
     }
 
     return (
-        <Stack gap="2rem" align="center">
-            <Card
-                shadow="sm"
-                padding="lg"
-                radius="md"
-                withBorder
-                className="min-w-full">
-                <Card.Section p="1rem">
-                    <Group
-                        justify="flex-start"
-                        gap={isMobile ? '1rem' : '2rem'}>
-                        <Image
-                            src="/Managefy-logo.jpeg"
-                            alt="Managefy logo"
-                            h={isMobile ? 150 : 350}
-                            w="auto"
-                            radius="md"
-                        />
-                        <Stack gap="0.25rem">
-                            <Title size={isMobile ? '2rem' : '6rem'}>
-                                Managefy
-                            </Title>
-                            <Text
-                                size={isMobile ? '1rem' : '2rem'}
-                                mt={isMobile ? '0.5rem' : '1.5rem'}
-                                mr="1rem">
-                                <b>
-                                    Gestión de recursos fácil de usar para su
-                                    emprendimiento
-                                </b>
-                            </Text>
-                        </Stack>
-                    </Group>
-                </Card.Section>
-            </Card>
+        <Stack gap="2rem" align="center" w="100%" maw="75rem" mx="auto">
+            <HomePresentation />
             <LoginRegister />
         </Stack>
     )
