@@ -136,7 +136,7 @@ const BusinessCreate = () => {
     }
 
     return (
-        <Stack gap="xs">
+        <Stack gap="xs" w="100%" maw="40rem" mx="auto">
             <ButtonGoBack href="/businesses" text="emprendimientos" />
 
             <Card

@@ -133,15 +133,10 @@ const ProductCreate = () => {
     }
 
     return (
-        <Stack gap="xs">
+        <Stack gap="xs" w="100%" maw="40rem" mx="auto">
             <ButtonGoBack href="/products" text="productos" />
 
-            <Card
-                shadow="sm"
-                padding="lg"
-                radius="md"
-                withBorder
-                className="min-w-full">
+            <Card shadow="sm" padding="lg" radius="md" withBorder w="100%">
                 <Group mt="md" mb="xs">
                     <Title size="2rem">Nuevo producto</Title>
                 </Group>

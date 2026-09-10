@@ -107,7 +107,7 @@ const ClientCreate = () => {
     }
 
     return (
-        <Stack gap="xs">
+        <Stack gap="xs" w="100%" maw="40rem" mx="auto">
             <ButtonGoBack href="/clients" text="clientes" />
 
             <Card
