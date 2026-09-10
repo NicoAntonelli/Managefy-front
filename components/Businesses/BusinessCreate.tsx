@@ -9,8 +9,6 @@ import {
     SimpleGrid,
     Stack,
     Text,
-    TextInput,
-    Textarea,
     Title,
 } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
@@ -24,6 +22,8 @@ import Validation from '@/utils/validation/Validation'
 
 import ButtonGoBack from '@/components/Common/Buttons/ButtonGoBack'
 import ButtonsSubmitAndCancel from '@/components/Common/Buttons/ButtonsSubmitAndCancel'
+import InputDescription from '@/components/Common/Inputs/InputDescription'
+import InputText from '@/components/Common/Inputs/InputText'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 
 import Business from '@/entities/businesses/Business'
@@ -150,50 +150,39 @@ const BusinessCreate = () => {
                 </Group>
 
                 <form onSubmit={form.onSubmit(handleSubmit)}>
-                    <TextInput
-                        pt="1rem"
+                    <InputText
+                        key={form.key('name')}
                         withAsterisk
                         label="Nombre"
                         placeholder="Mi emprendimiento"
-                        leftSection={<IconBuildingStore />}
-                        key={form.key('name')}
-                        {...form.getInputProps('name')}
-                        onBlur={handleNameBlur}
-                    />
-
-                    <Textarea
-                        pt="1rem"
-                        withAsterisk
-                        label="Descripción"
-                        placeholder="Describe tu emprendimiento"
-                        autosize
-                        minRows={3}
-                        leftSection={<IconBook />}
-                        styles={{
-                            section: {
-                                alignItems: 'flex-start',
-                                paddingTop: '0.2rem',
-                            },
+                        leftIcon={<IconBuildingStore />}
+                        InputProps={{
+                            ...form.getInputProps('name'),
+                            onBlur: handleNameBlur,
                         }}
-                        key={form.key('description')}
-                        {...form.getInputProps('description')}
                     />
 
-                    <TextInput
-                        pt="1rem"
+                    <InputDescription
+                        key={form.key('description')}
+                        withAsterisk
+                        placeholder="Describe tu emprendimiento"
+                        InputProps={{ ...form.getInputProps('description') }}
+                    />
+
+                    <InputText
+                        key={form.key('link')}
                         withAsterisk
                         label="Enlace personalizado"
                         placeholder="mi-emprendimiento"
-                        leftSection={<IconLink />}
-                        key={form.key('link')}
-                        {...form.getInputProps('link')}
+                        leftIcon={<IconLink />}
+                        InputProps={{ ...form.getInputProps('link') }}
                     />
 
                     <Checkbox
+                        key={form.key('isPublic')}
                         pt="1rem"
                         mt="md"
                         label="Hacer público este emprendimiento"
-                        key={form.key('isPublic')}
                         {...form.getInputProps('isPublic', {
                             type: 'checkbox',
                         })}

@@ -2,27 +2,23 @@ import React, { useEffect, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 import { useForm } from '@mantine/form'
-import {
-    Card,
-    Group,
-    Stack,
-    Text,
-    TextInput,
-    Textarea,
-    Title,
-} from '@mantine/core'
+import { Card, Group, Stack, Text, Title } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
-import { IconBook, IconMail, IconPhone, IconUser } from '@tabler/icons-react'
+import { IconPhone, IconUser } from '@tabler/icons-react'
 
 import Clients from '@/services/clients'
 import Helper from '@/services/helper'
 import Theme from '@/app/theme'
-import Validation from '@/utils/validation/Validation'
 import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
+import Validation from '@/utils/validation/Validation'
 
 import BusinessSelection from '@/components/Common/BusinessSelection'
 import ButtonGoBack from '@/components/Common/Buttons/ButtonGoBack'
 import ButtonsSubmitAndCancel from '@/components/Common/Buttons/ButtonsSubmitAndCancel'
+import InputDescription from '@/components/Common/Inputs/InputDescription'
+import InputEmail from '@/components/Common/Inputs/InputEmail'
+import InputInteger from '@/components/Common/Inputs/InputInteger'
+import InputText from '@/components/Common/Inputs/InputText'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 
 import Client from '@/entities/clients/Client'
@@ -125,61 +121,36 @@ const ClientCreate = () => {
                 </Group>
 
                 <form onSubmit={form.onSubmit(handleSubmit)}>
-                    <TextInput
-                        pt="1rem"
+                    <InputText
+                        key={form.key('name')}
                         withAsterisk
                         label="Nombre"
                         placeholder="Nombre del cliente"
-                        leftSection={<IconUser />}
-                        key={form.key('name')}
-                        {...form.getInputProps('name')}
+                        leftIcon={<IconUser />}
+                        InputProps={{ ...form.getInputProps('name') }}
                     />
 
-                    <Textarea
-                        pt="1rem"
-                        withAsterisk
-                        label="Descripción"
-                        placeholder="Descripción del cliente"
-                        autosize
-                        minRows={3}
-                        leftSection={<IconBook />}
-                        styles={{
-                            section: {
-                                alignItems: 'flex-start',
-                                paddingTop: '0.2rem',
-                            },
-                        }}
+                    <InputDescription
                         key={form.key('description')}
-                        {...form.getInputProps('description')}
-                    />
-
-                    <TextInput
-                        pt="1rem"
                         withAsterisk
-                        type="email"
-                        label="Email"
-                        placeholder="client@example.com"
-                        leftSection={<IconMail />}
-                        key={form.key('email')}
-                        {...form.getInputProps('email')}
+                        placeholder="Descripción del cliente"
+                        InputProps={{ ...form.getInputProps('description') }}
                     />
 
-                    <TextInput
-                        pt="1rem"
+                    <InputEmail
+                        key={form.key('email')}
+                        withAsterisk
+                        InputProps={{ ...form.getInputProps('email') }}
+                    />
+
+                    <InputInteger
+                        key={form.key('phone')}
+                        name="phone"
                         withAsterisk
                         label="Teléfono"
                         placeholder="Número de teléfono"
-                        leftSection={<IconPhone />}
-                        key={form.key('phone')}
-                        {...form.getInputProps('phone')}
-                        inputMode="numeric"
-                        pattern="[0-9]*"
-                        onChange={(event) =>
-                            form.setFieldValue(
-                                'phone',
-                                event.currentTarget.value.replace(/\D/g, '')
-                            )
-                        }
+                        leftIcon={<IconPhone />}
+                        InputProps={{ ...form.getInputProps('phone') }}
                     />
 
                     {errorMessage && (

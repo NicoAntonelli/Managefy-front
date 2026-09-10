@@ -2,18 +2,9 @@ import React, { useEffect, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 import { useForm } from '@mantine/form'
-import {
-    Card,
-    Group,
-    Stack,
-    Text,
-    TextInput,
-    Textarea,
-    Title,
-} from '@mantine/core'
+import { Card, Group, Stack, Text, Title } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
 import {
-    IconBook,
     IconBarcode,
     IconBox,
     IconCoins,
@@ -29,11 +20,14 @@ import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 import BusinessSelection from '@/components/Common/BusinessSelection'
 import ButtonGoBack from '@/components/Common/Buttons/ButtonGoBack'
 import ButtonsSubmitAndCancel from '@/components/Common/Buttons/ButtonsSubmitAndCancel'
+import InputDescription from '@/components/Common/Inputs/InputDescription'
+import InputDecimal from '@/components/Common/Inputs/InputDecimal'
+import InputInteger from '@/components/Common/Inputs/InputInteger'
+import InputText from '@/components/Common/Inputs/InputText'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 
 import Product from '@/entities/products/Product'
 import ProductCU from '@/entities/products/ProductCU'
-import RegEx from '@/utils/string/RegEx'
 
 interface ProductCreateForm {
     code: string
@@ -156,125 +150,77 @@ const ProductCreate = () => {
                 </Group>
 
                 <form onSubmit={form.onSubmit(handleSubmit)}>
-                    <TextInput
-                        pt="1rem"
+                    <InputText
+                        key={form.key('code')}
                         withAsterisk
                         label="Código"
                         placeholder="Código del producto"
-                        leftSection={<IconBarcode />}
-                        key={form.key('code')}
-                        {...form.getInputProps('code')}
+                        leftIcon={<IconBarcode />}
+                        InputProps={{ ...form.getInputProps('code') }}
                     />
 
-                    <TextInput
-                        pt="1rem"
+                    <InputText
+                        key={form.key('name')}
                         withAsterisk
                         label="Nombre"
                         placeholder="Nombre del producto"
-                        leftSection={<IconRocket />}
-                        key={form.key('name')}
-                        {...form.getInputProps('name')}
+                        leftIcon={<IconRocket />}
+                        InputProps={{ ...form.getInputProps('name') }}
                     />
 
-                    <Textarea
-                        pt="1rem"
-                        withAsterisk
-                        label="Descripción"
-                        placeholder="Descripción del producto"
-                        autosize
-                        minRows={3}
-                        leftSection={<IconBook />}
-                        styles={{
-                            section: {
-                                alignItems: 'flex-start',
-                                paddingTop: '0.2rem',
-                            },
-                        }}
+                    <InputDescription
                         key={form.key('description')}
-                        {...form.getInputProps('description')}
+                        withAsterisk
+                        placeholder="Descripción del producto"
+                        InputProps={{ ...form.getInputProps('description') }}
                     />
 
-                    <TextInput
-                        pt="1rem"
+                    <InputDecimal
+                        key={form.key('unitCost')}
+                        name="unitCost"
                         withAsterisk
-                        type="text"
-                        inputMode="decimal"
                         label="Costo unitario"
                         placeholder="10.50"
-                        leftSection={<IconCoins />}
-                        key={form.key('unitCost')}
-                        {...form.getInputProps('unitCost')}
-                        onChange={(event) => {
-                            const value = event.currentTarget.value
-                            const filtered = RegEx.cleanDecimal(value)
-                            form.setFieldValue('unitCost', filtered)
-                        }}
+                        leftIcon={<IconCoins />}
+                        InputProps={{ ...form.getInputProps('unitCost') }}
                     />
 
-                    <TextInput
-                        pt="1rem"
+                    <InputDecimal
+                        key={form.key('unitPrice')}
+                        name="unitPrice"
                         withAsterisk
-                        type="text"
-                        inputMode="decimal"
                         label="Precio unitario"
                         placeholder="25.00"
-                        leftSection={<IconCoins />}
-                        key={form.key('unitPrice')}
-                        {...form.getInputProps('unitPrice')}
-                        onChange={(event) => {
-                            const value = event.currentTarget.value
-                            const filtered = RegEx.cleanDecimal(value)
-                            form.setFieldValue('unitPrice', filtered)
-                        }}
+                        leftIcon={<IconCoins />}
+                        InputProps={{ ...form.getInputProps('unitPrice') }}
                     />
 
-                    <TextInput
-                        pt="1rem"
+                    <InputInteger
+                        key={form.key('stock')}
+                        name="stock"
                         withAsterisk
-                        type="text"
-                        inputMode="numeric"
                         label="Stock"
                         placeholder="50"
-                        leftSection={<IconBox />}
-                        key={form.key('stock')}
-                        {...form.getInputProps('stock')}
-                        onChange={(event) => {
-                            const value = event.currentTarget.value
-                            const filtered = RegEx.cleanInteger(value)
-                            form.setFieldValue('stock', filtered)
-                        }}
+                        leftIcon={<IconBox />}
+                        InputProps={{ ...form.getInputProps('stock') }}
                     />
 
-                    <TextInput
-                        pt="1rem"
-                        type="text"
-                        inputMode="numeric"
+                    <InputInteger
+                        key={form.key('stockMin')}
+                        name="stockMin"
                         label="Stock mínimo (opcional)"
                         placeholder="10"
-                        leftSection={<IconBox />}
-                        key={form.key('stockMin')}
-                        {...form.getInputProps('stockMin')}
-                        onChange={(event) => {
-                            const value = event.currentTarget.value
-                            const filtered = RegEx.cleanInteger(value)
-                            form.setFieldValue('stockMin', filtered)
-                        }}
+                        leftIcon={<IconBox />}
+                        InputProps={{ ...form.getInputProps('stockMin') }}
                     />
 
-                    <TextInput
-                        pt="1rem"
-                        type="text"
-                        inputMode="numeric"
+                    <InputInteger
+                        key={form.key('saleMinAmount')}
+                        name="saleMinAmount"
                         label="Cantidad mínima por venta (opcional)"
                         placeholder="5"
-                        leftSection={<IconBox />}
-                        key={form.key('saleMinAmount')}
-                        {...form.getInputProps('saleMinAmount')}
-                        onChange={(event) => {
-                            const value = event.currentTarget.value
-                            const filtered = RegEx.cleanInteger(value)
-                            form.setFieldValue('saleMinAmount', filtered)
-                        }}
+                        leftIcon={<IconBox />}
+                        InputProps={{ ...form.getInputProps('saleMinAmount') }}
                     />
 
                     {errorMessage && (
