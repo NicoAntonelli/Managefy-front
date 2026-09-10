@@ -4,7 +4,6 @@ import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.share
 
 import { Button, Card, Group, NumberInput, Text, Title } from '@mantine/core'
 import { useForm } from '@mantine/form'
-import { useMediaQuery } from '@mantine/hooks'
 import { notifications } from '@mantine/notifications'
 import { IconLock, IconCircleCheck } from '@tabler/icons-react'
 import Theme from '@/app/theme'
@@ -24,7 +23,6 @@ interface UserValidationForm {
 const UserValidation = () => {
     const needReload = useSessionReloadStore((state) => state.needReload)
     const setNeedReload = useSessionReloadStore((state) => state.setNeedReload)
-    const isMobile = useMediaQuery(`(max-width: ${Theme.breakpoints?.lg})`)
 
     // User data needed for account validation process
     const [currentUser, setCurrentUser] = useState<User | null>(null)

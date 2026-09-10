@@ -25,7 +25,7 @@ import InputText from '@/components/Common/Inputs/InputText'
 import InputTextArea from '@/components/Common/Inputs/InputTextArea'
 
 const ReportBug = () => {
-    const isMobile = useMediaQuery(`(max-width: ${Theme.breakpoints?.lg})`)
+    const isMobile = useMediaQuery(`(max-width: ${Theme.breakpoints?.md})`)
 
     // Report form inputs
     type ReportInputs = {

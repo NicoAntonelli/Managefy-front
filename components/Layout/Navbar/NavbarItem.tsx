@@ -37,7 +37,7 @@ const NavbarItem = ({
                 : 'var(--mantine-color-white)'
     }
 
-    const isMobile = useMediaQuery(`(max-width: ${Theme.breakpoints?.lg})`)
+    const isMobile = useMediaQuery(`(max-width: ${Theme.breakpoints?.md})`)
     const toggle = useSidebarStore((state) => state.toggle)
 
     const handleClick = () => {

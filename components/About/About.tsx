@@ -6,7 +6,7 @@ import { useMediaQuery } from '@mantine/hooks'
 import Theme from '@/app/theme'
 
 const About = () => {
-    const isMobile = useMediaQuery(`(max-width: ${Theme.breakpoints?.lg})`)
+    const isMobile = useMediaQuery(`(max-width: ${Theme.breakpoints?.md})`)
 
     return (
         <div className="justify-start">

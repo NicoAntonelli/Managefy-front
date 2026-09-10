@@ -5,7 +5,7 @@ import Theme from '@/app/theme'
 import Env from '@/utils/Env'
 
 const TermsConditions = () => {
-    const isMobile = useMediaQuery(`(max-width: ${Theme.breakpoints?.lg})`)
+    const isMobile = useMediaQuery(`(max-width: ${Theme.breakpoints?.md})`)
 
     return (
         <Card

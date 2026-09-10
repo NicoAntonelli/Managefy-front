@@ -22,7 +22,7 @@ const getHealth = async () => {
 }
 
 const Home = () => {
-    const isMobile = useMediaQuery(`(max-width: ${Theme.breakpoints?.lg})`)
+    const isMobile = useMediaQuery(`(max-width: ${Theme.breakpoints?.md})`)
     useEffect(() => {
         getHealth()
 
