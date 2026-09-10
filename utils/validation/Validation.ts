@@ -2,6 +2,29 @@
 
 import RegEx from '@/utils/string/RegEx'
 
+// Main numeric constants
+const MAX_SAFE_NUMBER = 1000000000000 // Billon (Short scale) or Thousand Million (Long scale)
+
+// Positive decimal field validation
+const decimal = (value: number, allowZero: boolean = false): boolean => {
+    if (value === null || value === undefined) return false
+    if (isNaN(value)) return false
+    if (value === 0 && !allowZero) return false
+
+    const num = typeof value === 'number' ? value : Number(value)
+    if (!isFinite(num)) return false
+    if (num < 0 || num > MAX_SAFE_NUMBER) return false
+
+    return true
+}
+
+// String field validation for positive decimals contained in string format
+const decimalString = (value: string, allowZero: boolean = false): boolean => {
+    if (!string(value)) return false
+
+    return decimal(Number(value), allowZero)
+}
+
 // Email field validation
 const email = (value: string): boolean => {
     if (!string(value)) return false
@@ -11,22 +34,18 @@ const email = (value: string): boolean => {
 }
 
 // Positive integer field validation
-const integer = (value: number): boolean => {
-    if (!value) return false
-    if (isNaN(value)) return false
-
-    const num = typeof value === 'number' ? value : Number(value)
-    if (!Number.isInteger(num)) return false
-    if (num < 0) return false
+const integer = (value: number, allowZero: boolean = false): boolean => {
+    if (!decimal(value, allowZero)) return false
+    if (!Number.isInteger(Number(value))) return false
 
     return true
 }
 
 // String field validation for positive integers contained in string format
-const integerString = (value: string): boolean => {
+const integerString = (value: string, allowZero: boolean = false): boolean => {
     if (!string(value)) return false
 
-    return integer(Number(value))
+    return integer(Number(value), allowZero)
 }
 
 // Password field validation
@@ -62,6 +81,8 @@ const string = (value?: string): boolean => {
 }
 
 const Validation = {
+    decimal,
+    decimalString,
     email,
     integer,
     integerString,
