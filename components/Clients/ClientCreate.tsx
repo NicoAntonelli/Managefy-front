@@ -17,7 +17,7 @@ import ButtonGoBack from '@/components/Common/Buttons/ButtonGoBack'
 import ButtonsSubmitAndCancel from '@/components/Common/Buttons/ButtonsSubmitAndCancel'
 import InputDescription from '@/components/Common/Inputs/InputDescription'
 import InputEmail from '@/components/Common/Inputs/InputEmail'
-import InputInteger from '@/components/Common/Inputs/InputInteger'
+import InputPhone from '@/components/Common/Inputs/InputPhone'
 import InputText from '@/components/Common/Inputs/InputText'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 
@@ -143,13 +143,10 @@ const ClientCreate = () => {
                         InputProps={{ ...form.getInputProps('email') }}
                     />
 
-                    <InputInteger
+                    <InputPhone
                         key={form.key('phone')}
                         name="phone"
                         required
-                        label="Teléfono"
-                        placeholder="Número de teléfono"
-                        leftIcon={<IconPhone />}
                         InputProps={{ ...form.getInputProps('phone') }}
                     />
 
