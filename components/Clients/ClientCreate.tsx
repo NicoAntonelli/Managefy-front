@@ -56,7 +56,7 @@ const ClientCreate = () => {
             name: (value) =>
                 Validation.string(value) ? null : 'Debe ingresar un nombre',
             description: (value) =>
-                Validation.string(value)
+                Validation.string(value, true)
                     ? null
                     : 'Debe ingresar una descripción',
             email: (value) =>

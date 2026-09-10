@@ -33,8 +33,9 @@ const InputNumeric = (props: InputNumericProps) => {
             required={required}
             withAsterisk={required}
             inputMode={isInteger ? 'numeric' : 'decimal'}
-            allowDecimal={!isInteger}
             allowNegative={false}
+            allowDecimal={!isInteger}
+            decimalScale={isInteger ? 0 : 2}
             hideControls={hideControls}
             label={label}
             placeholder={placeholder}
