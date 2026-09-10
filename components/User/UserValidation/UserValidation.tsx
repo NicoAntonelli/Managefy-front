@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 
-import { Button, Card, Group, NumberInput, Text, Title } from '@mantine/core'
+import { Button, Card, Group, Text, Title } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { notifications } from '@mantine/notifications'
 import { IconLock, IconCircleCheck } from '@tabler/icons-react'
@@ -14,6 +14,7 @@ import useSessionReloadStore from '@/utils/stores/useSessionReloadStore'
 import Validation from '@/utils/validation/Validation'
 
 import SkeletonFull from '@/components//Common/Loader/SkeletonFull'
+import InputNumeric from '@/components/Common/Inputs/InputNumeric'
 import User from '@/entities/users/User'
 
 interface UserValidationForm {
@@ -193,17 +194,18 @@ const UserValidation = () => {
                 onSubmit={form.onSubmit((values) =>
                     handleValidateUser(values, router)
                 )}>
-                <NumberInput
-                    pt={'1rem'}
-                    withAsterisk
+                <InputNumeric
+                    key={form.key('code')}
+                    name="code"
+                    required
+                    isInteger
+                    hideControls
                     label="Código de validación"
                     placeholder="123456"
-                    leftSection={<IconLock />}
-                    hideControls
-                    allowDecimal={false}
-                    allowNegative={false}
-                    key={form.key('code')}
-                    {...form.getInputProps('code')}
+                    leftIcon={<IconLock />}
+                    InputProps={{
+                        ...form.getInputProps('code'),
+                    }}
                 />
 
                 {errorMessage && (

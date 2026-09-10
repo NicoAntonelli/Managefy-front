@@ -21,8 +21,7 @@ import BusinessSelection from '@/components/Common/BusinessSelection'
 import ButtonGoBack from '@/components/Common/Buttons/ButtonGoBack'
 import ButtonsSubmitAndCancel from '@/components/Common/Buttons/ButtonsSubmitAndCancel'
 import InputDescription from '@/components/Common/Inputs/InputDescription'
-import InputDecimal from '@/components/Common/Inputs/InputDecimal'
-import InputInteger from '@/components/Common/Inputs/InputInteger'
+import InputNumeric from '@/components/Common/Inputs/InputNumeric'
 import InputText from '@/components/Common/Inputs/InputText'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 
@@ -33,11 +32,11 @@ interface ProductCreateForm {
     code: string
     name: string
     description: string
-    unitCost: string
-    unitPrice: string
-    stock: string
-    stockMin: string
-    saleMinAmount: string
+    unitCost: number | null
+    unitPrice: number | null
+    stock: number | null
+    stockMin: number | null
+    saleMinAmount: number | null
 }
 
 const ProductCreate = () => {
@@ -59,11 +58,11 @@ const ProductCreate = () => {
             code: '',
             name: '',
             description: '',
-            unitCost: '',
-            unitPrice: '',
-            stock: '',
-            stockMin: '',
-            saleMinAmount: '',
+            unitCost: null,
+            unitPrice: null,
+            stock: null,
+            stockMin: null,
+            saleMinAmount: null,
         },
         validate: {
             code: (value) =>
@@ -75,15 +74,15 @@ const ProductCreate = () => {
                     ? null
                     : 'Debe ingresar una descripción',
             unitCost: (value) =>
-                Validation.decimalString(value, true)
+                Validation.decimal(value, true)
                     ? null
                     : 'Debe ingresar un costo válido',
             unitPrice: (value) =>
-                Validation.decimalString(value, true)
+                Validation.decimal(value, true)
                     ? null
                     : 'Debe ingresar un precio válido',
             stock: (value) =>
-                Validation.integerString(value, true)
+                Validation.integer(value, true)
                     ? null
                     : 'Debe ingresar un stock válido',
         },
@@ -98,13 +97,11 @@ const ProductCreate = () => {
                 code: values.code,
                 name: values.name,
                 description: values.description,
-                unitCost: parseFloat(values.unitCost),
-                unitPrice: parseFloat(values.unitPrice),
-                stock: parseInt(values.stock),
-                stockMin: values.stockMin ? parseInt(values.stockMin) : null,
-                saleMinAmount: values.saleMinAmount
-                    ? parseInt(values.saleMinAmount)
-                    : null,
+                unitCost: values.unitCost as number,
+                unitPrice: values.unitPrice as number,
+                stock: values.stock as number,
+                stockMin: values.stockMin,
+                saleMinAmount: values.saleMinAmount,
                 businessID: selectedBusiness.id,
             }
             const response: Product =
@@ -175,7 +172,7 @@ const ProductCreate = () => {
                         InputProps={{ ...form.getInputProps('description') }}
                     />
 
-                    <InputDecimal
+                    <InputNumeric
                         key={form.key('unitCost')}
                         name="unitCost"
                         required
@@ -185,7 +182,7 @@ const ProductCreate = () => {
                         InputProps={{ ...form.getInputProps('unitCost') }}
                     />
 
-                    <InputDecimal
+                    <InputNumeric
                         key={form.key('unitPrice')}
                         name="unitPrice"
                         required
@@ -195,9 +192,10 @@ const ProductCreate = () => {
                         InputProps={{ ...form.getInputProps('unitPrice') }}
                     />
 
-                    <InputInteger
+                    <InputNumeric
                         key={form.key('stock')}
                         name="stock"
+                        isInteger
                         required
                         label="Stock"
                         placeholder="50"
@@ -205,18 +203,20 @@ const ProductCreate = () => {
                         InputProps={{ ...form.getInputProps('stock') }}
                     />
 
-                    <InputInteger
+                    <InputNumeric
                         key={form.key('stockMin')}
                         name="stockMin"
+                        isInteger
                         label="Stock mínimo (opcional)"
                         placeholder="10"
                         leftIcon={<IconBox />}
                         InputProps={{ ...form.getInputProps('stockMin') }}
                     />
 
-                    <InputInteger
+                    <InputNumeric
                         key={form.key('saleMinAmount')}
                         name="saleMinAmount"
+                        isInteger
                         label="Cantidad mínima por venta (opcional)"
                         placeholder="5"
                         leftIcon={<IconBox />}
