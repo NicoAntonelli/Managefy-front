@@ -5,6 +5,7 @@ import { IconChevronDown, IconUserCog } from '@tabler/icons-react'
 
 import Helper from '@/services/helper'
 import Suppliers from '@/services/suppliers'
+import Validation from '@/utils/validation/Validation'
 
 import Theme from '@/app/theme'
 
@@ -23,11 +24,17 @@ const SuppliersDropdown = (props: SuppliersDropdownProps) => {
     const [suppliers, setSuppliers] = useState<Supplier[] | null>(null)
     const [selectedID, setSelectedID] = useState<string | null>(null)
 
+    const [cachedAt, setCachedAt] = useState<number | null>(null)
+    const [cachedBusinessID, setCachedBusinessID] = useState<number | null>(
+        null
+    )
+
     const selectSupplier = (supplier: Supplier | null) => {
         setSelectedID(supplier ? String(supplier.id) : null)
         onChange(supplier)
     }
 
+    // Checkbox toggle
     const handleToggle = async (checked: boolean) => {
         setEnabled(checked)
         if (!checked) {
@@ -35,8 +42,13 @@ const SuppliersDropdown = (props: SuppliersDropdownProps) => {
             return
         }
 
-        // Cached suppliers array avoids refetching on every re-activation
-        if (suppliers !== null) {
+        const isCacheValid =
+            suppliers !== null &&
+            cachedBusinessID === businessID &&
+            cachedAt !== null &&
+            Validation.cache(cachedAt)
+
+        if (isCacheValid) {
             selectSupplier(suppliers[0] ?? null)
             return
         }
@@ -45,7 +57,12 @@ const SuppliersDropdown = (props: SuppliersDropdownProps) => {
 
         try {
             const response = await Suppliers.listSuppliers(businessID)
+
+            // Cache the current suppliers list, timestamp and businessID
             setSuppliers(response)
+            setCachedAt(Date.now())
+            setCachedBusinessID(businessID)
+
             selectSupplier(response[0] ?? null)
         } catch (error) {
             const message = Helper.parseError(error)
