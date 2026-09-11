@@ -24,9 +24,11 @@ import InputDescription from '@/components/Common/Inputs/InputDescription'
 import InputNumeric from '@/components/Common/Inputs/InputNumeric'
 import InputText from '@/components/Common/Inputs/InputText'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
+import SuppliersDropdown from '@/components/Suppliers/SuppliersDropdown'
 
 import Product from '@/entities/products/Product'
 import ProductCU from '@/entities/products/ProductCU'
+import Supplier from '@/entities/suppliers/Supplier'
 
 interface ProductCreateForm {
     code: string
@@ -46,6 +48,10 @@ const ProductCreate = () => {
     const [loading, setLoading] = useState(true)
     const [submitting, setSubmitting] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
+    const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(
+        null
+    )
+
     const router = useRouter()
 
     useEffect(() => {
@@ -103,6 +109,16 @@ const ProductCreate = () => {
                 stockMin: values.stockMin,
                 saleMinAmount: values.saleMinAmount,
                 businessID: selectedBusiness.id,
+                supplier: selectedSupplier
+                    ? {
+                          id: selectedSupplier.id,
+                          name: selectedSupplier.name,
+                          description: selectedSupplier.description,
+                          email: selectedSupplier.email,
+                          phone: selectedSupplier.phone,
+                          businessID: selectedBusiness.id,
+                      }
+                    : null,
             }
             const response: Product =
                 await Products.createProduct(productCreate)
@@ -165,6 +181,11 @@ const ProductCreate = () => {
                         required
                         placeholder="Descripción del producto"
                         InputProps={{ ...form.getInputProps('description') }}
+                    />
+
+                    <SuppliersDropdown
+                        businessID={selectedBusiness.id}
+                        onChange={setSelectedSupplier}
                     />
 
                     <InputNumeric
