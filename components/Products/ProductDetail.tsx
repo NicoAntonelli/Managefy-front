@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { useRouter, useParams } from 'next/navigation'
 import {
     Card,
@@ -240,6 +241,17 @@ const ProductDetail = () => {
                                     }>
                                     {product.supplier?.name || '-'}
                                 </Text>
+                                {product.supplier && (
+                                    <Button
+                                        component={Link}
+                                        href={`/suppliers/${product.supplier.id}`}
+                                        color={Theme.other!.secondaryColor}
+                                        variant="subtle"
+                                        size="compact-sm"
+                                        px={0}>
+                                        Ver proveedor
+                                    </Button>
+                                )}
                             </div>
                         </Stack>
                     </Grid.Col>
