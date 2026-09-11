@@ -6,6 +6,13 @@ import RegEx from '@/utils/string/RegEx'
 const MAX_SAFE_NUMBER = 1000000000000 // Billon (Short scale) or Thousand Million (Long scale)
 const MAX_STRING_SIZE_TITLE = 200
 const MAX_STRING_SIZE_DESCRIPTION = 800
+const CACHE_DURATION_MS = 10 * 60 * 1000 // 10 minutes
+
+// Validate if a cache is still valid
+const cache = (cachedAt: number | null): boolean => {
+    if (cachedAt === null) return false
+    return Date.now() - cachedAt < CACHE_DURATION_MS
+}
 
 // Positive decimal field validation
 const decimal = (value: number | null, allowZero: boolean = false): boolean => {
@@ -72,6 +79,7 @@ const string = (value?: string, isDescription: boolean = false): boolean => {
 }
 
 const Validation = {
+    cache,
     decimal,
     email,
     integer,
