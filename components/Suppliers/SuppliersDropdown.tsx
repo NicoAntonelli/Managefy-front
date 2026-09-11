@@ -1,7 +1,16 @@
 import { useState } from 'react'
-import { Checkbox, Group, Loader, Select, Stack, Text } from '@mantine/core'
+import {
+    ActionIcon,
+    Checkbox,
+    Group,
+    Loader,
+    Select,
+    Stack,
+    Text,
+    Tooltip,
+} from '@mantine/core'
 import { notifications } from '@mantine/notifications'
-import { IconChevronDown, IconUserCog } from '@tabler/icons-react'
+import { IconChevronDown, IconRefresh, IconUserCog } from '@tabler/icons-react'
 
 import Helper from '@/services/helper'
 import Suppliers from '@/services/suppliers'
@@ -13,16 +22,19 @@ import Supplier from '@/entities/suppliers/Supplier'
 
 interface SuppliersDropdownProps {
     businessID: number
+    initialSupplier?: Supplier | null
     onChange: (supplier: Supplier | null) => void
 }
 
 const SuppliersDropdown = (props: SuppliersDropdownProps) => {
-    const { businessID, onChange } = props
+    const { businessID, initialSupplier, onChange } = props
 
-    const [enabled, setEnabled] = useState(false)
+    const [enabled, setEnabled] = useState(!!initialSupplier)
     const [loading, setLoading] = useState(false)
     const [suppliers, setSuppliers] = useState<Supplier[] | null>(null)
-    const [selectedID, setSelectedID] = useState<string | null>(null)
+    const [selectedID, setSelectedID] = useState<string | null>(
+        initialSupplier ? String(initialSupplier.id) : null
+    )
 
     const [cachedAt, setCachedAt] = useState<number | null>(null)
     const [cachedBusinessID, setCachedBusinessID] = useState<number | null>(
@@ -32,6 +44,33 @@ const SuppliersDropdown = (props: SuppliersDropdownProps) => {
     const selectSupplier = (supplier: Supplier | null) => {
         setSelectedID(supplier ? String(supplier.id) : null)
         onChange(supplier)
+    }
+
+    const fetchSuppliers = async () => {
+        setLoading(true)
+
+        try {
+            const response = await Suppliers.listSuppliers(businessID)
+
+            // Cache the current suppliers list, timestamp and businessID
+            setSuppliers(response)
+            setCachedAt(Date.now())
+            setCachedBusinessID(businessID)
+
+            return response
+        } catch (error) {
+            const message = Helper.parseError(error)
+            notifications.show({
+                title: 'Error',
+                message:
+                    message ||
+                    'Error al obtener los proveedores. Inténtalo de nuevo más tarde.',
+                color: Theme.other!.danger,
+            })
+            return null
+        } finally {
+            setLoading(false)
+        }
     }
 
     // Checkbox toggle
@@ -53,35 +92,18 @@ const SuppliersDropdown = (props: SuppliersDropdownProps) => {
             return
         }
 
-        setLoading(true)
-
-        try {
-            const response = await Suppliers.listSuppliers(businessID)
-
-            // Cache the current suppliers list, timestamp and businessID
-            setSuppliers(response)
-            setCachedAt(Date.now())
-            setCachedBusinessID(businessID)
-
-            selectSupplier(response[0] ?? null)
-        } catch (error) {
-            const message = Helper.parseError(error)
-            notifications.show({
-                title: 'Error',
-                message:
-                    message ||
-                    'Error al obtener los proveedores. Inténtalo de nuevo más tarde.',
-                color: Theme.other!.danger,
-            })
-        } finally {
-            setLoading(false)
-        }
+        const response = await fetchSuppliers()
+        selectSupplier(response?.[0] ?? null)
     }
 
     const handleSelectChange = (value: string | null) => {
-        const supplier = suppliers?.find((s) => String(s.id) === value) ?? null
+        const options = suppliers ?? (initialSupplier ? [initialSupplier] : [])
+        const supplier = options.find((s) => String(s.id) === value) ?? null
         selectSupplier(supplier)
     }
+
+    // Full list not loaded yet, only the preselected supplier from EDIT mode is known
+    const showRefresh = enabled && suppliers === null
 
     const placeholder = !enabled
         ? 'Ninguno'
@@ -113,13 +135,26 @@ const SuppliersDropdown = (props: SuppliersDropdownProps) => {
                     }
                     placeholder={placeholder}
                     disabled={!enabled || loading || suppliers?.length === 0}
-                    data={(suppliers ?? []).map((supplier) => ({
+                    data={(
+                        suppliers ?? (initialSupplier ? [initialSupplier] : [])
+                    ).map((supplier) => ({
                         value: String(supplier.id),
                         label: supplier.name,
                     }))}
                     value={enabled ? selectedID : null}
                     onChange={handleSelectChange}
                 />
+                {showRefresh && (
+                    <Tooltip label="Cargar todos los proveedores">
+                        <ActionIcon
+                            variant="light"
+                            size="lg"
+                            loading={loading}
+                            onClick={fetchSuppliers}>
+                            <IconRefresh size={18} />
+                        </ActionIcon>
+                    </Tooltip>
+                )}
             </Group>
         </Stack>
     )
