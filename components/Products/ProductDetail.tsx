@@ -10,6 +10,7 @@ import {
     Button,
     Grid,
     Modal,
+    Tooltip,
 } from '@mantine/core'
 import { IconPencil, IconTrash } from '@tabler/icons-react'
 import { notifications } from '@mantine/notifications'
@@ -243,21 +244,28 @@ const ProductDetail = () => {
                                 </Text>
                             </div>
 
-                            <div>
-                                <Text size="sm" fw={500} c="dimmed">
-                                    Cantidad mínima por venta
-                                </Text>
-                                <Text
-                                    size="lg"
-                                    c={
-                                        product.saleMinAmount === null ||
-                                        product.saleMinAmount === undefined
-                                            ? 'dimmed'
-                                            : undefined
-                                    }>
-                                    {product.saleMinAmount ?? '-'}
-                                </Text>
-                            </div>
+                            <Tooltip
+                                label="Unidades que se venden juntas. Al realizar una venta, las unidades tienen que ser múltiplo de este valor"
+                                multiline
+                                w={220}
+                                position="top-start"
+                                withArrow>
+                                <div style={{ display: 'inline-block' }}>
+                                    <Text size="sm" fw={500} c="dimmed">
+                                        Cantidad mínima por venta
+                                    </Text>
+                                    <Text
+                                        size="lg"
+                                        c={
+                                            product.saleMinAmount === null ||
+                                            product.saleMinAmount === undefined
+                                                ? 'dimmed'
+                                                : undefined
+                                        }>
+                                        {product.saleMinAmount ?? '-'}
+                                    </Text>
+                                </div>
+                            </Tooltip>
 
                             <div>
                                 <Text size="sm" fw={500} c="dimmed">
