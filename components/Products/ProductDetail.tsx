@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { useRouter, useParams } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import {
+    ActionIcon,
     Card,
     Group,
     Stack,
@@ -9,7 +10,6 @@ import {
     Title,
     Button,
     Grid,
-    Modal,
     Tooltip,
 } from '@mantine/core'
 import { IconPencil, IconTrash } from '@tabler/icons-react'
@@ -26,6 +26,8 @@ import SelectedBusinessBar from '@/components/Common/SelectedBusinessBar'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 import BusinessSelection from '@/components/Common/BusinessSelection'
 import ProductCreateUpdate from '@/components/Products/ProductCreateUpdate'
+import ProductDelete from '@/components/Products/ProductDelete'
+import ProductUpdateStock from '@/components/Products/ProductUpdateStock'
 
 import Product from '@/entities/products/Product'
 import ProductCU from '@/entities/products/ProductCU'
@@ -33,7 +35,6 @@ import ProductCU from '@/entities/products/ProductCU'
 const ProductDetail = () => {
     const params = useParams()
     const productId = params?.id ? Number(params.id) : null
-    const router = useRouter()
 
     const selectedBusiness = useSelectedBusinessStore(
         (state) => state.selectedBusiness
@@ -42,9 +43,9 @@ const ProductDetail = () => {
 
     const [product, setProduct] = useState<Product | null>(null)
     const [loading, setLoading] = useState(true)
-    const [deleting, setDeleting] = useState(false)
     const [deleteModalOpened, setDeleteModalOpened] = useState(false)
     const [editing, setEditing] = useState(false)
+    const [stockModalOpened, setStockModalOpened] = useState(false)
 
     useEffect(() => {
         if (!productId || !businessID) {
@@ -77,31 +78,6 @@ const ProductDetail = () => {
     const handleEdit = () => {
         if (!product) return
         setEditing(true)
-    }
-
-    const handleDelete = async () => {
-        if (!product || !businessID) return
-
-        setDeleting(true)
-        try {
-            await Products.deleteProduct(product.id, businessID)
-            notifications.show({
-                title: 'Éxito',
-                message: 'Producto eliminado correctamente',
-                color: Theme.other!.success,
-            })
-            router.push('/products')
-        } catch (error) {
-            const message = Helper.parseError(error)
-            notifications.show({
-                title: 'Error',
-                message: 'No se pudo eliminar el producto',
-                color: Theme.other!.danger,
-            })
-        } finally {
-            setDeleting(false)
-            setDeleteModalOpened(false)
-        }
     }
 
     if (loading) {
@@ -232,7 +208,18 @@ const ProductDetail = () => {
                                 <Text size="sm" fw={500} c="dimmed">
                                     Stock actual
                                 </Text>
-                                <Text size="lg">{product.stock}</Text>
+                                <Group gap="xs" align="center">
+                                    <Text size="lg">{product.stock}</Text>
+                                    <ActionIcon
+                                        color={Theme.other!.secondaryColor}
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() =>
+                                            setStockModalOpened(true)
+                                        }>
+                                        <IconPencil size={16} />
+                                    </ActionIcon>
+                                </Group>
                             </div>
                         </Stack>
                     </Grid.Col>
@@ -325,33 +312,22 @@ const ProductDetail = () => {
                 </Group>
             </Card>
 
-            <Modal
+            <ProductUpdateStock
+                opened={stockModalOpened}
+                onClose={() => setStockModalOpened(false)}
+                productId={product.id}
+                businessID={selectedBusiness.id}
+                currentStock={product.stock}
+                onSuccess={(updatedProduct) => setProduct(updatedProduct)}
+            />
+
+            <ProductDelete
                 opened={deleteModalOpened}
                 onClose={() => setDeleteModalOpened(false)}
-                title="Eliminar producto"
-                centered>
-                <Text mb="lg">
-                    ¿Estás seguro de que deseas eliminar el producto{' '}
-                    <Text component="span" fw={700}>
-                        {product.name}
-                    </Text>
-                    ?
-                </Text>
-                <Group justify="flex-end">
-                    <Button
-                        variant="default"
-                        onClick={() => setDeleteModalOpened(false)}
-                        disabled={deleting}>
-                        Cancelar
-                    </Button>
-                    <Button
-                        color={Theme.other!.danger}
-                        onClick={handleDelete}
-                        loading={deleting}>
-                        Eliminar
-                    </Button>
-                </Group>
-            </Modal>
+                productId={product.id}
+                businessID={selectedBusiness.id}
+                productName={product.name}
+            />
         </Stack>
     )
 }
