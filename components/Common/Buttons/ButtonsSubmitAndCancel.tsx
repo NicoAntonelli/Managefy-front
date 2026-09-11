@@ -10,21 +10,28 @@ interface ButtonsSubmitAndCancelProps {
     isCreate: boolean
     submitting: boolean
     cancelHref: string
+    onCancel?: () => void
 }
 
 const ButtonsSubmitAndCancel = (props: ButtonsSubmitAndCancelProps) => {
-    const { text, leftIcon, isCreate, submitting, cancelHref } = props
+    const { text, leftIcon, isCreate, submitting, cancelHref, onCancel } = props
 
     const action = isCreate ? 'Crear' : 'Actualizar'
 
     return (
         <Group justify="flex-end" mt="2rem">
-            <Button
-                component={Link}
-                href={cancelHref}
-                color={Theme.other!.danger}>
-                Cancelar
-            </Button>
+            {onCancel ? (
+                <Button onClick={onCancel} color={Theme.other!.danger}>
+                    Cancelar
+                </Button>
+            ) : (
+                <Button
+                    component={Link}
+                    href={cancelHref}
+                    color={Theme.other!.danger}>
+                    Cancelar
+                </Button>
+            )}
             <Button
                 type="submit"
                 color={
