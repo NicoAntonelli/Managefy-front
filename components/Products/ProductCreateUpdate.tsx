@@ -43,10 +43,20 @@ interface ProductCreateUpdateForm {
 
 interface ProductCreateUpdateProps {
     currentProduct?: ProductCU
+    backHref?: string
+    cancelHref?: string
+    onSuccess?: (product: Product) => void
+    onCancel?: () => void
 }
 
 const ProductCreateUpdate = (props: ProductCreateUpdateProps) => {
-    const { currentProduct } = props
+    const {
+        currentProduct,
+        backHref = '/products',
+        cancelHref = '/products',
+        onSuccess,
+        onCancel,
+    } = props
     const isUpdate = !!currentProduct
 
     const initialSupplier: Supplier | null = currentProduct?.supplier?.id
@@ -149,7 +159,14 @@ const ProductCreateUpdate = (props: ProductCreateUpdateProps) => {
                 )
 
             setErrorMessage('')
-            router.push('/products')
+
+            if (onSuccess) {
+                onSuccess(response)
+            } else {
+                router.push(
+                    isUpdate ? `/products/${currentProduct.id}` : '/products'
+                )
+            }
         } catch (error) {
             const message = Helper.parseError(error)
             setErrorMessage(message)
@@ -175,7 +192,11 @@ const ProductCreateUpdate = (props: ProductCreateUpdateProps) => {
 
     return (
         <Stack gap="xs" w="100%" maw="40rem" mx="auto">
-            <ButtonGoBack href="/products" text="productos" />
+            <ButtonGoBack
+                href={backHref}
+                text={isUpdate ? 'producto detalle' : 'productos'}
+                onClick={onCancel}
+            />
 
             <Card shadow="sm" padding="lg" radius="md" withBorder w="100%">
                 <Group mt="md" mb="xs">
@@ -278,7 +299,8 @@ const ProductCreateUpdate = (props: ProductCreateUpdateProps) => {
                         leftIcon={<IconRocket size={20} />}
                         isCreate={!isUpdate}
                         submitting={submitting}
-                        cancelHref="/products"
+                        cancelHref={cancelHref}
+                        onCancel={onCancel}
                     />
                 </form>
             </Card>

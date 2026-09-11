@@ -136,7 +136,18 @@ const ProductDetail = () => {
                 : null,
         }
 
-        return <ProductCreateUpdate currentProduct={productCU} />
+        return (
+            <ProductCreateUpdate
+                currentProduct={productCU}
+                backHref={`/products/${product.id}`}
+                cancelHref={`/products/${product.id}`}
+                onCancel={() => setEditing(false)}
+                onSuccess={(updatedProduct) => {
+                    setProduct(updatedProduct)
+                    setEditing(false)
+                }}
+            />
+        )
     }
 
     if (!product) {
