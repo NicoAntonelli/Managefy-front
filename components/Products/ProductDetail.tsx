@@ -12,7 +12,12 @@ import {
     Grid,
     Tooltip,
 } from '@mantine/core'
-import { IconPencil, IconTrash } from '@tabler/icons-react'
+import {
+    IconHexagonPlus,
+    IconPencil,
+    IconTrash,
+    IconX,
+} from '@tabler/icons-react'
 import { notifications } from '@mantine/notifications'
 
 import Products from '@/services/products'
@@ -27,6 +32,8 @@ import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 import BusinessSelection from '@/components/Common/BusinessSelection'
 import ProductCreateUpdate from '@/components/Products/ProductCreateUpdate'
 import ProductDelete from '@/components/Products/ProductDelete'
+import ProductEraseSupplier from '@/components/Products/ProductEraseSupplier'
+import ProductUpdateOrAddSupplier from '@/components/Products/ProductUpdateOrAddSupplier'
 import ProductUpdateStock from '@/components/Products/ProductUpdateStock'
 
 import Product from '@/entities/products/Product'
@@ -43,9 +50,13 @@ const ProductDetail = () => {
 
     const [product, setProduct] = useState<Product | null>(null)
     const [loading, setLoading] = useState(true)
+
     const [deleteModalOpened, setDeleteModalOpened] = useState(false)
     const [editing, setEditing] = useState(false)
     const [stockModalOpened, setStockModalOpened] = useState(false)
+    const [supplierModalOpened, setSupplierModalOpened] = useState(false)
+    const [eraseSupplierModalOpened, setEraseSupplierModalOpened] =
+        useState(false)
 
     useEffect(() => {
         if (!productId || !businessID) {
@@ -211,7 +222,7 @@ const ProductDetail = () => {
                                 <Group gap="xs" align="center">
                                     <Text size="lg">{product.stock}</Text>
                                     <ActionIcon
-                                        color={Theme.other!.secondaryColor}
+                                        color={Theme.primaryColor}
                                         variant="outline"
                                         size="sm"
                                         onClick={() =>
@@ -269,15 +280,49 @@ const ProductDetail = () => {
                                 <Text size="sm" fw={500} c="dimmed">
                                     Proveedor
                                 </Text>
-                                <Text
-                                    size="lg"
-                                    c={
-                                        product.supplier?.name
-                                            ? undefined
-                                            : 'dimmed'
-                                    }>
-                                    {product.supplier?.name || '-'}
-                                </Text>
+                                <Group gap="xs" align="center">
+                                    <Text
+                                        size="lg"
+                                        c={
+                                            product.supplier?.name
+                                                ? undefined
+                                                : 'dimmed'
+                                        }>
+                                        {product.supplier?.name || '-'}
+                                    </Text>
+                                    <ActionIcon
+                                        color={Theme.primaryColor}
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() =>
+                                            setSupplierModalOpened(true)
+                                        }
+                                        aria-label={
+                                            product.supplier
+                                                ? 'Actualizar proveedor'
+                                                : 'Agregar proveedor'
+                                        }>
+                                        {product.supplier ? (
+                                            <IconPencil size={16} />
+                                        ) : (
+                                            <IconHexagonPlus size={16} />
+                                        )}
+                                    </ActionIcon>
+                                    {product.supplier && (
+                                        <ActionIcon
+                                            color={Theme.other!.danger}
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() =>
+                                                setEraseSupplierModalOpened(
+                                                    true
+                                                )
+                                            }
+                                            aria-label="Quitar proveedor">
+                                            <IconX size={16} />
+                                        </ActionIcon>
+                                    )}
+                                </Group>
                                 {product.supplier && (
                                     <Button
                                         component={Link}
@@ -320,6 +365,26 @@ const ProductDetail = () => {
                 currentStock={product.stock}
                 onSuccess={(updatedProduct) => setProduct(updatedProduct)}
             />
+
+            <ProductUpdateOrAddSupplier
+                opened={supplierModalOpened}
+                onClose={() => setSupplierModalOpened(false)}
+                productId={product.id}
+                businessID={selectedBusiness.id}
+                currentProvider={product.supplier}
+                onSuccess={(updatedProduct) => setProduct(updatedProduct)}
+            />
+
+            {product.supplier && (
+                <ProductEraseSupplier
+                    opened={eraseSupplierModalOpened}
+                    onClose={() => setEraseSupplierModalOpened(false)}
+                    productId={product.id}
+                    businessID={selectedBusiness.id}
+                    supplierName={product.supplier.name}
+                    onSuccess={(updatedProduct) => setProduct(updatedProduct)}
+                />
+            )}
 
             <ProductDelete
                 opened={deleteModalOpened}
