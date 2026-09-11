@@ -30,7 +30,7 @@ import Product from '@/entities/products/Product'
 import ProductCU from '@/entities/products/ProductCU'
 import Supplier from '@/entities/suppliers/Supplier'
 
-interface ProductCreateForm {
+interface ProductCreateUpdateForm {
     code: string
     name: string
     description: string
@@ -41,7 +41,24 @@ interface ProductCreateForm {
     saleMinAmount: number | null
 }
 
-const ProductCreate = () => {
+interface ProductCreateUpdateProps {
+    currentProduct?: ProductCU
+}
+
+const ProductCreateUpdate = (props: ProductCreateUpdateProps) => {
+    const { currentProduct } = props
+    const isUpdate = !!currentProduct
+
+    const initialSupplier: Supplier | null = currentProduct?.supplier?.id
+        ? {
+              id: currentProduct.supplier.id,
+              name: currentProduct.supplier.name,
+              description: currentProduct.supplier.description,
+              email: currentProduct.supplier.email,
+              phone: currentProduct.supplier.phone,
+          }
+        : null
+
     const selectedBusiness = useSelectedBusinessStore(
         (state) => state.selectedBusiness
     )
@@ -49,7 +66,7 @@ const ProductCreate = () => {
     const [submitting, setSubmitting] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
     const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(
-        null
+        initialSupplier
     )
 
     const router = useRouter()
@@ -58,17 +75,17 @@ const ProductCreate = () => {
         setLoading(false)
     }, [])
 
-    const form = useForm<ProductCreateForm>({
+    const form = useForm<ProductCreateUpdateForm>({
         mode: 'controlled',
         initialValues: {
-            code: '',
-            name: '',
-            description: '',
-            unitCost: null,
-            unitPrice: null,
-            stock: null,
-            stockMin: null,
-            saleMinAmount: null,
+            code: currentProduct?.code ?? '',
+            name: currentProduct?.name ?? '',
+            description: currentProduct?.description ?? '',
+            unitCost: currentProduct?.unitCost ?? null,
+            unitPrice: currentProduct?.unitPrice ?? null,
+            stock: currentProduct?.stock ?? null,
+            stockMin: currentProduct?.stockMin ?? null,
+            saleMinAmount: currentProduct?.saleMinAmount ?? null,
         },
         validate: {
             code: (value) =>
@@ -94,12 +111,13 @@ const ProductCreate = () => {
         },
     })
 
-    const handleSubmit = async (values: ProductCreateForm) => {
+    const handleSubmit = async (values: ProductCreateUpdateForm) => {
         if (submitting || !selectedBusiness) return
 
         setSubmitting(true)
         try {
-            const productCreate: ProductCU = {
+            const productCU: ProductCU = {
+                id: currentProduct?.id,
                 code: values.code,
                 name: values.name,
                 description: values.description,
@@ -120,9 +138,15 @@ const ProductCreate = () => {
                       }
                     : null,
             }
-            const response: Product =
-                await Products.createProduct(productCreate)
-            if (!response?.id) throw new Error('Error creando producto')
+            const response: Product = isUpdate
+                ? await Products.updateProduct(productCU)
+                : await Products.createProduct(productCU)
+            if (!response?.id)
+                throw new Error(
+                    isUpdate
+                        ? 'Error actualizando producto'
+                        : 'Error creando producto'
+                )
 
             setErrorMessage('')
             router.push('/products')
@@ -131,8 +155,9 @@ const ProductCreate = () => {
             setErrorMessage(message)
             notifications.show({
                 title: 'Error',
-                message:
-                    'Error al crear el producto. Inténtalo de nuevo más tarde.',
+                message: isUpdate
+                    ? 'Error al actualizar el producto. Inténtalo de nuevo más tarde.'
+                    : 'Error al crear el producto. Inténtalo de nuevo más tarde.',
                 color: Theme.other!.danger,
             })
         } finally {
@@ -154,7 +179,9 @@ const ProductCreate = () => {
 
             <Card shadow="sm" padding="lg" radius="md" withBorder w="100%">
                 <Group mt="md" mb="xs">
-                    <Title size="2rem">Nuevo producto</Title>
+                    <Title size="2rem">
+                        {isUpdate ? 'Editar producto' : 'Nuevo producto'}
+                    </Title>
                 </Group>
 
                 <form onSubmit={form.onSubmit(handleSubmit)}>
@@ -185,6 +212,7 @@ const ProductCreate = () => {
 
                     <SuppliersDropdown
                         businessID={selectedBusiness.id}
+                        initialSupplier={initialSupplier}
                         onChange={setSelectedSupplier}
                     />
 
@@ -248,7 +276,7 @@ const ProductCreate = () => {
                     <ButtonsSubmitAndCancel
                         text="producto"
                         leftIcon={<IconRocket size={20} />}
-                        isCreate
+                        isCreate={!isUpdate}
                         submitting={submitting}
                         cancelHref="/products"
                     />
@@ -258,4 +286,4 @@ const ProductCreate = () => {
     )
 }
 
-export default ProductCreate
+export default ProductCreateUpdate

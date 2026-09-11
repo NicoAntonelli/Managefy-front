@@ -1,8 +1,8 @@
 'use client'
-import ProductCreate from '@/components/Products/ProductCreate'
+import ProductCreateUpdate from '@/components/Products/ProductCreateUpdate'
 
 const ProductCreatePage = () => {
-    return <ProductCreate />
+    return <ProductCreateUpdate />
 }
 
 export default ProductCreatePage
