@@ -1,0 +1,111 @@
+import { useState } from 'react'
+import { Checkbox, Group, Loader, Select, Stack, Text } from '@mantine/core'
+import { notifications } from '@mantine/notifications'
+import { IconChevronDown, IconUserCog } from '@tabler/icons-react'
+
+import Helper from '@/services/helper'
+import Suppliers from '@/services/suppliers'
+
+import Theme from '@/app/theme'
+
+import Supplier from '@/entities/suppliers/Supplier'
+
+interface SuppliersDropdownProps {
+    businessID: number
+    onChange: (supplier: Supplier | null) => void
+}
+
+const SuppliersDropdown = (props: SuppliersDropdownProps) => {
+    const { businessID, onChange } = props
+
+    const [enabled, setEnabled] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [suppliers, setSuppliers] = useState<Supplier[] | null>(null)
+    const [selectedID, setSelectedID] = useState<string | null>(null)
+
+    const selectSupplier = (supplier: Supplier | null) => {
+        setSelectedID(supplier ? String(supplier.id) : null)
+        onChange(supplier)
+    }
+
+    const handleToggle = async (checked: boolean) => {
+        setEnabled(checked)
+        if (!checked) {
+            selectSupplier(null)
+            return
+        }
+
+        // Cached suppliers array avoids refetching on every re-activation
+        if (suppliers !== null) {
+            selectSupplier(suppliers[0] ?? null)
+            return
+        }
+
+        setLoading(true)
+
+        try {
+            const response = await Suppliers.listSuppliers(businessID)
+            setSuppliers(response)
+            selectSupplier(response[0] ?? null)
+        } catch (error) {
+            const message = Helper.parseError(error)
+            notifications.show({
+                title: 'Error',
+                message:
+                    message ||
+                    'Error al obtener los proveedores. Inténtalo de nuevo más tarde.',
+                color: Theme.other!.danger,
+            })
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const handleSelectChange = (value: string | null) => {
+        const supplier = suppliers?.find((s) => String(s.id) === value) ?? null
+        selectSupplier(supplier)
+    }
+
+    const placeholder = !enabled
+        ? 'Ninguno'
+        : suppliers?.length === 0
+          ? 'No hay proveedores para mostrar'
+          : 'Seleccione un proveedor'
+
+    return (
+        <Stack gap="xs" mt="md">
+            <Text size="sm" fw={500}>
+                Proveedor (opcional)
+            </Text>
+            <Group align="center" gap="sm">
+                <Checkbox
+                    checked={enabled}
+                    onChange={(event) =>
+                        handleToggle(event.currentTarget.checked)
+                    }
+                />
+                <Select
+                    flex={1}
+                    leftSection={<IconUserCog size={18} />}
+                    rightSection={
+                        loading ? (
+                            <Loader size={18} />
+                        ) : (
+                            <IconChevronDown size={18} />
+                        )
+                    }
+                    placeholder={placeholder}
+                    disabled={!enabled || loading || suppliers?.length === 0}
+                    data={(suppliers ?? []).map((supplier) => ({
+                        value: String(supplier.id),
+                        label: supplier.name,
+                    }))}
+                    value={enabled ? selectedID : null}
+                    onChange={handleSelectChange}
+                />
+            </Group>
+        </Stack>
+    )
+}
+
+export default SuppliersDropdown
