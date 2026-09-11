@@ -1,5 +1,5 @@
 import React from 'react'
-import { Affix, Button, Transition } from '@mantine/core'
+import { Affix, Button, Transition, Stack } from '@mantine/core'
 import { useWindowScroll } from '@mantine/hooks'
 import { IconArrowUp } from '@tabler/icons-react'
 
@@ -11,21 +11,23 @@ const Help = () => {
 
     return (
         <>
-            <ReportBug />
-            <TermsConditions />
+            <Stack w="100%" maw="90rem" mx="auto">
+                <ReportBug />
+                <TermsConditions />
 
-            <Affix position={{ bottom: 20, right: 20 }}>
-                <Transition transition="slide-up" mounted={scroll.y > 0}>
-                    {(transitionStyles) => (
-                        <Button
-                            leftSection={<IconArrowUp size="1rem" />}
-                            style={transitionStyles}
-                            onClick={() => scrollTo({ y: 0 })}>
-                            Volver arriba
-                        </Button>
-                    )}
-                </Transition>
-            </Affix>
+                <Affix position={{ bottom: 20, right: 20 }}>
+                    <Transition transition="slide-up" mounted={scroll.y > 0}>
+                        {(transitionStyles) => (
+                            <Button
+                                leftSection={<IconArrowUp size="1rem" />}
+                                style={transitionStyles}
+                                onClick={() => scrollTo({ y: 0 })}>
+                                Volver arriba
+                            </Button>
+                        )}
+                    </Transition>
+                </Affix>
+            </Stack>
         </>
     )
 }

@@ -178,31 +178,28 @@ const Profile = () => {
 
     if (finalized) {
         return (
-            <Card
-                shadow="sm"
-                padding="lg"
-                radius="md"
-                withBorder
-                className="min-w-full">
-                <Group justify="space-between" mt="md" mb="xs">
-                    <Title size="2rem">Editar perfil</Title>
-                </Group>
-                <Group
-                    justify="flex-start"
-                    mt="md"
-                    mb="xs"
-                    c={Theme.other!.success}>
-                    <IconCircleCheck size="2rem" />
-                    <Text size="1.5rem">
-                        Tu perfil ha sido actualizado correctamente
-                    </Text>
-                </Group>
-                <Group justify="flex-end" mt="md">
-                    <Button onClick={() => router.push('/businesses')}>
-                        Ir a Emprendimientos
-                    </Button>
-                </Group>
-            </Card>
+            <Stack w="100%" maw="60rem" mx="auto">
+                <Card shadow="sm" padding="lg" radius="md" withBorder w="100%">
+                    <Group justify="space-between" mt="md" mb="xs">
+                        <Title size="2rem">Editar perfil</Title>
+                    </Group>
+                    <Group
+                        justify="flex-start"
+                        mt="md"
+                        mb="xs"
+                        c={Theme.other!.success}>
+                        <IconCircleCheck size="2rem" />
+                        <Text size="1.5rem">
+                            Tu perfil ha sido actualizado correctamente
+                        </Text>
+                    </Group>
+                    <Group justify="flex-end" mt="md">
+                        <Button onClick={() => router.push('/businesses')}>
+                            Ir a Emprendimientos
+                        </Button>
+                    </Group>
+                </Card>
+            </Stack>
         )
     }
 
@@ -211,13 +208,8 @@ const Profile = () => {
     }
 
     return (
-        <>
-            <Card
-                shadow="sm"
-                padding="lg"
-                radius="md"
-                withBorder
-                className="min-w-full">
+        <Stack w="100%" maw="60rem" mx="auto">
+            <Card shadow="sm" padding="lg" radius="md" withBorder w="100%">
                 <Group justify="space-between" mt="md" mb="xs">
                     <Title size="2rem">Editar perfil</Title>
                 </Group>
@@ -293,7 +285,7 @@ const Profile = () => {
                 padding="lg"
                 radius="md"
                 withBorder
-                className="min-w-full">
+                w="100%">
                 <Group justify="space-between" mt="md" mb="xs">
                     <Title size="2rem">Eliminar cuenta</Title>
                 </Group>
@@ -347,7 +339,7 @@ const Profile = () => {
                     </Button>
                 </Group>
             </Modal>
-        </>
+        </Stack>
     )
 }
 

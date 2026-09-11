@@ -1,45 +1,20 @@
 import React from 'react'
 import Link from 'next/link'
-import { Button, Card, Group, Image, Stack, Text, Title } from '@mantine/core'
-import { useMediaQuery } from '@mantine/hooks'
-
+import { Button, Card, Stack, Text, Title } from '@mantine/core'
 import Theme from '@/app/theme'
 
-const About = () => {
-    const isMobile = useMediaQuery(`(max-width: ${Theme.breakpoints?.md})`)
+import HomePresentation from '@/components/Home/HomePresentation'
 
+const About = () => {
     return (
-        <div className="justify-start">
+        <Stack w="100%" maw="75rem" mx="auto">
             <Card
                 shadow="sm"
                 padding="lg"
                 radius="md"
                 withBorder
                 className="min-w-full">
-                <Card.Section p="1rem">
-                    <Group
-                        justify="flex-start"
-                        gap={isMobile ? '1rem' : '2rem'}>
-                        <Image
-                            src="/Managefy-logo.jpeg"
-                            alt="Managefy logo"
-                            h={isMobile ? 150 : 350}
-                            w="auto"
-                            radius="md"
-                        />
-                        <Stack gap="0.25rem">
-                            <Title size={isMobile ? '2rem' : '6rem'}>
-                                Managefy
-                            </Title>
-                            <Text size={isMobile ? 'sm' : 'xl'} mt="0.5rem">
-                                <b>
-                                    Gestión de recursos fácil de usar para su
-                                    emprendimiento
-                                </b>
-                            </Text>
-                        </Stack>
-                    </Group>
-                </Card.Section>
+                <HomePresentation hideBorder />
 
                 <Text size="sm" mt="1rem">
                     Managefy es una app para administrar y gestionar mejor tu
@@ -99,7 +74,7 @@ const About = () => {
                     </Link>
                 </Button>
             </Card>
-        </div>
+        </Stack>
     )
 }
 

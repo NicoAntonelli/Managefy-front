@@ -15,6 +15,7 @@ import {
     IconAlignBoxLeftBottom,
     IconInfoSquareRounded,
     IconMail,
+    IconSearch,
     IconUser,
 } from '@tabler/icons-react'
 
@@ -26,6 +27,7 @@ import InputTextArea from '@/components/Common/Inputs/InputTextArea'
 
 const ReportBug = () => {
     const isMobile = useMediaQuery(`(max-width: ${Theme.breakpoints?.md})`)
+    const isSmallScreen = useMediaQuery(`(max-width: ${Theme.breakpoints?.sm})`)
 
     // Report form inputs
     type ReportInputs = {
@@ -66,16 +68,22 @@ const ReportBug = () => {
             withBorder
             className="min-w-full">
             <Card.Section p="1rem">
-                <Flex justify="flex-start" align="center" gap="2rem">
+                <Flex
+                    justify="flex-start"
+                    align={isSmallScreen ? 'stretch' : 'center'}
+                    direction={isSmallScreen ? 'column' : 'row'}
+                    gap="2rem"
+                    w="100%">
                     <Image
                         src="/olivia_hunts_bugs.png"
                         h={isMobile ? '400' : '580'}
                         w="auto"
+                        mx={isSmallScreen ? 'auto' : undefined}
                         mt={isMobile ? '4rem' : '0rem'}
                         alt="Reporte de errores con Olivia"
                         radius="md"
                     />
-                    <Stack>
+                    <Stack flex={1} w={isSmallScreen ? '100%' : undefined}>
                         <Title size="2rem">Reportar bug</Title>
                         <Text size={isMobile ? '1.2rem' : '2rem'}>
                             Reporta un bug a{' '}
@@ -154,9 +162,14 @@ const ReportBug = () => {
                                 />
                             </Flex>
 
-                            <Button type="submit" mt="xl" radius="md" fullWidth>
-                                Reportar bug
-                            </Button>
+                            <Flex justify="flex-end" mt="xl">
+                                <Button
+                                    type="submit"
+                                    radius="md"
+                                    leftSection={<IconSearch size="1rem" />}>
+                                    Reportar bug
+                                </Button>
+                            </Flex>
                         </form>
                     </Stack>
                 </Flex>

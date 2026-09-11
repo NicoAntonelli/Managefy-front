@@ -5,7 +5,11 @@ import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.share
 import { Button, Card, Group, Text, Title } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { notifications } from '@mantine/notifications'
-import { IconLock, IconCircleCheck } from '@tabler/icons-react'
+import {
+    IconLock,
+    IconCircleCheck,
+    IconBuildingStore,
+} from '@tabler/icons-react'
 import Theme from '@/app/theme'
 
 import Helper from '@/services/helper'
@@ -16,6 +20,7 @@ import Validation from '@/utils/validation/Validation'
 import SkeletonFull from '@/components//Common/Loader/SkeletonFull'
 import InputNumeric from '@/components/Common/Inputs/InputNumeric'
 import User from '@/entities/users/User'
+import Link from 'next/link'
 
 interface UserValidationForm {
     code?: number
@@ -151,7 +156,9 @@ const UserValidation = () => {
                 padding="lg"
                 radius="md"
                 withBorder
-                className="min-w-full">
+                w="100%"
+                maw="45rem"
+                mx="auto">
                 <Group justify="space-between" mt="md" mb="xs">
                     <Title size="2rem">Validar cuenta</Title>
                 </Group>
@@ -166,8 +173,12 @@ const UserValidation = () => {
                     </Text>
                 </Group>
                 <Group justify="flex-end" mt="md">
-                    <Button onClick={() => router.push('/businesses')}>
-                        Ir a Emprendimientos
+                    <Button
+                        color={Theme.primaryColor}
+                        w={{ base: '100%', sm: 'fit-content' }}
+                        leftSection={<IconBuildingStore size={24} />}>
+                        <Link href="/businesses">Ir a emprendimientos</Link>
+                        {/* onClick={() => router.push('/businesses')} */}
                     </Button>
                 </Group>
             </Card>
@@ -180,7 +191,9 @@ const UserValidation = () => {
             padding="lg"
             radius="md"
             withBorder
-            className="min-w-full">
+            w="100%"
+            maw="45rem"
+            mx="auto">
             <Group justify="space-between" mt="md" mb="xs">
                 <Title size="2rem">Validar cuenta</Title>
             </Group>
