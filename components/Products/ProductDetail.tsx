@@ -24,8 +24,10 @@ import ButtonCreate from '@/components/Common/Buttons/ButtonCreate'
 import SelectedBusinessBar from '@/components/Common/SelectedBusinessBar'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 import BusinessSelection from '@/components/Common/BusinessSelection'
+import ProductCreateUpdate from '@/components/Products/ProductCreateUpdate'
 
 import Product from '@/entities/products/Product'
+import ProductCU from '@/entities/products/ProductCU'
 
 const ProductDetail = () => {
     const params = useParams()
@@ -41,6 +43,7 @@ const ProductDetail = () => {
     const [loading, setLoading] = useState(true)
     const [deleting, setDeleting] = useState(false)
     const [deleteModalOpened, setDeleteModalOpened] = useState(false)
+    const [editing, setEditing] = useState(false)
 
     useEffect(() => {
         if (!productId || !businessID) {
@@ -71,7 +74,8 @@ const ProductDetail = () => {
     }, [productId, businessID])
 
     const handleEdit = () => {
-        console.log('Edit button')
+        if (!product) return
+        setEditing(true)
     }
 
     const handleDelete = async () => {
@@ -105,6 +109,33 @@ const ProductDetail = () => {
 
     if (!selectedBusiness) {
         return <BusinessSelection resourceName="productos" />
+    }
+
+    if (product && editing) {
+        const productCU: ProductCU = {
+            id: product.id,
+            code: product.code,
+            name: product.name,
+            description: product.description,
+            unitCost: product.unitCost,
+            unitPrice: product.unitPrice,
+            stock: product.stock,
+            stockMin: product.stockMin,
+            saleMinAmount: product.saleMinAmount,
+            businessID: selectedBusiness.id,
+            supplier: product.supplier
+                ? {
+                      id: product.supplier.id,
+                      name: product.supplier.name,
+                      description: product.supplier.description,
+                      email: product.supplier.email,
+                      phone: product.supplier.phone,
+                      businessID: selectedBusiness.id,
+                  }
+                : null,
+        }
+
+        return <ProductCreateUpdate currentProduct={productCU} />
     }
 
     if (!product) {
