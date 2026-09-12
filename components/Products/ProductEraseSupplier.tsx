@@ -3,23 +3,22 @@ import { Button, Group, Modal, Text } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
 
 import Products from '@/services/products'
-import Helper from '@/services/helper'
 import Theme from '@/app/theme'
 
 import Product from '@/entities/products/Product'
 
 interface ProductEraseSupplierProps {
     opened: boolean
-    onClose: () => void
     productId: number
     businessID: number
     supplierName: string
     onSuccess: (product: Product) => void
+    onClose: () => void
 }
 
 const ProductEraseSupplier = (props: ProductEraseSupplierProps) => {
-    const { opened, onClose, productId, businessID, supplierName, onSuccess } =
-        props
+    const { opened, productId, businessID, supplierName } = props
+    const { onSuccess, onClose } = props
 
     const [erasingSupplier, setErasingSupplier] = useState(false)
 

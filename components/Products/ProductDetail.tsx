@@ -14,7 +14,6 @@ import {
 } from '@mantine/core'
 import {
     IconEye,
-    IconHexagonPlus,
     IconPencil,
     IconPlus,
     IconTrash,
@@ -360,39 +359,39 @@ const ProductDetail = () => {
 
             <ProductUpdateStock
                 opened={stockModalOpened}
-                onClose={() => setStockModalOpened(false)}
                 productId={product.id}
                 businessID={selectedBusiness.id}
                 currentStock={product.stock}
                 onSuccess={(updatedProduct) => setProduct(updatedProduct)}
+                onClose={() => setStockModalOpened(false)}
             />
 
             <ProductUpdateOrAddSupplier
                 opened={supplierModalOpened}
-                onClose={() => setSupplierModalOpened(false)}
                 productId={product.id}
                 businessID={selectedBusiness.id}
                 currentProvider={product.supplier}
                 onSuccess={(updatedProduct) => setProduct(updatedProduct)}
+                onClose={() => setSupplierModalOpened(false)}
             />
 
             {product.supplier && (
                 <ProductEraseSupplier
                     opened={eraseSupplierModalOpened}
-                    onClose={() => setEraseSupplierModalOpened(false)}
                     productId={product.id}
                     businessID={selectedBusiness.id}
                     supplierName={product.supplier.name}
                     onSuccess={(updatedProduct) => setProduct(updatedProduct)}
+                    onClose={() => setEraseSupplierModalOpened(false)}
                 />
             )}
 
             <ProductDelete
                 opened={deleteModalOpened}
-                onClose={() => setDeleteModalOpened(false)}
                 productId={product.id}
                 businessID={selectedBusiness.id}
                 productName={product.name}
+                onClose={() => setDeleteModalOpened(false)}
             />
         </Stack>
     )

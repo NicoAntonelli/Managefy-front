@@ -8,19 +8,15 @@ import Theme from '@/app/theme'
 
 type ProductDeleteProps = {
     opened: boolean
-    onClose: () => void
     productId: number
     businessID: number
     productName: string
+    onClose: () => void
 }
 
-const ProductDelete = ({
-    opened,
-    onClose,
-    productId,
-    businessID,
-    productName,
-}: ProductDeleteProps) => {
+const ProductDelete = (props: ProductDeleteProps) => {
+    const { opened, productId, businessID, productName, onClose } = props
+
     const router = useRouter()
     const [deleting, setDeleting] = useState(false)
 

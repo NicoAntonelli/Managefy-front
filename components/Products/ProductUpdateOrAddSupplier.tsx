@@ -13,22 +13,16 @@ import Supplier from '@/entities/suppliers/Supplier'
 
 interface ProductUpdateOrAddSupplierProps {
     opened: boolean
-    onClose: () => void
     productId: number
     businessID: number
     currentProvider?: Supplier | null
     onSuccess: (product: Product) => void
+    onClose: () => void
 }
 
 const ProductUpdateOrAddSupplier = (props: ProductUpdateOrAddSupplierProps) => {
-    const {
-        opened,
-        onClose,
-        productId,
-        businessID,
-        currentProvider,
-        onSuccess,
-    } = props
+    const { opened, productId, businessID, currentProvider } = props
+    const { onSuccess, onClose } = props
 
     const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(
         currentProvider ?? null

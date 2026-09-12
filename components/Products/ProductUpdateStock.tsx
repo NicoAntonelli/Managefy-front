@@ -10,16 +10,16 @@ import Product from '@/entities/products/Product'
 
 interface ProductUpdateStockProps {
     opened: boolean
-    onClose: () => void
     productId: number
     businessID: number
     currentStock: number
     onSuccess: (product: Product) => void
+    onClose: () => void
 }
 
 const ProductUpdateStock = (props: ProductUpdateStockProps) => {
-    const { opened, onClose, productId, businessID, currentStock, onSuccess } =
-        props
+    const { opened, productId, businessID, currentStock } = props
+    const { onSuccess, onClose } = props
 
     const [newStock, setNewStock] = useState<number | ''>(currentStock)
     const [updatingStock, setUpdatingStock] = useState(false)
