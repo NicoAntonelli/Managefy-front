@@ -213,9 +213,9 @@ const BusinessCreate = () => {
                     )}
 
                     <ButtonsSubmitAndCancel
-                        text="emprendimiento"
+                        operation="Create"
+                        resource="emprendimiento"
                         leftIcon={<IconBuildingStore size={20} />}
-                        isCreate
                         submitting={submitting}
                         cancelHref="/businesses"
                     />

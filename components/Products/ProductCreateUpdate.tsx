@@ -295,9 +295,9 @@ const ProductCreateUpdate = (props: ProductCreateUpdateProps) => {
                     )}
 
                     <ButtonsSubmitAndCancel
-                        text="producto"
+                        operation={isUpdate ? 'Update' : 'Create'}
+                        resource="producto"
                         leftIcon={<IconRocket size={20} />}
-                        isCreate={!isUpdate}
                         submitting={submitting}
                         cancelHref={cancelHref}
                         onCancel={onCancel}

@@ -157,9 +157,9 @@ const ClientCreate = () => {
                     )}
 
                     <ButtonsSubmitAndCancel
-                        text="cliente"
+                        operation="Create"
+                        resource="cliente"
                         leftIcon={<IconUser size={20} />}
-                        isCreate
                         submitting={submitting}
                         cancelHref="/clients"
                     />

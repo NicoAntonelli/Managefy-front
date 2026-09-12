@@ -2,41 +2,52 @@ import Link from 'next/link'
 import { Button, Group } from '@mantine/core'
 import { ReactNode } from 'react'
 
-import Theme from '@/app/theme'
+import Operation from '@/entities/helpTypes/Operation'
+import TextHelper from '@/utils/string/TextHelper'
 
 interface ButtonsSubmitAndCancelProps {
-    text: string
+    operation: Operation
+    operationText?: string
+    resource?: string
     leftIcon: ReactNode
-    isCreate: boolean
     submitting: boolean
-    cancelHref: string
+    disabled?: boolean
+    cancelHref?: string
     onCancel?: () => void
 }
 
 const ButtonsSubmitAndCancel = (props: ButtonsSubmitAndCancelProps) => {
-    const { text, leftIcon, isCreate, submitting, cancelHref, onCancel } = props
+    const { operation, operationText, resource, leftIcon } = props
+    const { submitting, disabled, cancelHref, onCancel } = props
 
-    const action = isCreate ? 'Crear' : 'Actualizar'
+    const action = operationText ?? TextHelper.getOperationText(operation)
+    const color = TextHelper.getOperationColor(operation)
 
     return (
         <Group justify="flex-end" mt="2rem">
             {onCancel ? (
-                <Button onClick={onCancel} variant="default">
+                <Button
+                    onClick={onCancel}
+                    variant="default"
+                    disabled={submitting}>
                     Cancelar
                 </Button>
-            ) : (
-                <Button component={Link} href={cancelHref} variant="default">
+            ) : cancelHref ? (
+                <Button
+                    component={Link}
+                    href={cancelHref}
+                    variant="default"
+                    disabled={submitting}>
                     Cancelar
                 </Button>
-            )}
+            ) : null}
             <Button
                 type="submit"
-                color={
-                    isCreate ? Theme.primaryColor : Theme.other!.secondaryColor
-                }
+                color={color}
                 leftSection={leftIcon}
-                loading={submitting}>
-                {`${action} ${text}`}
+                loading={submitting}
+                disabled={disabled}>
+                {`${action}${resource ? ` ${resource}` : ''}`}
             </Button>
         </Group>
     )
