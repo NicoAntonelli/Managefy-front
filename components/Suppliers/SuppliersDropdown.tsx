@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
     ActionIcon,
     Checkbox,
@@ -23,11 +23,13 @@ import Supplier from '@/entities/suppliers/Supplier'
 interface SuppliersDropdownProps {
     businessID: number
     initialSupplier?: Supplier | null
+    forceRefresh?: boolean
     onChange: (supplier: Supplier | null) => void
 }
 
 const SuppliersDropdown = (props: SuppliersDropdownProps) => {
-    const { businessID, initialSupplier, onChange } = props
+    const { businessID, initialSupplier } = props
+    const { forceRefresh = false, onChange } = props
 
     const [enabled, setEnabled] = useState(!!initialSupplier)
     const [loading, setLoading] = useState(false)
@@ -53,12 +55,13 @@ const SuppliersDropdown = (props: SuppliersDropdownProps) => {
             const response = await Suppliers.listSuppliers(businessID)
 
             // Cache the current suppliers list, timestamp and businessID
-            setSuppliers(response)
+            setSuppliers(response ?? [])
             setCachedAt(Date.now())
             setCachedBusinessID(businessID)
 
             return response
         } catch (error) {
+            setSuppliers([])
             const message = Helper.parseError(error)
             notifications.show({
                 title: 'Error',
@@ -72,6 +75,12 @@ const SuppliersDropdown = (props: SuppliersDropdownProps) => {
             setLoading(false)
         }
     }
+
+    useEffect(() => {
+        if (forceRefresh) {
+            fetchSuppliers()
+        }
+    }, [forceRefresh])
 
     // Checkbox toggle
     const handleToggle = async (checked: boolean) => {
@@ -102,8 +111,8 @@ const SuppliersDropdown = (props: SuppliersDropdownProps) => {
         selectSupplier(supplier)
     }
 
-    // Full list not loaded yet, only the preselected supplier from EDIT mode is known
-    const showRefresh = enabled && suppliers === null
+    // Full list not loaded yet, only a preselected supplier
+    const showRefresh = enabled && suppliers === null && !forceRefresh
 
     const placeholder = !enabled
         ? 'Ninguno'

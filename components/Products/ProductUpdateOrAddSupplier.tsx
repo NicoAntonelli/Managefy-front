@@ -84,6 +84,7 @@ const ProductUpdateOrAddSupplier = (props: ProductUpdateOrAddSupplierProps) => {
                 key={`${isUpdate ? 'update' : 'add'}-${currentProvider?.id ?? 'none'}`}
                 businessID={businessID}
                 initialSupplier={currentProvider}
+                forceRefresh={isUpdate}
                 onChange={setSelectedSupplier}
             />
             <form
