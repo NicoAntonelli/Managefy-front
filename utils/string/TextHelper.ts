@@ -1,5 +1,8 @@
 //////////// PREDEFINED LISTS ////////////
 
+import Theme from '@/app/theme'
+
+import Operation from '@/entities/helpTypes/Operation'
 import WeekDay from '@/entities/helpTypes/WeekDay'
 
 // List of complete week days
@@ -31,5 +34,35 @@ const createUrlSegment = (value: string): string => {
     return `${segment}-${suffix}`
 }
 
-const TextHelper = { weekDaysComplete, createUrlSegment }
+// Theme-default operation color mapping
+const getOperationColor = (operation: Operation) => {
+    switch (operation) {
+        case 'Create':
+            return Theme.primaryColor
+        case 'Update':
+            return Theme.other!.secondaryColor
+        case 'Delete':
+            return Theme.other!.danger
+    }
+}
+
+// Operation text mapping
+const getOperationText = (operation: Operation) => {
+    switch (operation) {
+        case 'Create':
+            return 'Crear'
+        case 'Update':
+            return 'Actualizar'
+        case 'Delete':
+            return 'Eliminar'
+    }
+}
+
+const TextHelper = {
+    weekDaysComplete,
+    createUrlSegment,
+    getOperationColor,
+    getOperationText,
+}
+
 export default TextHelper
