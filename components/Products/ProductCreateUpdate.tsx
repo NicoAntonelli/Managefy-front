@@ -110,10 +110,17 @@ const ProductCreateUpdate = (props: ProductCreateUpdateProps) => {
                 Validation.decimal(value, true)
                     ? null
                     : 'Debe ingresar un costo válido',
-            unitPrice: (value) =>
-                Validation.decimal(value, true)
-                    ? null
-                    : 'Debe ingresar un precio válido',
+            unitPrice: (value, values) => {
+                if (!Validation.decimal(value, true)) {
+                    return 'Debe ingresar un precio válido'
+                }
+
+                if (!!value && !!values.unitCost && value < values.unitCost) {
+                    return 'El precio unitario debe ser mayor o igual al costo unitario'
+                }
+
+                return null
+            },
             stock: (value) =>
                 Validation.integer(value, true)
                     ? null
