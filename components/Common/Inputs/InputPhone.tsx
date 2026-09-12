@@ -19,6 +19,7 @@ const InputPhone = (props: InputPhoneProps) => {
             pt="1rem"
             required={required}
             withAsterisk={required}
+            maxLength={50}
             type="text"
             inputMode="numeric"
             pattern="[0-9]*"

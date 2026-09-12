@@ -16,6 +16,7 @@ const InputPassword = (props: InputPasswordProps) => {
             pt="1rem"
             required
             withAsterisk
+            maxLength={100}
             type="password"
             label="Contraseña"
             placeholder={isConfirmation ? 'Confirmar contraseña' : 'Contraseña'}

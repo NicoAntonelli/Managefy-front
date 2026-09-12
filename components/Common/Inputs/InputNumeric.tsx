@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { NumberInput } from '@mantine/core'
 
 import NumberInputPropsSimple from '@/entities/helpTypes/NumberInputPropsSimple'
+import Validation from '@/utils/validation/Validation'
 
 interface InputNumericProps {
     required?: boolean
@@ -32,6 +33,8 @@ const InputNumeric = (props: InputNumericProps) => {
             pt="1rem"
             required={required}
             withAsterisk={required}
+            max={Validation.MAX_SAFE_NUMBER}
+            maxLength={16}
             inputMode={isInteger ? 'numeric' : 'decimal'}
             allowNegative={false}
             allowDecimal={!isInteger}

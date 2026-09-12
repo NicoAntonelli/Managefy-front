@@ -79,6 +79,9 @@ const string = (value?: string, isDescription: boolean = false): boolean => {
 }
 
 const Validation = {
+    MAX_SAFE_NUMBER,
+    MAX_STRING_SIZE_TITLE,
+    MAX_STRING_SIZE_DESCRIPTION,
     cache,
     decimal,
     email,

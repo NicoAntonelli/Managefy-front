@@ -1,5 +1,6 @@
 import type { InputHTMLAttributes, ReactNode } from 'react'
 import { TextInput } from '@mantine/core'
+import Validation from '@/utils/validation/Validation'
 
 interface InputTextProps {
     required?: boolean
@@ -17,8 +18,9 @@ const InputText = (props: InputTextProps) => {
         <TextInput
             pt="1rem"
             required={required}
-            flex={flex}
             withAsterisk={required}
+            maxLength={Validation.MAX_STRING_SIZE_TITLE}
+            flex={flex}
             label={label}
             placeholder={placeholder}
             leftSection={leftIcon}

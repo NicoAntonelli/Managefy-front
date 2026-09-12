@@ -15,8 +15,9 @@ const InputEmail = (props: InputEmailProps) => {
         <TextInput
             pt="1rem"
             required={required}
-            flex={flex}
             withAsterisk={required}
+            maxLength={100}
+            flex={flex}
             label="Email"
             placeholder="correo@mail.com"
             leftSection={<IconMail />}
