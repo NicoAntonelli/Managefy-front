@@ -1,9 +1,12 @@
 import { useState } from 'react'
-import { Button, Group, Modal, Text } from '@mantine/core'
+import { Modal, Text } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
+import { IconX } from '@tabler/icons-react'
 
 import Products from '@/services/products'
 import Theme from '@/app/theme'
+
+import ButtonsSubmitAndCancel from '@/components/Common/Buttons/ButtonsSubmitAndCancel'
 
 import Product from '@/entities/products/Product'
 
@@ -61,20 +64,19 @@ const ProductEraseSupplier = (props: ProductEraseSupplierProps) => {
                 </Text>
                 ?
             </Text>
-            <Group justify="flex-end">
-                <Button
-                    variant="default"
-                    onClick={onClose}
-                    disabled={erasingSupplier}>
-                    Cancelar
-                </Button>
-                <Button
-                    color={Theme.other!.danger}
-                    onClick={handleEraseSupplier}
-                    loading={erasingSupplier}>
-                    Quitar
-                </Button>
-            </Group>
+            <form
+                onSubmit={(event) => {
+                    event.preventDefault()
+                    handleEraseSupplier()
+                }}>
+                <ButtonsSubmitAndCancel
+                    operation="Delete"
+                    operationText="Quitar"
+                    leftIcon={<IconX />}
+                    submitting={erasingSupplier}
+                    onCancel={onClose}
+                />
+            </form>
         </Modal>
     )
 }

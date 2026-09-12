@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
-import { Button, Group, Modal } from '@mantine/core'
+import { Modal } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
+import { IconCheck } from '@tabler/icons-react'
 
 import Products from '@/services/products'
-import Helper from '@/services/helper'
 import Theme from '@/app/theme'
 
+import ButtonsSubmitAndCancel from '@/components/Common/Buttons/ButtonsSubmitAndCancel'
 import SuppliersDropdown from '@/components/Suppliers/SuppliersDropdown'
 
 import Product from '@/entities/products/Product'
@@ -85,21 +86,20 @@ const ProductUpdateOrAddSupplier = (props: ProductUpdateOrAddSupplierProps) => {
                 initialSupplier={currentProvider}
                 onChange={setSelectedSupplier}
             />
-            <Group justify="flex-end" mt="lg">
-                <Button
-                    variant="default"
-                    onClick={onClose}
-                    disabled={updatingSupplier}>
-                    Cancelar
-                </Button>
-                <Button
-                    color={Theme.primaryColor}
-                    onClick={handleUpdateOrAddSupplier}
-                    loading={updatingSupplier}
-                    disabled={!selectedSupplier}>
-                    Guardar
-                </Button>
-            </Group>
+            <form
+                onSubmit={(event) => {
+                    event.preventDefault()
+                    handleUpdateOrAddSupplier()
+                }}>
+                <ButtonsSubmitAndCancel
+                    operation={isUpdate ? 'Update' : 'Create'}
+                    operationText="Guardar"
+                    leftIcon={<IconCheck />}
+                    submitting={updatingSupplier}
+                    disabled={!selectedSupplier}
+                    onCancel={onClose}
+                />
+            </form>
         </Modal>
     )
 }

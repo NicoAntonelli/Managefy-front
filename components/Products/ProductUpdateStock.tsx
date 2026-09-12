@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Group, Modal, NumberInput } from '@mantine/core'
+import { Modal, NumberInput } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
+import { IconCheck } from '@tabler/icons-react'
 
 import Products from '@/services/products'
-import Helper from '@/services/helper'
 import Theme from '@/app/theme'
 
+import ButtonsSubmitAndCancel from '@/components/Common/Buttons/ButtonsSubmitAndCancel'
 import Product from '@/entities/products/Product'
 
 interface ProductUpdateStockProps {
@@ -76,21 +77,20 @@ const ProductUpdateStock = (props: ProductUpdateStockProps) => {
                 decimalScale={0}
                 mb="lg"
             />
-            <Group justify="flex-end">
-                <Button
-                    variant="default"
-                    onClick={onClose}
-                    disabled={updatingStock}>
-                    Cancelar
-                </Button>
-                <Button
-                    color={Theme.primaryColor}
-                    onClick={handleUpdateStock}
-                    loading={updatingStock}
-                    disabled={newStock === ''}>
-                    Guardar
-                </Button>
-            </Group>
+            <form
+                onSubmit={(event) => {
+                    event.preventDefault()
+                    handleUpdateStock()
+                }}>
+                <ButtonsSubmitAndCancel
+                    operation="Update"
+                    operationText="Guardar"
+                    leftIcon={<IconCheck />}
+                    submitting={updatingStock}
+                    disabled={newStock === ''}
+                    onCancel={onClose}
+                />
+            </form>
         </Modal>
     )
 }
