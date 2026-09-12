@@ -247,12 +247,8 @@ const LoginRegister = () => {
                                 ? 'Ya tengo una cuenta'
                                 : 'No tengo cuenta'}
                         </Button>
-                        <Button type="submit" disabled={submitting}>
-                            {submitting
-                                ? 'Cargando...'
-                                : isRegistration
-                                  ? 'Registrarse'
-                                  : 'Iniciar sesión'}
+                        <Button type="submit" loading={submitting}>
+                            {isRegistration ? 'Registrarse' : 'Iniciar sesión'}
                         </Button>
                     </Group>
                 </form>

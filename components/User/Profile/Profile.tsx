@@ -273,8 +273,8 @@ const Profile = () => {
                     )}
 
                     <Group justify="flex-end" mt="md">
-                        <Button type="submit" disabled={submitting}>
-                            {submitting ? 'Cargando...' : 'Guardar cambios'}
+                        <Button type="submit" loading={submitting}>
+                            Guardar cambios
                         </Button>
                     </Group>
                 </form>
@@ -304,10 +304,10 @@ const Profile = () => {
                 </Group>
                 <Group justify="flex-start" mt="md">
                     <Button
-                        disabled={submitting}
+                        loading={submitting}
                         color={Theme.other!.danger}
                         onClick={open}>
-                        {submitting ? 'Cargando...' : 'ELIMINAR CUENTA'}
+                        ELIMINAR CUENTA
                     </Button>
                 </Group>
             </Card>
@@ -332,10 +332,10 @@ const Profile = () => {
                 </Group>
                 <Group mt="xl">
                     <Button
-                        disabled={submitting}
+                        loading={submitting}
                         color={Theme.other!.danger}
                         onClick={handleDelete()}>
-                        {submitting ? 'Cargando...' : 'ELIMINAR CUENTA'}
+                        ELIMINAR CUENTA
                     </Button>
                 </Group>
             </Modal>

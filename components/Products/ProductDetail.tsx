@@ -13,8 +13,10 @@ import {
     Tooltip,
 } from '@mantine/core'
 import {
+    IconEye,
     IconHexagonPlus,
     IconPencil,
+    IconPlus,
     IconTrash,
     IconX,
 } from '@tabler/icons-react'
@@ -181,7 +183,7 @@ const ProductDetail = () => {
                             Código
                         </Text>
                         <Text size="lg" c={product.code ? undefined : 'dimmed'}>
-                            {product.code || '-'}
+                            {product.code || 'Sin asignar'}
                         </Text>
                     </div>
                     <div>
@@ -189,7 +191,7 @@ const ProductDetail = () => {
                             Descripción
                         </Text>
                         <Text c={product.description ? undefined : 'dimmed'}>
-                            {product.description || '-'}
+                            {product.description || 'Sin asignar'}
                         </Text>
                     </div>
                 </Stack>
@@ -249,7 +251,7 @@ const ProductDetail = () => {
                                             ? 'dimmed'
                                             : undefined
                                     }>
-                                    {product.stockMin ?? '-'}
+                                    {product.stockMin ?? 'Sin asignar'}
                                 </Text>
                             </div>
 
@@ -271,7 +273,7 @@ const ProductDetail = () => {
                                                 ? 'dimmed'
                                                 : undefined
                                         }>
-                                        {product.saleMinAmount ?? '-'}
+                                        {product.saleMinAmount ?? 'Sin asignar'}
                                     </Text>
                                 </div>
                             </Tooltip>
@@ -280,7 +282,7 @@ const ProductDetail = () => {
                                 <Text size="sm" fw={500} c="dimmed">
                                     Proveedor
                                 </Text>
-                                <Group gap="xs" align="center">
+                                <Group gap="0.5rem" align="center">
                                     <Text
                                         size="lg"
                                         c={
@@ -288,8 +290,19 @@ const ProductDetail = () => {
                                                 ? undefined
                                                 : 'dimmed'
                                         }>
-                                        {product.supplier?.name || '-'}
+                                        {product.supplier?.name || 'Ninguno'}
                                     </Text>
+                                    {product.supplier && (
+                                        <ActionIcon
+                                            component={Link}
+                                            href={`/suppliers/${product.supplier.id}`}
+                                            color={Theme.other!.secondaryColor}
+                                            variant="outline"
+                                            size="sm"
+                                            aria-label="Ver proveedor">
+                                            <IconEye size={16} />
+                                        </ActionIcon>
+                                    )}
                                     <ActionIcon
                                         color={Theme.primaryColor}
                                         variant="outline"
@@ -305,7 +318,7 @@ const ProductDetail = () => {
                                         {product.supplier ? (
                                             <IconPencil size={16} />
                                         ) : (
-                                            <IconHexagonPlus size={16} />
+                                            <IconPlus size={16} />
                                         )}
                                     </ActionIcon>
                                     {product.supplier && (
@@ -323,17 +336,6 @@ const ProductDetail = () => {
                                         </ActionIcon>
                                     )}
                                 </Group>
-                                {product.supplier && (
-                                    <Button
-                                        component={Link}
-                                        href={`/suppliers/${product.supplier.id}`}
-                                        color={Theme.other!.secondaryColor}
-                                        variant="subtle"
-                                        size="compact-sm"
-                                        px={0}>
-                                        Ver proveedor
-                                    </Button>
-                                )}
                             </div>
                         </Stack>
                     </Grid.Col>
@@ -349,7 +351,6 @@ const ProductDetail = () => {
 
                     <Button
                         color={Theme.other!.danger}
-                        variant="outline"
                         leftSection={<IconTrash size={20} />}
                         onClick={() => setDeleteModalOpened(true)}>
                         Eliminar

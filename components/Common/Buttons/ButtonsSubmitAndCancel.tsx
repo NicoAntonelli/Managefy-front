@@ -21,14 +21,11 @@ const ButtonsSubmitAndCancel = (props: ButtonsSubmitAndCancelProps) => {
     return (
         <Group justify="flex-end" mt="2rem">
             {onCancel ? (
-                <Button onClick={onCancel} color={Theme.other!.danger}>
+                <Button onClick={onCancel} variant="default">
                     Cancelar
                 </Button>
             ) : (
-                <Button
-                    component={Link}
-                    href={cancelHref}
-                    color={Theme.other!.danger}>
+                <Button component={Link} href={cancelHref} variant="default">
                     Cancelar
                 </Button>
             )}
@@ -38,8 +35,8 @@ const ButtonsSubmitAndCancel = (props: ButtonsSubmitAndCancelProps) => {
                     isCreate ? Theme.primaryColor : Theme.other!.secondaryColor
                 }
                 leftSection={leftIcon}
-                disabled={submitting}>
-                {submitting ? 'Cargando...' : `${action} ${text}`}
+                loading={submitting}>
+                {`${action} ${text}`}
             </Button>
         </Group>
     )

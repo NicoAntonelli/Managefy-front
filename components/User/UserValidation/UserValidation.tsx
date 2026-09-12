@@ -234,16 +234,15 @@ const UserValidation = () => {
                 <Group justify="flex-end" mt="md">
                     <Button
                         color={Theme.other!.secondaryColor}
-                        disabled={sendingNewCode || secondsRemaining > 0}
+                        loading={sendingNewCode}
+                        disabled={secondsRemaining > 0}
                         onClick={() => handleGenerateValidation()}>
                         {secondsRemaining > 0
                             ? `Reenviar código en ${secondsRemaining}s`
-                            : sendingNewCode
-                              ? 'Cargando...'
-                              : 'Enviar código'}
+                            : 'Enviar código'}
                     </Button>
-                    <Button type="submit" disabled={submitting}>
-                        {submitting ? 'Cargando...' : 'Validar código'}
+                    <Button type="submit" loading={submitting}>
+                        Validar código
                     </Button>
                 </Group>
             </form>
