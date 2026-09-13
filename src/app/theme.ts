@@ -5,6 +5,7 @@ const Theme = createTheme({
     primaryColor: 'blue',
     other: {
         secondaryColor: 'orange.6',
+        warning: 'yellow.6',
         danger: 'red.8',
         success: 'green.8',
     },
