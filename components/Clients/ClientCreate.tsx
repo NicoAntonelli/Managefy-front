@@ -12,7 +12,7 @@ import Theme from '@/app/theme'
 import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 import Validation from '@/utils/validation/Validation'
 
-import BusinessSelection from '@/components/Common/BusinessSelection'
+import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
 import ButtonGoBack from '@/components/Common/Buttons/ButtonGoBack'
 import ButtonsSubmitAndCancel from '@/components/Common/Buttons/ButtonsSubmitAndCancel'
 import InputDescription from '@/components/Common/Inputs/InputDescription'
@@ -103,7 +103,7 @@ const ClientCreate = () => {
     }
 
     if (!selectedBusiness) {
-        return <BusinessSelection resourceName="clientes" />
+        return <BusinessWelcome resourceName="clientes" />
     }
 
     return (

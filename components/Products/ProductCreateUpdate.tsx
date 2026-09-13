@@ -17,7 +17,7 @@ import Theme from '@/app/theme'
 import Validation from '@/utils/validation/Validation'
 import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 
-import BusinessSelection from '@/components/Common/BusinessSelection'
+import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
 import ButtonGoBack from '@/components/Common/Buttons/ButtonGoBack'
 import ButtonsSubmitAndCancel from '@/components/Common/Buttons/ButtonsSubmitAndCancel'
 import InputDescription from '@/components/Common/Inputs/InputDescription'
@@ -194,7 +194,7 @@ const ProductCreateUpdate = (props: ProductCreateUpdateProps) => {
     }
 
     if (!selectedBusiness) {
-        return <BusinessSelection resourceName="productos" />
+        return <BusinessWelcome resourceName="productos" />
     }
 
     return (

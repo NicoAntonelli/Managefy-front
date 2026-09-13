@@ -4,11 +4,11 @@ import { Stack, Text, Title } from '@mantine/core'
 import Clients from '@/services/clients'
 import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 
-import BusinessSelection from '@/components/Common/BusinessSelection'
+import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
 import ButtonCreate from '@/components/Common/Buttons/ButtonCreate'
+import ClientListItem from '@/components/Clients/ClientListItem'
 import SelectedBusinessBar from '@/components/Common/SelectedBusinessBar'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
-import ClientListItem from './ClientListItem'
 
 import Client from '@/entities/clients/Client'
 
@@ -44,7 +44,7 @@ const ClientsList = () => {
     }, [businessID])
 
     if (!selectedBusiness) {
-        return <BusinessSelection resourceName="clientes" />
+        return <BusinessWelcome resourceName="clientes" />
     }
 
     if (loading) {

@@ -26,16 +26,16 @@ import Helper from '@/services/helper'
 import Theme from '@/app/theme'
 import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 
-import ButtonGoBack from '@/components/Common/Buttons/ButtonGoBack'
+import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
 import ButtonCreate from '@/components/Common/Buttons/ButtonCreate'
-import SelectedBusinessBar from '@/components/Common/SelectedBusinessBar'
-import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
-import BusinessSelection from '@/components/Common/BusinessSelection'
+import ButtonGoBack from '@/components/Common/Buttons/ButtonGoBack'
 import ProductCreateUpdate from '@/components/Products/ProductCreateUpdate'
 import ProductDelete from '@/components/Products/ProductDelete'
 import ProductEraseSupplier from '@/components/Products/ProductEraseSupplier'
 import ProductUpdateOrAddSupplier from '@/components/Products/ProductUpdateOrAddSupplier'
 import ProductUpdateStock from '@/components/Products/ProductUpdateStock'
+import SelectedBusinessBar from '@/components/Common/SelectedBusinessBar'
+import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 
 import Product from '@/entities/products/Product'
 import ProductCU from '@/entities/products/ProductCU'
@@ -97,7 +97,7 @@ const ProductDetail = () => {
     }
 
     if (!selectedBusiness) {
-        return <BusinessSelection resourceName="productos" />
+        return <BusinessWelcome resourceName="productos" />
     }
 
     if (product && editing) {

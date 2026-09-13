@@ -5,15 +5,15 @@ import { IconBuildingStore, IconHexagonPlus } from '@tabler/icons-react'
 
 import Theme from '@/app/theme'
 
-interface BusinessSelectionProps {
+interface BusinessWelcomeProps {
     resourceName: string
     isBusinessPage?: boolean
 }
 
-const BusinessSelection = ({
+const BusinessWelcome = ({
     resourceName,
     isBusinessPage = false,
-}: BusinessSelectionProps) => (
+}: BusinessWelcomeProps) => (
     <Stack align="center" gap="md" py="xl">
         <Title size="2rem">
             {isBusinessPage
@@ -43,4 +43,4 @@ const BusinessSelection = ({
     </Stack>
 )
 
-export default BusinessSelection
+export default BusinessWelcome

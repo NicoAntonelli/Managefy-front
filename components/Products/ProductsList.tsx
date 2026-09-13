@@ -4,9 +4,9 @@ import { Stack, Text, Title } from '@mantine/core'
 import Products from '@/services/products'
 import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 
-import BusinessSelection from '@/components/Common/BusinessSelection'
+import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
 import ButtonCreate from '@/components/Common/Buttons/ButtonCreate'
-import ProductsListItem from './ProductsListItem'
+import ProductsListItem from '@/components/Products/ProductsListItem'
 import SelectedBusinessBar from '@/components/Common/SelectedBusinessBar'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 
@@ -44,7 +44,7 @@ const ProductsList = () => {
     }, [businessID])
 
     if (!selectedBusiness) {
-        return <BusinessSelection resourceName="productos" />
+        return <BusinessWelcome resourceName="productos" />
     }
 
     if (loading) {

@@ -4,8 +4,8 @@ import { Stack } from '@mantine/core'
 import Businesses from '@/services/businesses'
 import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 
-import BusinessesListItem from './BusinessesListItem'
-import BusinessSelection from '@/components/Common/BusinessSelection'
+import BusinessesListItem from '@/components/Businesses/BusinessesListItem'
+import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
 import ButtonCreate from '@/components/Common/Buttons/ButtonCreate'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 
@@ -58,7 +58,7 @@ const BusinessesList = () => {
 
     if (!businesses?.length) {
         return (
-            <BusinessSelection
+            <BusinessWelcome
                 resourceName="emprendimientos"
                 isBusinessPage={true}
             />
