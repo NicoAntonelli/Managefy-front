@@ -1,0 +1,49 @@
+import React from 'react'
+
+import Link from 'next/link'
+import Theme from '@/app/theme'
+import { Button, Card, Group, Text, Title } from '@mantine/core'
+import { IconChevronRight } from '@tabler/icons-react'
+
+import Supplier from '@/entities/suppliers/Supplier'
+import SkeletonSmall from '@/components/Common/Loader/SkeletonSmall'
+import SupplierContact from './SupplierContact'
+
+interface SuppliersListItemProps {
+    supplier: Supplier
+}
+
+const SuppliersListItem = (props: SuppliersListItemProps) => {
+    const { supplier } = props
+
+    if (!supplier) return <SkeletonSmall />
+
+    return (
+        <Card
+            shadow="sm"
+            padding="lg"
+            withBorder
+            style={{
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+            }}>
+            <Title size="1.5rem">{supplier.name}</Title>
+            <Text mt="xs">{supplier.description}</Text>
+
+            <SupplierContact supplier={supplier} />
+
+            <Group justify="flex-start" mt="md" gap="sm">
+                <Link href={`/suppliers/${supplier.id}`}>
+                    <Button
+                        color={Theme.primaryColor}
+                        leftSection={<IconChevronRight size={24} />}>
+                        Ver detalles
+                    </Button>
+                </Link>
+            </Group>
+        </Card>
+    )
+}
+
+export default SuppliersListItem
