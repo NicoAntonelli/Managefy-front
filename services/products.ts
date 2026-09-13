@@ -23,7 +23,7 @@ const listProductsBySupplier = async (
     businessID: number,
     supplierID: number
 ): Promise<Product[]> => {
-    const endpoint = `${prefix}/business/${businessID}/suppliers/${supplierID}`
+    const endpoint = `${prefix}/business/${businessID}/supplier/${supplierID}`
     try {
         const response = await api.get<Product[]>(endpoint)
         Helper.validateResponseAPI(response)
