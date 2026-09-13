@@ -141,7 +141,7 @@ const ProductDetail = () => {
     if (!product) {
         return (
             <Stack gap="xs" style={{ width: '100%' }}>
-                <SelectedBusinessBar business={selectedBusiness} />
+                <SelectedBusinessBar business={selectedBusiness} hideFilter />
                 <div style={{ marginBottom: 'var(--mantine-spacing-xl)' }}>
                     <ButtonGoBack href="/products" text="productos" />
                 </div>
@@ -159,7 +159,7 @@ const ProductDetail = () => {
 
     return (
         <Stack gap="xs" style={{ width: '100%' }}>
-            <SelectedBusinessBar business={selectedBusiness} />
+            <SelectedBusinessBar business={selectedBusiness} hideFilter />
 
             <div style={{ marginBottom: 'var(--mantine-spacing-xl)' }}>
                 <ButtonGoBack href="/products" text="productos" />

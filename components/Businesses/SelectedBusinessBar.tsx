@@ -10,10 +10,11 @@ import BusinessVisibilityBadge from '@/components/Businesses/BusinessVisibilityB
 
 interface SelectedBusinessBarProps {
     business: BusinessMinInfo
+    hideFilter?: boolean
 }
 
 const SelectedBusinessBar = (props: SelectedBusinessBarProps) => {
-    const { business } = props
+    const { business, hideFilter = false } = props
 
     const barRef = useRef<HTMLDivElement>(null)
     const businessRef = useRef<HTMLDivElement>(null)
@@ -83,29 +84,31 @@ const SelectedBusinessBar = (props: SelectedBusinessBarProps) => {
                     minWidth: 0,
                     width: isWrapped ? '100%' : undefined,
                 }}>
-                <button
-                    type="button"
-                    onClick={handleFilter}
-                    onMouseEnter={() => setIsFilterHovered(true)}
-                    onMouseLeave={() => setIsFilterHovered(false)}
-                    aria-label="Filtrar por emprendimiento"
-                    style={{
-                        border: 0,
-                        padding:
-                            'var(--mantine-spacing-xs) var(--mantine-spacing-sm)',
-                        backgroundColor: isFilterHovered
-                            ? 'var(--mantine-color-dark-7)'
-                            : 'var(--mantine-color-dark-9)',
-                        color: 'white',
-                        cursor: 'pointer',
-                        position: 'relative',
-                        zIndex: 1,
-                        marginRight: 'calc(-1 * var(--mantine-spacing-sm))',
-                        borderRadius:
-                            '0 var(--mantine-radius-lg) var(--mantine-radius-lg) 0',
-                    }}>
-                    <IconFilter size={20} />
-                </button>
+                {!hideFilter && (
+                    <button
+                        type="button"
+                        onClick={handleFilter}
+                        onMouseEnter={() => setIsFilterHovered(true)}
+                        onMouseLeave={() => setIsFilterHovered(false)}
+                        aria-label="Filtrar por emprendimiento"
+                        style={{
+                            border: 0,
+                            padding:
+                                'var(--mantine-spacing-xs) var(--mantine-spacing-sm)',
+                            backgroundColor: isFilterHovered
+                                ? 'var(--mantine-color-dark-7)'
+                                : 'var(--mantine-color-dark-9)',
+                            color: 'white',
+                            cursor: 'pointer',
+                            position: 'relative',
+                            zIndex: 1,
+                            marginRight: 'calc(-1 * var(--mantine-spacing-sm))',
+                            borderRadius:
+                                '0 var(--mantine-radius-lg) var(--mantine-radius-lg) 0',
+                        }}>
+                        <IconFilter size={20} />
+                    </button>
+                )}
                 <Link
                     href={`/businesses/${business.id}`}
                     onMouseEnter={() => setIsBusinessHovered(true)}
@@ -121,8 +124,9 @@ const SelectedBusinessBar = (props: SelectedBusinessBarProps) => {
                         style={{
                             minWidth: 0,
                             flex: isWrapped ? 1 : undefined,
-                            padding:
-                                'var(--mantine-spacing-xs) var(--mantine-spacing-md) var(--mantine-spacing-xs) var(--mantine-spacing-lg)',
+                            padding: hideFilter
+                                ? 'var(--mantine-spacing-xs) var(--mantine-spacing-md)'
+                                : 'var(--mantine-spacing-xs) var(--mantine-spacing-md) var(--mantine-spacing-xs) var(--mantine-spacing-lg)',
                             backgroundColor: isBusinessHovered
                                 ? 'light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-4))'
                                 : 'light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5))',
