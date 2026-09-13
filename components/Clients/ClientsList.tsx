@@ -7,7 +7,7 @@ import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
 import ButtonCreate from '@/components/Common/Buttons/ButtonCreate'
 import ClientListItem from '@/components/Clients/ClientListItem'
-import SelectedBusinessBar from '@/components/Common/SelectedBusinessBar'
+import SelectedBusinessBar from '@/components/Businesses/SelectedBusinessBar'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 
 import Client from '@/entities/clients/Client'

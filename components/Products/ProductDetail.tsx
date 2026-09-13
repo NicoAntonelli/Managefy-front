@@ -34,7 +34,7 @@ import ProductDelete from '@/components/Products/ProductDelete'
 import ProductEraseSupplier from '@/components/Products/ProductEraseSupplier'
 import ProductUpdateOrAddSupplier from '@/components/Products/ProductUpdateOrAddSupplier'
 import ProductUpdateStock from '@/components/Products/ProductUpdateStock'
-import SelectedBusinessBar from '@/components/Common/SelectedBusinessBar'
+import SelectedBusinessBar from '@/components/Businesses/SelectedBusinessBar'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 
 import Product from '@/entities/products/Product'
