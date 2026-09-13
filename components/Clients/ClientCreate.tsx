@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import { useForm } from '@mantine/form'
 import { Card, Group, Stack, Text, Title } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
-import { IconPhone, IconUser } from '@tabler/icons-react'
+import { IconUserDollar } from '@tabler/icons-react'
 
 import Clients from '@/services/clients'
 import Helper from '@/services/helper'
@@ -126,7 +126,7 @@ const ClientCreate = () => {
                         required
                         label="Nombre"
                         placeholder="Nombre del cliente"
-                        leftIcon={<IconUser />}
+                        leftIcon={<IconUserDollar />}
                         InputProps={{ ...form.getInputProps('name') }}
                     />
 
@@ -159,7 +159,7 @@ const ClientCreate = () => {
                     <ButtonsSubmitAndCancel
                         operation="Create"
                         resource="cliente"
-                        leftIcon={<IconUser size={20} />}
+                        leftIcon={<IconUserDollar size={20} />}
                         submitting={submitting}
                         cancelHref="/clients"
                     />

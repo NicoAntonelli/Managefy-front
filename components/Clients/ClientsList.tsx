@@ -54,7 +54,7 @@ const ClientsList = () => {
     return (
         <Stack gap="lg" style={{ width: '100%' }}>
             <div style={{ marginBottom: 'var(--mantine-spacing-xl)' }}>
-                <SelectedBusinessBar business={selectedBusiness} />
+                <SelectedBusinessBar business={selectedBusiness} hideFilter />
             </div>
             {!clients?.length ? (
                 <Stack align="center" gap="md" py="xl">

@@ -9,17 +9,21 @@ interface ClientContactProps {
     client: Client
 }
 
-const ClientContact = ({ client }: ClientContactProps) => (
-    <Group gap="md" mt="sm">
-        <Group gap="xs">
-            <IconMail size={18} />
-            <Text>{client.email}</Text>
+const ClientContact = (props: ClientContactProps) => {
+    const { client } = props
+
+    return (
+        <Group gap="md" mt="sm">
+            <Group gap="xs">
+                <IconMail size={18} />
+                <Text>{client.email}</Text>
+            </Group>
+            <Group gap="xs">
+                <IconPhone size={18} />
+                <Text>{client.phone}</Text>
+            </Group>
         </Group>
-        <Group gap="xs">
-            <IconPhone size={18} />
-            <Text>{client.phone}</Text>
-        </Group>
-    </Group>
-)
+    )
+}
 
 export default ClientContact
