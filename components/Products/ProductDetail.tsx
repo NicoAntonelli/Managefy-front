@@ -73,7 +73,6 @@ const ProductDetail = () => {
                 )
                 setProduct(response)
             } catch (error) {
-                const message = Helper.parseError(error)
                 notifications.show({
                     title: 'Error',
                     message: 'No se pudo cargar el producto',
@@ -120,6 +119,7 @@ const ProductDetail = () => {
                       email: product.supplier.email,
                       phone: product.supplier.phone,
                       businessID: selectedBusiness.id,
+                      productsIDs: [product.id],
                   }
                 : null,
         }

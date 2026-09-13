@@ -5,7 +5,7 @@ interface SupplierCU {
     email: string
     phone: string
     businessID: number
-    productsIDs?: number[] | null
+    productsIDs: number[]
 }
 
 export default SupplierCU

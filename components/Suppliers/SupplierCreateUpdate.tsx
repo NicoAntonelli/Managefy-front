@@ -7,6 +7,7 @@ import { notifications } from '@mantine/notifications'
 import { IconUserCog } from '@tabler/icons-react'
 
 import Helper from '@/services/helper'
+import Products from '@/services/products'
 import Suppliers from '@/services/suppliers'
 import Theme from '@/app/theme'
 import Validation from '@/utils/validation/Validation'
@@ -19,6 +20,7 @@ import InputDescription from '@/components/Common/Inputs/InputDescription'
 import InputEmail from '@/components/Common/Inputs/InputEmail'
 import InputPhone from '@/components/Common/Inputs/InputPhone'
 import InputText from '@/components/Common/Inputs/InputText'
+import ProductsSelectionArea from '@/components/Products/ProductsSelectionArea'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 
 import Supplier from '@/entities/suppliers/Supplier'
@@ -29,6 +31,7 @@ interface SupplierCreateUpdateForm {
     description: string
     email: string
     phone: string
+    productsIDs: number[]
 }
 
 interface SupplierCreateUpdateProps {
@@ -58,10 +61,6 @@ const SupplierCreateUpdate = (props: SupplierCreateUpdateProps) => {
 
     const router = useRouter()
 
-    useEffect(() => {
-        setLoading(false)
-    }, [])
-
     const form = useForm<SupplierCreateUpdateForm>({
         mode: 'controlled',
         initialValues: {
@@ -69,6 +68,7 @@ const SupplierCreateUpdate = (props: SupplierCreateUpdateProps) => {
             description: currentSupplier?.description ?? '',
             email: currentSupplier?.email ?? '',
             phone: currentSupplier?.phone ?? '',
+            productsIDs: currentSupplier?.productsIDs ?? [],
         },
         validate: {
             name: (value) =>
@@ -85,8 +85,38 @@ const SupplierCreateUpdate = (props: SupplierCreateUpdateProps) => {
                 Validation.phone(value)
                     ? null
                     : 'Debe ingresar un teléfono válido',
+            productsIDs: (value) =>
+                value && value.length > 0
+                    ? null
+                    : 'Debe seleccionar al menos un producto',
         },
     })
+
+    useEffect(() => {
+        setLoading(false)
+
+        if (
+            isUpdate &&
+            currentSupplier?.id &&
+            selectedBusiness?.id &&
+            (!currentSupplier.productsIDs ||
+                currentSupplier.productsIDs.length === 0)
+        ) {
+            Products.listProductsBySupplier(
+                selectedBusiness.id,
+                currentSupplier.id
+            )
+                .then((products) => {
+                    if (products?.length) {
+                        form.setFieldValue(
+                            'productsIDs',
+                            products.map((p) => p.id)
+                        )
+                    }
+                })
+                .catch(() => {})
+        }
+    }, [currentSupplier?.id, selectedBusiness?.id])
 
     const handleSubmit = async (values: SupplierCreateUpdateForm) => {
         if (submitting || !selectedBusiness) return
@@ -95,9 +125,12 @@ const SupplierCreateUpdate = (props: SupplierCreateUpdateProps) => {
         try {
             const supplierCU: SupplierCU = {
                 id: currentSupplier?.id,
-                ...values,
+                name: values.name,
+                description: values.description,
+                email: values.email,
+                phone: values.phone,
                 businessID: selectedBusiness.id,
-                productsIDs: currentSupplier?.productsIDs,
+                productsIDs: values.productsIDs,
             }
             const response: Supplier = isUpdate
                 ? await Suppliers.updateSupplier(supplierCU)
@@ -184,6 +217,17 @@ const SupplierCreateUpdate = (props: SupplierCreateUpdateProps) => {
                         name="phone"
                         required
                         InputProps={{ ...form.getInputProps('phone') }}
+                    />
+
+                    <ProductsSelectionArea
+                        key={form.key('productsIDs')}
+                        businessID={selectedBusiness.id}
+                        selectedProductIDs={form.values.productsIDs}
+                        required
+                        error={form.errors.productsIDs as string}
+                        onChange={(productIDs) =>
+                            form.setFieldValue('productsIDs', productIDs)
+                        }
                     />
 
                     {errorMessage && (
