@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { ActionIcon, Burger, Group } from '@mantine/core'
 import { IconSunMoon } from '@tabler/icons-react'
 
-import { useRouter } from 'next/navigation'
 import useSidebarStore from '@/utils/stores/useSidebarStore'
 
 import Theme from '@/app/theme'
@@ -18,6 +18,9 @@ const Header = (props: HeaderProps) => {
     const opened = useSidebarStore((state) => state.opened)
     const toggle = useSidebarStore((state) => state.toggle)
 
+    const [isBurgerHovered, setIsBurgerHovered] = useState(false)
+    const [isIconHovered, setIsIconHovered] = useState(false)
+
     return (
         <>
             <Group ml={15} h="100%" gap="xs">
@@ -27,12 +30,30 @@ const Header = (props: HeaderProps) => {
                         onClick={toggle}
                         hiddenFrom="sm"
                         size="sm"
+                        onMouseEnter={() => setIsBurgerHovered(true)}
+                        onMouseLeave={() => setIsBurgerHovered(false)}
+                        style={{
+                            cursor: 'pointer',
+                            borderRadius: 'var(--mantine-radius-sm)',
+                            backgroundColor: isBurgerHovered
+                                ? 'light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4))'
+                                : 'transparent',
+                            transition: 'background-color 0.15s ease',
+                        }}
                     />
                 )}
                 <ActionIcon
                     variant="transparent"
                     onClick={() => router.push('/')}
-                    aria-label="Managefy Icon">
+                    aria-label="Managefy Icon"
+                    onMouseEnter={() => setIsIconHovered(true)}
+                    onMouseLeave={() => setIsIconHovered(false)}
+                    style={{
+                        cursor: 'pointer',
+                        transform: isIconHovered ? 'scale(1.1)' : 'scale(1)',
+                        opacity: isIconHovered ? 0.85 : 1,
+                        transition: 'transform 0.15s ease, opacity 0.15s ease',
+                    }}>
                     <Image
                         src="/favicon.ico"
                         alt="Managefy favicon"

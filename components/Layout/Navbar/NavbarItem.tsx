@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Box, Flex, Text, useMantineColorScheme } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 
@@ -28,6 +28,7 @@ const NavbarItem = ({
     onClick,
 }: NavbarItemProps) => {
     const { colorScheme } = useMantineColorScheme()
+    const [isHovered, setIsHovered] = useState(false)
 
     // If no textColor provided, set default based on color scheme
     if (!textColor) {
@@ -56,14 +57,24 @@ const NavbarItem = ({
         () => (
             <Flex
                 h={small ? 45 : 60}
-                bg={background}
+                bg={
+                    isHovered
+                        ? 'light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4))'
+                        : background
+                }
                 c={textColor}
                 pl={20}
                 onClick={handleClick}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
                 align="center"
                 gap={20}
                 role="button"
-                tabIndex={0}>
+                tabIndex={0}
+                style={{
+                    cursor: 'pointer',
+                    transition: 'background-color 0.15s ease',
+                }}>
                 <Box style={{ flexShrink: 0 }}>{icon && icon}</Box>
                 <Box style={{ flex: 1, minWidth: 0 }}>
                     <Text style={truncateTextStyle}>{text}</Text>
@@ -75,7 +86,17 @@ const NavbarItem = ({
                 </Box>
             </Flex>
         ),
-        [text, textSecondLine, icon, small, isMobile]
+        [
+            colorScheme,
+            isHovered,
+            background,
+            icon,
+            small,
+            text,
+            textColor,
+            textSecondLine,
+            handleClick,
+        ]
     )
 
     return link ? (
