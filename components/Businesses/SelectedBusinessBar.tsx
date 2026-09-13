@@ -11,10 +11,13 @@ import BusinessVisibilityBadge from '@/components/Businesses/BusinessVisibilityB
 interface SelectedBusinessBarProps {
     business: BusinessMinInfo
     hideFilter?: boolean
+    filterContent?:
+        | React.ReactNode
+        | ((props: { onClose: () => void }) => React.ReactNode)
 }
 
 const SelectedBusinessBar = (props: SelectedBusinessBarProps) => {
-    const { business, hideFilter = false } = props
+    const { business, hideFilter = false, filterContent } = props
 
     const barRef = useRef<HTMLDivElement>(null)
     const businessRef = useRef<HTMLDivElement>(null)
@@ -157,7 +160,16 @@ const SelectedBusinessBar = (props: SelectedBusinessBarProps) => {
                 onClose={() => setFilterModalOpened(false)}
                 title="Filtros"
                 centered>
-                <Text>No hay filtros disponibles para esta pantalla</Text>
+                {filterModalOpened &&
+                    (typeof filterContent === 'function'
+                        ? filterContent({
+                              onClose: () => setFilterModalOpened(false),
+                          })
+                        : (filterContent ?? (
+                              <Text>
+                                  No hay filtros disponibles para esta pantalla
+                              </Text>
+                          )))}
             </Modal>
         </Group>
     )
