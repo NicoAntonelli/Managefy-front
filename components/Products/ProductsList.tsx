@@ -9,8 +9,10 @@ import ButtonCreate from '@/components/Common/Buttons/ButtonCreate'
 import ProductsListItem from '@/components/Products/ProductsListItem'
 import SelectedBusinessBar from '@/components/Businesses/SelectedBusinessBar'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
+import SuppliersFilter from '@/components/Suppliers/SuppliersFilter'
 
 import Product from '@/entities/products/Product'
+import Supplier from '@/entities/suppliers/Supplier'
 
 const ProductsList = () => {
     const selectedBusiness = useSelectedBusinessStore(
@@ -19,6 +21,15 @@ const ProductsList = () => {
     const businessID = selectedBusiness?.id
     const [products, setProducts] = useState<Product[] | null>(null)
     const [loading, setLoading] = useState(true)
+    const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(
+        null
+    )
+    const [prevBusinessID, setPrevBusinessID] = useState(businessID)
+
+    if (businessID !== prevBusinessID) {
+        setPrevBusinessID(businessID)
+        setSelectedSupplier(null)
+    }
 
     useEffect(() => {
         if (businessID === undefined) {
@@ -31,7 +42,12 @@ const ProductsList = () => {
 
         const fetchProducts = async () => {
             try {
-                const response = await Products.listProducts(businessID)
+                const response = selectedSupplier
+                    ? await Products.listProductsBySupplier(
+                          businessID,
+                          selectedSupplier.id
+                      )
+                    : await Products.listProducts(businessID)
                 setProducts(response)
             } catch (error) {
                 setProducts(null)
@@ -41,7 +57,7 @@ const ProductsList = () => {
         }
 
         fetchProducts()
-    }, [businessID])
+    }, [businessID, selectedSupplier])
 
     if (!selectedBusiness) {
         return <BusinessWelcome resourceName="productos" />
@@ -54,7 +70,18 @@ const ProductsList = () => {
     return (
         <Stack gap="lg" style={{ width: '100%' }}>
             <div style={{ marginBottom: 'var(--mantine-spacing-xl)' }}>
-                <SelectedBusinessBar business={selectedBusiness} />
+                <SelectedBusinessBar
+                    business={selectedBusiness}
+                    filterContent={({ onClose }) => (
+                        <SuppliersFilter
+                            key={`${selectedBusiness.id}-${selectedSupplier?.id ?? 'none'}`}
+                            businessID={selectedBusiness.id}
+                            appliedSupplier={selectedSupplier}
+                            onApply={setSelectedSupplier}
+                            onClose={onClose}
+                        />
+                    )}
+                />
             </div>
             {!products?.length ? (
                 <Stack align="center" gap="md" py="xl">
