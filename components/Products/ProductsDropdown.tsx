@@ -1,29 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import {
-    ActionIcon,
-    Combobox,
-    Group,
-    Loader,
-    ScrollArea,
-    Stack,
-    Text,
-    TextInput,
-    Tooltip,
-    useCombobox,
-} from '@mantine/core'
+import { ActionIcon, Group, Stack, Text, Tooltip } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
-import {
-    IconCheck,
-    IconChevronDown,
-    IconRefresh,
-    IconRocket,
-    IconSearch,
-} from '@tabler/icons-react'
+import { IconRefresh, IconRocket } from '@tabler/icons-react'
 
 import Helper from '@/services/helper'
 import Products from '@/services/products'
 import Validation from '@/utils/validation/Validation'
 import Theme from '@/app/theme'
+
+import CustomDropdown from '@/components/Common/CustomDropdown/CustomDropdown'
+import ProductsDropdownItem from '@/components/Products/ProductsDropdownItem'
 
 import Product from '@/entities/products/Product'
 
@@ -40,15 +26,8 @@ const ProductsDropdown = (props: ProductsDropdownProps) => {
     const { businessID, selectedProductIDs, forceRefresh = false } = props
     const { label, onToggleProduct, onProductsLoaded } = props
 
-    const combobox = useCombobox({
-        onDropdownClose: () => {
-            combobox.resetSelectedOption()
-        },
-    })
-
     const [loading, setLoading] = useState(false)
     const [products, setProducts] = useState<Product[] | null>(null)
-    const [searchQuery, setSearchQuery] = useState('')
 
     const [cachedAt, setCachedAt] = useState<number | null>(null)
     const [cachedBusinessID, setCachedBusinessID] = useState<number | null>(
@@ -94,20 +73,15 @@ const ProductsDropdown = (props: ProductsDropdownProps) => {
         }
     }, [businessID, forceRefresh])
 
-    const filteredProducts = (products ?? []).filter((product) => {
-        if (!searchQuery.trim()) return true
-        const query = searchQuery.toLowerCase().trim()
+    const handleSelect = (product: Product) => {
+        onToggleProduct(product)
+    }
+
+    const filterPredicate = (product: Product, query: string) => {
         const matchesName = product.name?.toLowerCase().includes(query)
         const matchesDesc = product.description?.toLowerCase().includes(query)
         const matchesCode = product.code?.toLowerCase().includes(query)
         return Boolean(matchesName || matchesDesc || matchesCode)
-    })
-
-    const handleSelect = (val: string) => {
-        const product = products?.find((p) => String(p.id) === val)
-        if (product) {
-            onToggleProduct(product)
-        }
     }
 
     const placeholder =
@@ -125,118 +99,26 @@ const ProductsDropdown = (props: ProductsDropdownProps) => {
                 </Text>
             )}
             <Group align="center" gap="sm">
-                <Combobox
-                    store={combobox}
-                    onOptionSubmit={(val) => {
-                        handleSelect(val)
-                    }}
-                    withinPortal={false}>
-                    <Combobox.Target>
-                        <TextInput
-                            flex={1}
-                            placeholder={placeholder}
-                            leftSection={<IconRocket size={18} />}
-                            rightSection={
-                                loading ? (
-                                    <Loader size={18} />
-                                ) : (
-                                    <IconChevronDown size={18} />
-                                )
-                            }
-                            readOnly
-                            onClick={() => combobox.toggleDropdown()}
-                            style={{ cursor: 'pointer' }}
-                            styles={{
-                                input: {
-                                    cursor: 'pointer',
-                                },
-                            }}
+                <CustomDropdown<Product>
+                    items={products ?? []}
+                    getItemKey={(product) => product.id}
+                    getItemLabel={(product) => product.name}
+                    filterPredicate={filterPredicate}
+                    onSelect={handleSelect}
+                    closeOnSelect={false}
+                    withinPortal={false}
+                    loading={loading}
+                    placeholder={placeholder}
+                    searchPlaceholder="Buscar por nombre, código o descripción..."
+                    emptyText="No se encontraron productos coincidentes"
+                    leftIcon={<IconRocket size={18} />}
+                    renderOption={(product) => (
+                        <ProductsDropdownItem
+                            product={product}
+                            isSelected={selectedProductIDs.includes(product.id)}
                         />
-                    </Combobox.Target>
-
-                    <Combobox.Dropdown>
-                        <Combobox.Search
-                            value={searchQuery}
-                            onChange={(event) =>
-                                setSearchQuery(event.currentTarget.value)
-                            }
-                            placeholder="Buscar por nombre, código o descripción..."
-                            leftSection={<IconSearch size={16} />}
-                        />
-                        <Combobox.Options>
-                            <ScrollArea.Autosize type="scroll" mah={220}>
-                                {loading && (
-                                    <Combobox.Empty>
-                                        <Group justify="center" p="xs">
-                                            <Loader size="sm" />
-                                        </Group>
-                                    </Combobox.Empty>
-                                )}
-
-                                {!loading && filteredProducts.length === 0 && (
-                                    <Combobox.Empty>
-                                        No se encontraron productos coincidentes
-                                    </Combobox.Empty>
-                                )}
-
-                                {!loading &&
-                                    filteredProducts.map((product) => {
-                                        const isSelected =
-                                            selectedProductIDs.includes(
-                                                product.id
-                                            )
-                                        return (
-                                            <Combobox.Option
-                                                value={String(product.id)}
-                                                key={product.id}>
-                                                <Group
-                                                    justify="space-between"
-                                                    flex={1}
-                                                    gap="xs">
-                                                    <Group gap="xs">
-                                                        {isSelected ? (
-                                                            <IconCheck
-                                                                size={16}
-                                                                color="var(--mantine-color-teal-6)"
-                                                            />
-                                                        ) : (
-                                                            <span
-                                                                style={{
-                                                                    width: 16,
-                                                                    display:
-                                                                        'inline-block',
-                                                                }}
-                                                            />
-                                                        )}
-                                                        <div>
-                                                            <Text size="sm">
-                                                                {product.name}
-                                                                {product.code
-                                                                    ? ` (${product.code})`
-                                                                    : ''}
-                                                            </Text>
-                                                            {product.description && (
-                                                                <Text
-                                                                    size="xs"
-                                                                    c="dimmed"
-                                                                    lineClamp={
-                                                                        1
-                                                                    }>
-                                                                    {
-                                                                        product.description
-                                                                    }
-                                                                </Text>
-                                                            )}
-                                                        </div>
-                                                    </Group>
-                                                </Group>
-                                            </Combobox.Option>
-                                        )
-                                    })}
-                            </ScrollArea.Autosize>
-                        </Combobox.Options>
-                    </Combobox.Dropdown>
-                </Combobox>
+                    )}
+                />
 
                 {!forceRefresh && (
                     <Tooltip label="Recargar productos">
