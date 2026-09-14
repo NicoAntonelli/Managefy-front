@@ -11,14 +11,14 @@ import ButtonsSubmitAndCancel from '@/components/Common/Buttons/ButtonsSubmitAnd
 
 type ProductDeleteProps = {
     opened: boolean
-    productId: number
+    productID: number
     businessID: number
     productName: string
     onClose: () => void
 }
 
 const ProductDelete = (props: ProductDeleteProps) => {
-    const { opened, productId, businessID, productName, onClose } = props
+    const { opened, productID, businessID, productName, onClose } = props
 
     const router = useRouter()
     const [deleting, setDeleting] = useState(false)
@@ -26,7 +26,7 @@ const ProductDelete = (props: ProductDeleteProps) => {
     const handleDelete = async () => {
         setDeleting(true)
         try {
-            await Products.deleteProduct(productId, businessID)
+            await Products.deleteProduct(productID, businessID)
             notifications.show({
                 title: 'Éxito',
                 message: 'Producto eliminado correctamente',

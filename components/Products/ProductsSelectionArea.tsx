@@ -50,9 +50,9 @@ const ProductsSelectionArea = (props: ProductsSelectionAreaProps) => {
         }
     }
 
-    const handleRemoveProduct = (productId: number) => {
-        if (lockedProductIDs.includes(productId)) return
-        onChange(selectedProductIDs.filter((id) => id !== productId))
+    const handleRemoveProduct = (productID: number) => {
+        if (lockedProductIDs.includes(productID)) return
+        onChange(selectedProductIDs.filter((id) => id !== productID))
     }
 
     const handleProductsLoaded = (products: Product[]) => {

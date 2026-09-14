@@ -11,7 +11,7 @@ import Product from '@/entities/products/Product'
 
 interface ProductUpdateStockProps {
     opened: boolean
-    productId: number
+    productID: number
     businessID: number
     currentStock: number
     onSuccess: (product: Product) => void
@@ -19,7 +19,7 @@ interface ProductUpdateStockProps {
 }
 
 const ProductUpdateStock = (props: ProductUpdateStockProps) => {
-    const { opened, productId, businessID, currentStock } = props
+    const { opened, productID, businessID, currentStock } = props
     const { onSuccess, onClose } = props
 
     const [newStock, setNewStock] = useState<number | ''>(currentStock)
@@ -37,7 +37,7 @@ const ProductUpdateStock = (props: ProductUpdateStockProps) => {
         setUpdatingStock(true)
         try {
             const response = await Products.updateProductStock(
-                productId,
+                productID,
                 businessID,
                 newStock
             )

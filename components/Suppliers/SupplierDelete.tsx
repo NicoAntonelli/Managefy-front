@@ -11,14 +11,14 @@ import ButtonsSubmitAndCancel from '@/components/Common/Buttons/ButtonsSubmitAnd
 
 type SupplierDeleteProps = {
     opened: boolean
-    supplierId: number
+    supplierID: number
     businessID: number
     supplierName: string
     onClose: () => void
 }
 
 const SupplierDelete = (props: SupplierDeleteProps) => {
-    const { opened, supplierId, businessID, supplierName, onClose } = props
+    const { opened, supplierID, businessID, supplierName, onClose } = props
 
     const router = useRouter()
     const [deleting, setDeleting] = useState(false)
@@ -26,7 +26,7 @@ const SupplierDelete = (props: SupplierDeleteProps) => {
     const handleDelete = async () => {
         setDeleting(true)
         try {
-            await Suppliers.deleteSupplier(supplierId, businessID)
+            await Suppliers.deleteSupplier(supplierID, businessID)
             notifications.show({
                 title: 'Éxito',
                 message: 'Proveedor eliminado correctamente',

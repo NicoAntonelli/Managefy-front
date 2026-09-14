@@ -42,7 +42,7 @@ import ProductCU from '@/entities/products/ProductCU'
 
 const ProductDetail = () => {
     const params = useParams()
-    const productId = params?.id ? Number(params.id) : null
+    const productID = params?.id ? Number(params.id) : null
 
     const selectedBusiness = useSelectedBusinessStore(
         (state) => state.selectedBusiness
@@ -60,7 +60,7 @@ const ProductDetail = () => {
         useState(false)
 
     useEffect(() => {
-        if (!productId || !businessID) {
+        if (!productID || !businessID) {
             setLoading(false)
             return
         }
@@ -68,7 +68,7 @@ const ProductDetail = () => {
         const fetchProduct = async () => {
             try {
                 const response = await Products.getOneProduct(
-                    productId,
+                    productID,
                     businessID
                 )
                 setProduct(response)
@@ -84,7 +84,7 @@ const ProductDetail = () => {
         }
 
         fetchProduct()
-    }, [productId, businessID])
+    }, [productID, businessID])
 
     const handleEdit = () => {
         if (!product) return
@@ -377,7 +377,7 @@ const ProductDetail = () => {
 
             <ProductUpdateStock
                 opened={stockModalOpened}
-                productId={product.id}
+                productID={product.id}
                 businessID={selectedBusiness.id}
                 currentStock={product.stock}
                 onSuccess={(updatedProduct) => setProduct(updatedProduct)}
@@ -386,7 +386,7 @@ const ProductDetail = () => {
 
             <ProductUpdateOrAddSupplier
                 opened={supplierModalOpened}
-                productId={product.id}
+                productID={product.id}
                 businessID={selectedBusiness.id}
                 currentProvider={product.supplier}
                 onSuccess={(updatedProduct) => setProduct(updatedProduct)}
@@ -396,7 +396,7 @@ const ProductDetail = () => {
             {product.supplier && (
                 <ProductEraseSupplier
                     opened={eraseSupplierModalOpened}
-                    productId={product.id}
+                    productID={product.id}
                     businessID={selectedBusiness.id}
                     supplierName={product.supplier.name}
                     onSuccess={(updatedProduct) => setProduct(updatedProduct)}
@@ -406,7 +406,7 @@ const ProductDetail = () => {
 
             <ProductDelete
                 opened={deleteModalOpened}
-                productId={product.id}
+                productID={product.id}
                 businessID={selectedBusiness.id}
                 productName={product.name}
                 onClose={() => setDeleteModalOpened(false)}

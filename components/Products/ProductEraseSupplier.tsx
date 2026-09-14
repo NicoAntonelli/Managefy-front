@@ -12,7 +12,7 @@ import Product from '@/entities/products/Product'
 
 interface ProductEraseSupplierProps {
     opened: boolean
-    productId: number
+    productID: number
     businessID: number
     supplierName: string
     onSuccess: (product: Product) => void
@@ -20,7 +20,7 @@ interface ProductEraseSupplierProps {
 }
 
 const ProductEraseSupplier = (props: ProductEraseSupplierProps) => {
-    const { opened, productId, businessID, supplierName } = props
+    const { opened, productID, businessID, supplierName } = props
     const { onSuccess, onClose } = props
 
     const [erasingSupplier, setErasingSupplier] = useState(false)
@@ -28,9 +28,9 @@ const ProductEraseSupplier = (props: ProductEraseSupplierProps) => {
     const handleEraseSupplier = async () => {
         setErasingSupplier(true)
         try {
-            await Products.eraseSupplierForProduct(productId, businessID)
+            await Products.eraseSupplierForProduct(productID, businessID)
             const updatedProduct = await Products.getOneProduct(
-                productId,
+                productID,
                 businessID
             )
             onSuccess(updatedProduct)

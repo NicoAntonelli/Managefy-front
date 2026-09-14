@@ -24,7 +24,7 @@ import Product from '@/entities/products/Product'
 
 const SupplierDetail = () => {
     const params = useParams()
-    const supplierId = params?.id ? Number(params.id) : null
+    const supplierID = params?.id ? Number(params.id) : null
 
     const selectedBusiness = useSelectedBusinessStore(
         (state) => state.selectedBusiness
@@ -39,7 +39,7 @@ const SupplierDetail = () => {
     const [editing, setEditing] = useState(false)
 
     useEffect(() => {
-        if (!supplierId || !businessID) {
+        if (!supplierID || !businessID) {
             setLoading(false)
             return
         }
@@ -47,8 +47,8 @@ const SupplierDetail = () => {
         const fetchData = async () => {
             try {
                 const [supplierData, productsData] = await Promise.all([
-                    Suppliers.getOneSupplier(supplierId, businessID),
-                    Products.listProductsBySupplier(businessID, supplierId),
+                    Suppliers.getOneSupplier(supplierID, businessID),
+                    Products.listProductsBySupplier(businessID, supplierID),
                 ])
                 setSupplier(supplierData)
                 setProducts(productsData || [])
@@ -64,7 +64,7 @@ const SupplierDetail = () => {
         }
 
         fetchData()
-    }, [supplierId, businessID])
+    }, [supplierID, businessID])
 
     const handleEdit = () => {
         if (!supplier) return
@@ -225,7 +225,7 @@ const SupplierDetail = () => {
 
             <SupplierDelete
                 opened={deleteModalOpened}
-                supplierId={supplier.id}
+                supplierID={supplier.id}
                 businessID={selectedBusiness.id}
                 supplierName={supplier.name}
                 onClose={() => setDeleteModalOpened(false)}
