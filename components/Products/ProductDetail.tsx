@@ -91,6 +91,27 @@ const ProductDetail = () => {
         setEditing(true)
     }
 
+    const handleEditSuccess = async (updatedProduct: Product) => {
+        setProduct(updatedProduct)
+        setEditing(false)
+
+        if (!updatedProduct.supplier || updatedProduct.supplier.name) return
+
+        try {
+            const refreshedProduct = await Products.getOneProduct(
+                updatedProduct.id,
+                selectedBusiness!.id
+            )
+            setProduct(refreshedProduct)
+        } catch {
+            notifications.show({
+                title: 'Aviso',
+                message: 'No se pudo cargar el nombre del proveedor',
+                color: Theme.other!.danger,
+            })
+        }
+    }
+
     if (loading) {
         return <SkeletonFull />
     }
@@ -130,10 +151,7 @@ const ProductDetail = () => {
                 backHref={`/products/${product.id}`}
                 cancelHref={`/products/${product.id}`}
                 onCancel={() => setEditing(false)}
-                onSuccess={(updatedProduct) => {
-                    setProduct(updatedProduct)
-                    setEditing(false)
-                }}
+                onSuccess={handleEditSuccess}
             />
         )
     }

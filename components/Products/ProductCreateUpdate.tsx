@@ -152,6 +152,7 @@ const ProductCreateUpdate = (props: ProductCreateUpdateProps) => {
                           email: selectedSupplier.email,
                           phone: selectedSupplier.phone,
                           businessID: selectedBusiness.id,
+                          productsIDs: [currentProduct?.id ?? 0],
                       }
                     : null,
             }
