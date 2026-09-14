@@ -150,7 +150,10 @@ const SuppliersDropdown = (props: SuppliersDropdownProps) => {
                     emptyText="No se encontraron proveedores coincidentes"
                     leftIcon={<IconUserCog size={18} />}
                     renderOption={(supplier) => (
-                        <SuppliersDropdownItem supplier={supplier} />
+                        <SuppliersDropdownItem
+                            supplier={supplier}
+                            isSelected={supplier.id === selectedSupplier?.id}
+                        />
                     )}
                 />
                 {showRefresh && (
