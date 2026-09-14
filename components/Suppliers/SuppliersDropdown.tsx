@@ -2,15 +2,23 @@ import { useEffect, useState } from 'react'
 import {
     ActionIcon,
     Checkbox,
+    Combobox,
     Group,
     Loader,
-    Select,
+    ScrollArea,
     Stack,
     Text,
+    TextInput,
     Tooltip,
+    useCombobox,
 } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
-import { IconChevronDown, IconRefresh, IconUserCog } from '@tabler/icons-react'
+import {
+    IconChevronDown,
+    IconRefresh,
+    IconSearch,
+    IconUserCog,
+} from '@tabler/icons-react'
 
 import Helper from '@/services/helper'
 import Suppliers from '@/services/suppliers'
@@ -24,16 +32,24 @@ interface SuppliersDropdownProps {
     businessID: number
     initialSupplier?: Supplier | null
     forceRefresh?: boolean
+    withinPortal?: boolean
     onChange: (supplier: Supplier | null) => void
 }
 
 const SuppliersDropdown = (props: SuppliersDropdownProps) => {
     const { businessID, initialSupplier } = props
-    const { forceRefresh = false, onChange } = props
+    const { forceRefresh = false, withinPortal = true, onChange } = props
+
+    const combobox = useCombobox({
+        onDropdownClose: () => {
+            combobox.resetSelectedOption()
+        },
+    })
 
     const [enabled, setEnabled] = useState(!!initialSupplier)
     const [loading, setLoading] = useState(false)
     const [suppliers, setSuppliers] = useState<Supplier[] | null>(null)
+    const [searchQuery, setSearchQuery] = useState('')
     const [selectedID, setSelectedID] = useState<string | null>(
         initialSupplier ? String(initialSupplier.id) : null
     )
@@ -109,16 +125,31 @@ const SuppliersDropdown = (props: SuppliersDropdownProps) => {
         const options = suppliers ?? (initialSupplier ? [initialSupplier] : [])
         const supplier = options.find((s) => String(s.id) === value) ?? null
         selectSupplier(supplier)
+        combobox.closeDropdown()
     }
 
     // Full list not loaded yet, only a preselected supplier
     const showRefresh = enabled && suppliers === null && !forceRefresh
 
+    const availableSuppliers =
+        suppliers ?? (initialSupplier ? [initialSupplier] : [])
+    const filteredSuppliers = availableSuppliers.filter((supplier) => {
+        if (!searchQuery.trim()) return true
+        return supplier.name
+            .toLowerCase()
+            .includes(searchQuery.trim().toLowerCase())
+    })
+    const selectedSupplier = availableSuppliers.find(
+        (supplier) => String(supplier.id) === selectedID
+    )
+
     const placeholder = !enabled
         ? 'Ninguno'
-        : suppliers?.length === 0
-          ? 'No hay proveedores para mostrar'
-          : 'Seleccione un proveedor'
+        : suppliers === null || loading
+          ? 'Cargando proveedores...'
+          : suppliers.length === 0
+            ? 'No hay proveedores para mostrar'
+            : 'Seleccionar proveedor...'
 
     return (
         <Stack gap="xs" mt="md">
@@ -132,27 +163,92 @@ const SuppliersDropdown = (props: SuppliersDropdownProps) => {
                         handleToggle(event.currentTarget.checked)
                     }
                 />
-                <Select
-                    flex={1}
-                    leftSection={<IconUserCog size={18} />}
-                    rightSection={
-                        loading ? (
-                            <Loader size={18} />
-                        ) : (
-                            <IconChevronDown size={18} />
-                        )
-                    }
-                    placeholder={placeholder}
-                    disabled={!enabled || loading || suppliers?.length === 0}
-                    data={(
-                        suppliers ?? (initialSupplier ? [initialSupplier] : [])
-                    ).map((supplier) => ({
-                        value: String(supplier.id),
-                        label: supplier.name,
-                    }))}
-                    value={enabled ? selectedID : null}
-                    onChange={handleSelectChange}
-                />
+                <Combobox
+                    store={combobox}
+                    onOptionSubmit={handleSelectChange}
+                    withinPortal={withinPortal}>
+                    <Combobox.Target>
+                        <TextInput
+                            flex={1}
+                            value={
+                                enabled ? (selectedSupplier?.name ?? '') : ''
+                            }
+                            placeholder={placeholder}
+                            leftSection={<IconUserCog size={18} />}
+                            rightSection={
+                                loading ? (
+                                    <Loader size={18} />
+                                ) : (
+                                    <IconChevronDown size={18} />
+                                )
+                            }
+                            readOnly
+                            disabled={
+                                !enabled || loading || suppliers?.length === 0
+                            }
+                            onClick={() => combobox.toggleDropdown()}
+                            style={{ cursor: 'pointer' }}
+                            styles={{
+                                input: {
+                                    cursor: 'pointer',
+                                },
+                            }}
+                        />
+                    </Combobox.Target>
+
+                    <Combobox.Dropdown>
+                        <Combobox.Search
+                            value={searchQuery}
+                            onChange={(event) =>
+                                setSearchQuery(event.currentTarget.value)
+                            }
+                            placeholder="Buscar proveedor..."
+                            leftSection={<IconSearch size={16} />}
+                        />
+                        <Combobox.Options>
+                            <ScrollArea.Autosize type="scroll" mah={220}>
+                                {loading && (
+                                    <Combobox.Empty>
+                                        <Group justify="center" p="xs">
+                                            <Loader size="sm" />
+                                        </Group>
+                                    </Combobox.Empty>
+                                )}
+
+                                {!loading && filteredSuppliers.length === 0 && (
+                                    <Combobox.Empty>
+                                        No se encontraron proveedores
+                                        coincidentes
+                                    </Combobox.Empty>
+                                )}
+
+                                {!loading &&
+                                    filteredSuppliers.map((supplier) => (
+                                        <Combobox.Option
+                                            value={String(supplier.id)}
+                                            key={supplier.id}>
+                                            <Group gap="xs">
+                                                <IconUserCog size={16} />
+                                                <div>
+                                                    <Text size="sm">
+                                                        {supplier.name}
+                                                    </Text>
+                                                    {supplier.email && (
+                                                        <Text
+                                                            size="xs"
+                                                            c="dimmed"
+                                                            lineClamp={1}>
+                                                            {supplier.email}
+                                                        </Text>
+                                                    )}
+                                                </div>
+                                            </Group>
+                                        </Combobox.Option>
+                                    ))}
+                            </ScrollArea.Autosize>
+                        </Combobox.Options>
+                    </Combobox.Dropdown>
+                </Combobox>
                 {showRefresh && (
                     <Tooltip label="Cargar todos los proveedores">
                         <ActionIcon
