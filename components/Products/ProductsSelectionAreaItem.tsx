@@ -25,7 +25,7 @@ const ProductsSelectionAreaItem = (props: ProductsSelectionAreaItemProps) => {
                         radius="xl"
                         variant="transparent"
                         onClick={onRemove}
-                        aria-label={`Quitar ${name}`}>
+                        aria-label={`Remover ${name}`}>
                         <IconX size={12} />
                     </ActionIcon>
                 ) : undefined

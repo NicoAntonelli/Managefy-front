@@ -348,7 +348,7 @@ const ProductDetail = () => {
                                                     true
                                                 )
                                             }
-                                            aria-label="Quitar proveedor">
+                                            aria-label="Remover proveedor">
                                             <IconX size={16} />
                                         </ActionIcon>
                                     )}

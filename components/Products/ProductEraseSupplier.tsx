@@ -15,12 +15,13 @@ interface ProductEraseSupplierProps {
     productID: number
     businessID: number
     supplierName: string
+    productName?: string
     onSuccess: (product: Product) => void
     onClose: () => void
 }
 
 const ProductEraseSupplier = (props: ProductEraseSupplierProps) => {
-    const { opened, productID, businessID, supplierName } = props
+    const { opened, productID, businessID, supplierName, productName } = props
     const { onSuccess, onClose } = props
 
     const [erasingSupplier, setErasingSupplier] = useState(false)
@@ -36,14 +37,14 @@ const ProductEraseSupplier = (props: ProductEraseSupplierProps) => {
             onSuccess(updatedProduct)
             notifications.show({
                 title: 'Éxito',
-                message: 'Proveedor quitado correctamente',
+                message: 'Proveedor removido del producto correctamente',
                 color: Theme.other!.success,
             })
             onClose()
         } catch (error) {
             notifications.show({
                 title: 'Error',
-                message: 'No se pudo quitar el proveedor',
+                message: 'No se pudo remover el proveedor del producto',
                 color: Theme.other!.danger,
             })
         } finally {
@@ -55,13 +56,22 @@ const ProductEraseSupplier = (props: ProductEraseSupplierProps) => {
         <Modal
             opened={opened}
             onClose={onClose}
-            title="Quitar proveedor"
+            title="Remover proveedor"
             centered>
             <Text mb="lg">
-                ¿Estás seguro de que deseas quitar el proveedor{' '}
+                ¿Estás seguro de que deseas remover el proveedor{' '}
                 <Text component="span" fw={700}>
                     {supplierName}
                 </Text>
+                {productName && (
+                    <>
+                        {' '}
+                        del producto{' '}
+                        <Text component="span" fw={700}>
+                            {productName}
+                        </Text>
+                    </>
+                )}
                 ?
             </Text>
             <form
@@ -71,7 +81,7 @@ const ProductEraseSupplier = (props: ProductEraseSupplierProps) => {
                 }}>
                 <ButtonsSubmitAndCancel
                     operation="Delete"
-                    operationText="Quitar"
+                    operationText="Remover"
                     leftIcon={<IconX />}
                     submitting={erasingSupplier}
                     onCancel={onClose}

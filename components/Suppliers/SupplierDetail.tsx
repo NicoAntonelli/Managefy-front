@@ -221,7 +221,17 @@ const SupplierDetail = () => {
                 </Group>
             </Card>
 
-            <ProductsCompactTable products={products} resource="proveedor" />
+            <ProductsCompactTable
+                products={products}
+                resource="proveedor"
+                businessID={businessID}
+                supplierName={supplier.name}
+                onProductRemoved={(productID) =>
+                    setProducts((prev) =>
+                        prev.filter((p) => p.id !== productID)
+                    )
+                }
+            />
 
             <SupplierDelete
                 opened={deleteModalOpened}
