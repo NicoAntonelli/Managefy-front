@@ -50,13 +50,10 @@ interface ProductCreateUpdateProps {
 }
 
 const ProductCreateUpdate = (props: ProductCreateUpdateProps) => {
-    const {
-        currentProduct,
-        backHref = '/products',
-        cancelHref = '/products',
-        onSuccess,
-        onCancel,
-    } = props
+    const { currentProduct } = props
+    const { backHref = '/products', cancelHref = '/products' } = props
+    const { onSuccess, onCancel } = props
+
     const isUpdate = !!currentProduct
 
     const initialSupplier: Supplier | null = currentProduct?.supplier?.id

@@ -43,13 +43,10 @@ interface SupplierCreateUpdateProps {
 }
 
 const SupplierCreateUpdate = (props: SupplierCreateUpdateProps) => {
-    const {
-        currentSupplier,
-        backHref = '/suppliers',
-        cancelHref = '/suppliers',
-        onSuccess,
-        onCancel,
-    } = props
+    const { currentSupplier } = props
+    const { backHref = '/suppliers', cancelHref = '/suppliers' } = props
+    const { onSuccess, onCancel } = props
+
     const isUpdate = !!currentSupplier
 
     const selectedBusiness = useSelectedBusinessStore(
