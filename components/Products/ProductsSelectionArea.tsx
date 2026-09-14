@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { ActionIcon, Badge, Box, Stack, Text } from '@mantine/core'
-import { IconX } from '@tabler/icons-react'
+import { Box, Stack, Text } from '@mantine/core'
 
-import ProductsDropdown from './ProductsDropdown'
 import Products from '@/services/products'
 import Theme from '@/app/theme'
+
+import ProductsDropdown from '@/components/Products/ProductsDropdown'
+import ProductsSelectionAreaItem from '@/components/Products/ProductsSelectionAreaItem'
 
 import Product from '@/entities/products/Product'
 
 interface ProductsSelectionAreaProps {
     businessID: number
     selectedProductIDs: number[]
+    lockedProductIDs?: number[]
     required?: boolean
     label?: string
     error?: string
@@ -20,6 +22,7 @@ interface ProductsSelectionAreaProps {
 const ProductsSelectionArea = (props: ProductsSelectionAreaProps) => {
     const { businessID, selectedProductIDs, required = false } = props
     const { label = 'Productos asociados', error, onChange } = props
+    const { lockedProductIDs = [] } = props
 
     const [productsList, setProductsList] = useState<Product[]>([])
 
@@ -34,6 +37,8 @@ const ProductsSelectionArea = (props: ProductsSelectionAreaProps) => {
     }, [businessID])
 
     const handleToggleProduct = (product: Product) => {
+        if (lockedProductIDs.includes(product.id)) return
+
         if (selectedProductIDs.includes(product.id)) {
             onChange(selectedProductIDs.filter((id) => id !== product.id))
         } else {
@@ -46,6 +51,7 @@ const ProductsSelectionArea = (props: ProductsSelectionAreaProps) => {
     }
 
     const handleRemoveProduct = (productId: number) => {
+        if (lockedProductIDs.includes(productId)) return
         onChange(selectedProductIDs.filter((id) => id !== productId))
     }
 
@@ -94,24 +100,12 @@ const ProductsSelectionArea = (props: ProductsSelectionAreaProps) => {
                         const product = productsList.find((p) => p.id === id)
                         const name = product ? product.name : `Producto #${id}`
                         return (
-                            <Badge
+                            <ProductsSelectionAreaItem
                                 key={id}
-                                size="lg"
-                                variant="light"
-                                color={Theme.primaryColor}
-                                rightSection={
-                                    <ActionIcon
-                                        size="xs"
-                                        color="gray"
-                                        radius="xl"
-                                        variant="transparent"
-                                        onClick={() => handleRemoveProduct(id)}
-                                        aria-label={`Quitar ${name}`}>
-                                        <IconX size={12} />
-                                    </ActionIcon>
-                                }>
-                                {name}
-                            </Badge>
+                                name={name}
+                                removable={!lockedProductIDs.includes(id)}
+                                onRemove={() => handleRemoveProduct(id)}
+                            />
                         )
                     })
                 )}
@@ -126,6 +120,7 @@ const ProductsSelectionArea = (props: ProductsSelectionAreaProps) => {
             <ProductsDropdown
                 businessID={businessID}
                 selectedProductIDs={selectedProductIDs}
+                disabledProductIDs={lockedProductIDs}
                 forceRefresh
                 onToggleProduct={handleToggleProduct}
                 onProductsLoaded={handleProductsLoaded}

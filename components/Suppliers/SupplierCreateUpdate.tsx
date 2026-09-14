@@ -58,6 +58,9 @@ const SupplierCreateUpdate = (props: SupplierCreateUpdateProps) => {
     const [loading, setLoading] = useState(true)
     const [submitting, setSubmitting] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
+    const [lockedProductIDs, setLockedProductIDs] = useState<number[]>(
+        currentSupplier?.productsIDs ?? []
+    )
 
     const router = useRouter()
 
@@ -108,10 +111,9 @@ const SupplierCreateUpdate = (props: SupplierCreateUpdateProps) => {
             )
                 .then((products) => {
                     if (products?.length) {
-                        form.setFieldValue(
-                            'productsIDs',
-                            products.map((p) => p.id)
-                        )
+                        const productIDs = products.map((p) => p.id)
+                        form.setFieldValue('productsIDs', productIDs)
+                        setLockedProductIDs(productIDs)
                     }
                 })
                 .catch(() => {})
@@ -223,6 +225,7 @@ const SupplierCreateUpdate = (props: SupplierCreateUpdateProps) => {
                         key={form.key('productsIDs')}
                         businessID={selectedBusiness.id}
                         selectedProductIDs={form.values.productsIDs}
+                        lockedProductIDs={isUpdate ? lockedProductIDs : []}
                         required
                         error={form.errors.productsIDs as string}
                         onChange={(productIDs) =>

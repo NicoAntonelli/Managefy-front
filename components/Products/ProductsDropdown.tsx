@@ -16,6 +16,7 @@ import Product from '@/entities/products/Product'
 interface ProductsDropdownProps {
     businessID: number
     selectedProductIDs: number[]
+    disabledProductIDs?: number[]
     forceRefresh?: boolean
     label?: string
     onToggleProduct: (product: Product) => void
@@ -25,6 +26,7 @@ interface ProductsDropdownProps {
 const ProductsDropdown = (props: ProductsDropdownProps) => {
     const { businessID, selectedProductIDs, forceRefresh = false } = props
     const { label, onToggleProduct, onProductsLoaded } = props
+    const { disabledProductIDs = [] } = props
 
     const [loading, setLoading] = useState(false)
     const [products, setProducts] = useState<Product[] | null>(null)
@@ -74,6 +76,7 @@ const ProductsDropdown = (props: ProductsDropdownProps) => {
     }, [businessID, forceRefresh])
 
     const handleSelect = (product: Product) => {
+        if (disabledProductIDs.includes(product.id)) return
         onToggleProduct(product)
     }
 
@@ -105,6 +108,9 @@ const ProductsDropdown = (props: ProductsDropdownProps) => {
                     getItemLabel={(product) => product.name}
                     filterPredicate={filterPredicate}
                     onSelect={handleSelect}
+                    isItemDisabled={(product) =>
+                        disabledProductIDs.includes(product.id)
+                    }
                     closeOnSelect={false}
                     withinPortal={false}
                     loading={loading}
@@ -116,6 +122,7 @@ const ProductsDropdown = (props: ProductsDropdownProps) => {
                         <ProductsDropdownItem
                             product={product}
                             isSelected={selectedProductIDs.includes(product.id)}
+                            isLocked={disabledProductIDs.includes(product.id)}
                         />
                     )}
                 />

@@ -23,6 +23,7 @@ interface CustomDropdownProps<T> {
     closeOnSelect?: boolean
     withinPortal?: boolean
     filterPredicate?: (item: T, query: string) => boolean
+    isItemDisabled?: (item: T) => boolean
     renderOption?: (item: T) => ReactNode
     placeholder?: string
     searchPlaceholder?: string
@@ -38,7 +39,7 @@ const CustomDropdown = <T,>(props: CustomDropdownProps<T>) => {
     const { value = null, targetLabel } = props
     const { loading = false, disabled = false } = props
     const { closeOnSelect = true, withinPortal = true } = props
-    const { filterPredicate, renderOption } = props
+    const { filterPredicate, isItemDisabled, renderOption } = props
     const {
         placeholder = 'Seleccionar...',
         searchPlaceholder = 'Buscar...',
@@ -66,7 +67,7 @@ const CustomDropdown = <T,>(props: CustomDropdownProps<T>) => {
             (option) => String(getItemKey(option)) === selectedValue
         )
 
-        if (item) onSelect(item)
+        if (item && !isItemDisabled?.(item)) onSelect(item)
         if (closeOnSelect) combobox.closeDropdown()
     }
 
@@ -129,7 +130,8 @@ const CustomDropdown = <T,>(props: CustomDropdownProps<T>) => {
                             filteredItems.map((item) => (
                                 <Combobox.Option
                                     value={String(getItemKey(item))}
-                                    key={getItemKey(item)}>
+                                    key={getItemKey(item)}
+                                    disabled={isItemDisabled?.(item)}>
                                     {renderOption ? (
                                         renderOption(item)
                                     ) : (
