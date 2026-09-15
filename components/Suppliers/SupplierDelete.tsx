@@ -66,8 +66,9 @@ const SupplierDelete = (props: SupplierDeleteProps) => {
                         style={{ flexShrink: 0, marginTop: 2 }}
                     />
                     <Text size="sm" c={Theme.other!.warning}>
-                        Al eliminar este proveedor, también se eliminarán los
-                        productos asociados a él.
+                        Al eliminar este proveedor, los productos asociados a él
+                        perderán la referencia al mismo y se quedarán sin
+                        proveedor.
                     </Text>
                 </Group>
             </Paper>

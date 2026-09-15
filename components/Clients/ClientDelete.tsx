@@ -67,7 +67,8 @@ const ClientDelete = (props: ClientDeleteProps) => {
                     />
                     <Text size="sm" c={Theme.other!.warning}>
                         Al eliminar este cliente, las ventas asociadas a él
-                        perderán la referencia al mismo.
+                        perderán la referencia al mismo y se quedarán sin
+                        cliente.
                     </Text>
                 </Group>
             </Paper>
