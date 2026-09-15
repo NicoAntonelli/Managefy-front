@@ -1,8 +1,8 @@
 'use client'
-import { Text } from '@mantine/core'
+import ClientDetail from '@/components/Clients/ClientDetail'
 
-const ClientPage = () => {
-    return <Text>Client page</Text>
+const ClientDetailPage = () => {
+    return <ClientDetail />
 }
 
-export default ClientPage
+export default ClientDetailPage
