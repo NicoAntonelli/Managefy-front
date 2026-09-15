@@ -3,6 +3,7 @@
 import Theme from '@/app/theme'
 
 import Operation from '@/entities/helpTypes/Operation'
+import SaleState from '@/entities/helpTypes/SaleState'
 import WeekDay from '@/entities/helpTypes/WeekDay'
 
 // List of complete week days
@@ -34,6 +35,15 @@ const createUrlSegment = (value: string): string => {
     return `${segment}-${suffix}`
 }
 
+// Formats the date both for Date objects and date strings
+const dateFormatter = (date: Date | string): string => {
+    if (!date) {
+        throw new Error('Cannot format an empty date')
+    }
+
+    return new Date(date).toLocaleDateString()
+}
+
 // Theme-default operation color mapping
 const getOperationColor = (operation: Operation) => {
     switch (operation) {
@@ -58,11 +68,29 @@ const getOperationText = (operation: Operation) => {
     }
 }
 
+// Sale state text mapping
+const getSaleStateText = (saleState: SaleState) => {
+    switch (saleState) {
+        case 'Cancelled':
+            return 'Cancelada'
+        case 'PendingPayment':
+            return 'Pago pendiente'
+        case 'PartialPayment':
+            return 'Pago parcial'
+        case 'Paid':
+            return 'Pagada'
+        case 'PaidAndBilled':
+            return 'Pagada y facturada'
+    }
+}
+
 const TextHelper = {
     weekDaysComplete,
     createUrlSegment,
+    dateFormatter,
     getOperationColor,
     getOperationText,
+    getSaleStateText,
 }
 
 export default TextHelper
