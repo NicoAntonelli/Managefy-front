@@ -5,7 +5,7 @@ interface ClientCU {
     email: string
     phone: string
     businessID: number
-    salesIDs?: number[] | null
+    salesIDs: number[]
 }
 
 export default ClientCU

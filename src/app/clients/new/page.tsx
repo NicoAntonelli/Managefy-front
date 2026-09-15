@@ -1,8 +1,8 @@
 'use client'
-import ClientCreate from '@/components/Clients/ClientCreate'
+import ClientCreateUpdate from '@/components/Clients/ClientCreateUpdate'
 
 const ClientCreatePage = () => {
-    return <ClientCreate />
+    return <ClientCreateUpdate />
 }
 
 export default ClientCreatePage
