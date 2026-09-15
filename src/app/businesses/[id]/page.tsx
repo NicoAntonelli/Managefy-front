@@ -1,8 +1,8 @@
 'use client'
 import { Text } from '@mantine/core'
 
-const BusinessPage = () => {
-    return <Text>Business page</Text>
+const BusinessDetailPage = () => {
+    return <Text>Business page (Placeholder...)</Text>
 }
 
-export default BusinessPage
+export default BusinessDetailPage
