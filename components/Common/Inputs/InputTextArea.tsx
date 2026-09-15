@@ -1,6 +1,6 @@
 import type { ReactNode, TextareaHTMLAttributes } from 'react'
 import { Textarea } from '@mantine/core'
-import Validation from '@/utils/validation/Validation'
+import Constant from '@/utils/validation/Constant'
 
 interface InputTextAreaProps {
     required?: boolean
@@ -19,7 +19,7 @@ const InputTextArea = (props: InputTextAreaProps) => {
             pt="1rem"
             required={required}
             withAsterisk={required}
-            maxLength={Validation.MAX_STRING_SIZE_DESCRIPTION}
+            maxLength={Constant.MAX_STRING_SIZE_DESCRIPTION}
             flex={flex}
             label={label}
             placeholder={placeholder}

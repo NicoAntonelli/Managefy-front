@@ -1,17 +1,12 @@
 //////////// VALIDATION TOOLS ////////////
 
 import RegEx from '@/utils/string/RegEx'
-
-// Main numeric constants
-const MAX_SAFE_NUMBER = 1000000000000 // Billon (Short scale) or Thousand Million (Long scale)
-const MAX_STRING_SIZE_TITLE = 200
-const MAX_STRING_SIZE_DESCRIPTION = 800
-const CACHE_DURATION_MS = 10 * 60 * 1000 // 10 minutes
+import Constant from '@/utils/validation/Constant'
 
 // Validate if a cache is still valid
 const cache = (cachedAt: number | null): boolean => {
     if (cachedAt === null) return false
-    return Date.now() - cachedAt < CACHE_DURATION_MS
+    return Date.now() - cachedAt < Constant.CACHE_DURATION_MS
 }
 
 // Positive decimal field validation
@@ -22,7 +17,7 @@ const decimal = (value: number | null, allowZero: boolean = false): boolean => {
 
     const num = typeof value === 'number' ? value : Number(value)
     if (!isFinite(num)) return false
-    if (num < 0 || num > MAX_SAFE_NUMBER) return false
+    if (num < 0 || num > Constant.MAX_SAFE_NUMBER) return false
 
     return true
 }
@@ -72,16 +67,14 @@ const string = (value?: string, isDescription: boolean = false): boolean => {
     if (!value) return false
     if (value.trim().length == 0) return false
 
-    if (value.length > MAX_STRING_SIZE_DESCRIPTION) return false
-    if (!isDescription && value.length > MAX_STRING_SIZE_TITLE) return false
+    if (value.length > Constant.MAX_STRING_SIZE_DESCRIPTION) return false
+    if (!isDescription && value.length > Constant.MAX_STRING_SIZE_TITLE)
+        return false
 
     return true
 }
 
 const Validation = {
-    MAX_SAFE_NUMBER,
-    MAX_STRING_SIZE_TITLE,
-    MAX_STRING_SIZE_DESCRIPTION,
     cache,
     decimal,
     email,
