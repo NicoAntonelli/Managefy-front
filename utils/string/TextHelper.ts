@@ -3,6 +3,7 @@
 import Theme from '@/app/theme'
 
 import Operation from '@/entities/helpTypes/Operation'
+import ResourceName from '@/entities/helpTypes/ResourceName'
 import SaleState from '@/entities/helpTypes/SaleState'
 import WeekDay from '@/entities/helpTypes/WeekDay'
 
@@ -84,6 +85,24 @@ const getSaleStateText = (saleState: SaleState) => {
     }
 }
 
+// Get the plural form of a resource name
+const pluralResourceName = (resourceName: ResourceName): string => {
+    switch (resourceName) {
+        case 'emprendimiento':
+            return 'emprendimientos'
+        case 'producto':
+            return 'productos'
+        case 'proveedor':
+            return 'proveedores'
+        case 'cliente':
+            return 'clientes'
+        case 'venta':
+            return 'ventas'
+        case 'ventas':
+            return 'ventas'
+    }
+}
+
 const TextHelper = {
     weekDaysComplete,
     createUrlSegment,
@@ -91,6 +110,7 @@ const TextHelper = {
     getOperationColor,
     getOperationText,
     getSaleStateText,
+    pluralResourceName,
 }
 
 export default TextHelper
