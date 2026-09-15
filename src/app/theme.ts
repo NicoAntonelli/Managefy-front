@@ -8,6 +8,7 @@ const Theme = createTheme({
         warning: 'yellow.6',
         danger: 'red.8',
         success: 'green.8',
+        neutral: 'gray.8',
     },
     shadows: {
         md: '1px 1px 3px rgba(0, 0, 0, .25)',
