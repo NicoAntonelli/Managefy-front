@@ -42,7 +42,7 @@ const dateFormatter = (date: Date | string): string => {
         throw new Error('Cannot format an empty date')
     }
 
-    return new Date(date).toLocaleDateString()
+    return new Date(date).toLocaleDateString('es-AR')
 }
 
 // Theme-default operation color mapping
