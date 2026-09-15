@@ -12,7 +12,7 @@ import {
     Title,
 } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
-import { IconBook, IconBuildingStore, IconLink } from '@tabler/icons-react'
+import { IconBuildingStore, IconLink } from '@tabler/icons-react'
 
 import Businesses from '@/services/businesses'
 import Helper from '@/services/helper'

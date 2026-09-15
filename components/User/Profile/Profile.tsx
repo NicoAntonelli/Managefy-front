@@ -7,6 +7,7 @@ import {
     Checkbox,
     Group,
     Modal,
+    Paper,
     Stack,
     Text,
     Title,
@@ -289,19 +290,25 @@ const Profile = () => {
                 <Group justify="space-between" mt="md" mb="xs">
                     <Title size="2rem">Eliminar cuenta</Title>
                 </Group>
-                <Group justify="flex-start" mb="xs" c={Theme.other!.danger}>
-                    <IconAlertTriangle size="2rem" />
-                    <Stack gap="0.25rem">
-                        <Text size="1rem">
-                            CUIDADO: Esta acción es irreversible y eliminará
-                            toda su información de forma permanente.
-                        </Text>
-                        <Text size="1rem">
-                            Una vez eliminada, será redireccionado al inicio de
-                            sesión.
-                        </Text>
-                    </Stack>
-                </Group>
+                <Paper bg={Theme.other!.neutral} p="sm" radius="md" mb="lg">
+                    <Group gap="xs" wrap="nowrap" align="center">
+                        <IconAlertTriangle
+                            size="2rem"
+                            color={`var(--mantine-color-${Theme.other!.danger.replace('.', '-')})`}
+                            style={{ flexShrink: 0, marginTop: 2 }}
+                        />
+                        <Stack gap="0.25rem">
+                            <Text size="1rem" c={Theme.other!.danger}>
+                                CUIDADO: Esta acción es irreversible y eliminará
+                                toda su información de forma permanente.
+                            </Text>
+                            <Text size="1rem" c={Theme.other!.danger}>
+                                Una vez eliminada, será redireccionado al inicio
+                                de sesión.
+                            </Text>
+                        </Stack>
+                    </Group>
+                </Paper>
                 <Group justify="flex-start" mt="md">
                     <Button
                         loading={submitting}
@@ -321,10 +328,19 @@ const Profile = () => {
                     <Text size="1rem">
                         ¿Está seguro que desea eliminar su cuenta?
                     </Text>
-                    <Text size="1rem">
-                        Esta acción es irreversible y eliminará toda su
-                        información de forma permanente.
-                    </Text>
+                    <Paper bg={Theme.other!.neutral} p="sm" radius="md">
+                        <Group gap="xs" wrap="nowrap" align="center">
+                            <IconAlertTriangle
+                                size={20}
+                                color={`var(--mantine-color-${Theme.other!.danger.replace('.', '-')})`}
+                                style={{ flexShrink: 0, marginTop: 2 }}
+                            />
+                            <Text size="sm" c={Theme.other!.danger}>
+                                Esta acción es irreversible y eliminará toda su
+                                información de forma permanente.
+                            </Text>
+                        </Group>
+                    </Paper>
                     <Text size="1rem">
                         Una vez eliminada, será redireccionado al inicio de
                         sesión.

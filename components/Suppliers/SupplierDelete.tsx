@@ -58,8 +58,8 @@ const SupplierDelete = (props: SupplierDeleteProps) => {
                 </Text>
                 ?
             </Text>
-            <Paper bg="gray.8" p="sm" radius="md" mb="lg">
-                <Group gap="xs" wrap="nowrap" align="flex-start">
+            <Paper bg={Theme.other!.neutral} p="sm" radius="md" mb="lg">
+                <Group gap="xs" wrap="nowrap" align="center">
                     <IconAlertTriangle
                         size={20}
                         color={`var(--mantine-color-${Theme.other!.warning.replace('.', '-')})`}

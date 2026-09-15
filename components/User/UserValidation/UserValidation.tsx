@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 
-import { Button, Card, Group, Text, Title } from '@mantine/core'
+import { Button, Card, Group, Paper, Text, Title } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { notifications } from '@mantine/notifications'
 import {
@@ -162,16 +162,25 @@ const UserValidation = () => {
                 <Group justify="space-between" mt="md" mb="xs">
                     <Title size="2rem">Validar cuenta</Title>
                 </Group>
-                <Group
-                    justify="flex-start"
-                    mt="md"
-                    mb="xs"
-                    c={Theme.other!.success}>
-                    <IconCircleCheck size="2rem" />
-                    <Text size="1.5rem">
-                        Tu cuenta ya ha sido validada correctamente
-                    </Text>
-                </Group>
+                <Paper
+                    bg="light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5))"
+                    p="sm"
+                    radius="md"
+                    mb="lg">
+                    <Group
+                        gap="xs"
+                        wrap="nowrap"
+                        align="center"
+                        c={Theme.other!.success}>
+                        <IconCircleCheck
+                            size="2rem"
+                            style={{ flexShrink: 0 }}
+                        />
+                        <Text size="1.5rem">
+                            Tu cuenta ya ha sido validada correctamente
+                        </Text>
+                    </Group>
+                </Paper>
                 <Group justify="flex-end" mt="md">
                     <Button
                         color={Theme.primaryColor}
@@ -200,7 +209,12 @@ const UserValidation = () => {
             <Group justify="space-between" mb="xs">
                 <Text size="1rem">
                     Se enviará un código de validación al correo{' '}
-                    {currentUser?.email}
+                    <Text
+                        component="span"
+                        c={Theme.other!.secondaryColor}
+                        fw={500}>
+                        {currentUser?.email}
+                    </Text>
                 </Text>
             </Group>
             <form
