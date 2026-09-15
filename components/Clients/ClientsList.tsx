@@ -44,7 +44,7 @@ const ClientsList = () => {
     }, [businessID])
 
     if (!selectedBusiness) {
-        return <BusinessWelcome resourceName="clientes" />
+        return <BusinessWelcome resourceName="cliente" />
     }
 
     if (loading) {

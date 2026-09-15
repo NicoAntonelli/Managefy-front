@@ -5,9 +5,11 @@ import { IconHexagonPlus } from '@tabler/icons-react'
 
 import Theme from '@/app/theme'
 
+import ResourceName from '@/entities/helpTypes/ResourceName'
+
 interface ButtonCreateProps {
     href: string
-    resourceName: string
+    resourceName: ResourceName
 }
 
 const ButtonCreate = (props: ButtonCreateProps) => {

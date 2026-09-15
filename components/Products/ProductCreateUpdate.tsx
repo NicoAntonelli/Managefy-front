@@ -192,7 +192,7 @@ const ProductCreateUpdate = (props: ProductCreateUpdateProps) => {
     }
 
     if (!selectedBusiness) {
-        return <BusinessWelcome resourceName="productos" />
+        return <BusinessWelcome resourceName="producto" />
     }
 
     return (
@@ -301,7 +301,7 @@ const ProductCreateUpdate = (props: ProductCreateUpdateProps) => {
 
                     <ButtonsSubmitAndCancel
                         operation={isUpdate ? 'Update' : 'Create'}
-                        resource="producto"
+                        resourceName="producto"
                         leftIcon={<IconRocket size={20} />}
                         submitting={submitting}
                         cancelHref={cancelHref}

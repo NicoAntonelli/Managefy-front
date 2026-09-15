@@ -169,7 +169,7 @@ const ClientCreateUpdate = (props: ClientCreateUpdateProps) => {
     }
 
     if (!selectedBusiness) {
-        return <BusinessWelcome resourceName="clientes" />
+        return <BusinessWelcome resourceName="cliente" />
     }
 
     return (
@@ -237,7 +237,7 @@ const ClientCreateUpdate = (props: ClientCreateUpdateProps) => {
 
                     <ButtonsSubmitAndCancel
                         operation={isUpdate ? 'Update' : 'Create'}
-                        resource="cliente"
+                        resourceName="cliente"
                         leftIcon={<IconUserDollar size={20} />}
                         submitting={submitting}
                         cancelHref={cancelHref}

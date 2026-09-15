@@ -3,12 +3,13 @@ import { Button, Group } from '@mantine/core'
 import { ReactNode } from 'react'
 
 import Operation from '@/entities/helpTypes/Operation'
+import ResourceName from '@/entities/helpTypes/ResourceName'
 import TextHelper from '@/utils/string/TextHelper'
 
 interface ButtonsSubmitAndCancelProps {
     operation: Operation
     operationText?: string
-    resource?: string
+    resourceName?: ResourceName
     leftIcon: ReactNode
     submitting: boolean
     disabled?: boolean
@@ -17,7 +18,7 @@ interface ButtonsSubmitAndCancelProps {
 }
 
 const ButtonsSubmitAndCancel = (props: ButtonsSubmitAndCancelProps) => {
-    const { operation, operationText, resource, leftIcon } = props
+    const { operation, operationText, resourceName, leftIcon } = props
     const { submitting, disabled, cancelHref, onCancel } = props
 
     const action = operationText ?? TextHelper.getOperationText(operation)
@@ -47,7 +48,7 @@ const ButtonsSubmitAndCancel = (props: ButtonsSubmitAndCancelProps) => {
                 leftSection={leftIcon}
                 loading={submitting}
                 disabled={disabled}>
-                {`${action}${resource ? ` ${resource}` : ''}`}
+                {`${action}${resourceName ? ` ${resourceName}` : ''}`}
             </Button>
         </Group>
     )

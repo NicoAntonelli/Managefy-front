@@ -117,7 +117,7 @@ const ProductDetail = () => {
     }
 
     if (!selectedBusiness) {
-        return <BusinessWelcome resourceName="productos" />
+        return <BusinessWelcome resourceName="producto" />
     }
 
     if (product && editing) {

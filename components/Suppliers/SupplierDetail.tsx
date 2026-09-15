@@ -76,7 +76,7 @@ const SupplierDetail = () => {
     }
 
     if (!selectedBusiness) {
-        return <BusinessWelcome resourceName="proveedores" />
+        return <BusinessWelcome resourceName="proveedor" />
     }
 
     if (supplier && editing) {
@@ -223,7 +223,7 @@ const SupplierDetail = () => {
 
             <ProductsCompactTable
                 products={products}
-                resource="proveedor"
+                resourceName="proveedor"
                 businessID={businessID}
                 supplierName={supplier.name}
                 onProductRemoved={(productID) =>

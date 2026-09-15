@@ -2,19 +2,21 @@ import React from 'react'
 import { Card, Table, Text, Title } from '@mantine/core'
 
 import Product from '@/entities/products/Product'
+import ResourceName from '@/entities/helpTypes/ResourceName'
+
 import ProductsCompactTableItem from '@/components/Products/ProductsCompactTableItem'
 
 interface ProductsCompactTableProps {
     products: Product[]
-    resource: string
+    resourceName: ResourceName
     businessID?: number
     supplierName?: string
     onProductRemoved?: (productID: number) => void
 }
 
 const ProductsCompactTable = (props: ProductsCompactTableProps) => {
-    const { products, resource, businessID, supplierName, onProductRemoved } =
-        props
+    const { products, resourceName, businessID, supplierName } = props
+    const { onProductRemoved } = props
 
     return (
         <Card
@@ -25,11 +27,11 @@ const ProductsCompactTable = (props: ProductsCompactTableProps) => {
             className="min-w-full"
             mt="md">
             <Title size="1.5rem" mb="md">
-                Productos del {resource}
+                Productos del {resourceName}
             </Title>
             {products.length === 0 ? (
                 <Text c="dimmed">
-                    {`Este ${resource} no tiene productos asociados`}
+                    {`Este ${resourceName} no tiene productos asociados`}
                 </Text>
             ) : (
                 <Table highlightOnHover withTableBorder withColumnBorders>

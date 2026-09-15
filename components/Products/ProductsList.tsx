@@ -60,7 +60,7 @@ const ProductsList = () => {
     }, [businessID, selectedSupplier])
 
     if (!selectedBusiness) {
-        return <BusinessWelcome resourceName="productos" />
+        return <BusinessWelcome resourceName="producto" />
     }
 
     if (loading) {

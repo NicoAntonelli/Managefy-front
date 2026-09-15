@@ -170,7 +170,7 @@ const SupplierCreateUpdate = (props: SupplierCreateUpdateProps) => {
     }
 
     if (!selectedBusiness) {
-        return <BusinessWelcome resourceName="proveedores" />
+        return <BusinessWelcome resourceName="proveedor" />
     }
 
     return (
@@ -238,7 +238,7 @@ const SupplierCreateUpdate = (props: SupplierCreateUpdateProps) => {
 
                     <ButtonsSubmitAndCancel
                         operation={isUpdate ? 'Update' : 'Create'}
-                        resource="proveedor"
+                        resourceName="proveedor"
                         leftIcon={<IconUserCog size={20} />}
                         submitting={submitting}
                         cancelHref={cancelHref}

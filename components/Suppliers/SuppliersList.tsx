@@ -44,7 +44,7 @@ const SuppliersList = () => {
     }, [businessID])
 
     if (!selectedBusiness) {
-        return <BusinessWelcome resourceName="proveedores" />
+        return <BusinessWelcome resourceName="proveedor" />
     }
 
     if (loading) {

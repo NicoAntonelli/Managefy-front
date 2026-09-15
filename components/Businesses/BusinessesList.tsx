@@ -57,12 +57,7 @@ const BusinessesList = () => {
     }
 
     if (!businesses?.length) {
-        return (
-            <BusinessWelcome
-                resourceName="emprendimientos"
-                isBusinessPage={true}
-            />
-        )
+        return <BusinessWelcome resourceName="emprendimiento" />
     }
 
     return (
