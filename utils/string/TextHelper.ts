@@ -54,6 +54,8 @@ const getOperationColor = (operation: Operation) => {
             return Theme.other!.secondaryColor
         case 'Delete':
             return Theme.other!.danger
+        default:
+            return Theme.primaryColor
     }
 }
 
@@ -66,6 +68,8 @@ const getOperationText = (operation: Operation) => {
             return 'Actualizar'
         case 'Delete':
             return 'Eliminar'
+        default:
+            return operation
     }
 }
 
@@ -82,6 +86,8 @@ const getSaleStateText = (saleState: SaleState) => {
             return 'Pagada'
         case 'PaidAndBilled':
             return 'Pagada y facturada'
+        default:
+            return saleState
     }
 }
 
@@ -100,6 +106,8 @@ const pluralResourceName = (resourceName: ResourceName): string => {
             return 'ventas'
         case 'ventas':
             return 'ventas'
+        default:
+            return resourceName
     }
 }
 
