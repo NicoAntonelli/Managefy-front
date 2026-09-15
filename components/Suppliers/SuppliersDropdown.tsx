@@ -116,6 +116,13 @@ const SuppliersDropdown = (props: SuppliersDropdownProps) => {
         (supplier) => String(supplier.id) === selectedID
     )
 
+    const filterPredicate = (supplier: Supplier, query: string) => {
+        const matchesName = supplier.name?.toLowerCase().includes(query)
+        const matchesDesc = supplier.description?.toLowerCase().includes(query)
+        const matchesEmail = supplier.email?.toLowerCase().includes(query)
+        return Boolean(matchesName || matchesDesc || matchesEmail)
+    }
+
     const placeholder = !enabled
         ? 'Ninguno'
         : suppliers === null || loading
@@ -141,12 +148,13 @@ const SuppliersDropdown = (props: SuppliersDropdownProps) => {
                     value={enabled ? (selectedSupplier ?? null) : null}
                     getItemKey={(supplier) => supplier.id}
                     getItemLabel={(supplier) => supplier.name}
+                    filterPredicate={filterPredicate}
                     onSelect={(supplier) => selectSupplier(supplier)}
                     loading={loading}
                     disabled={!enabled || loading || suppliers?.length === 0}
                     withinPortal={withinPortal}
                     placeholder={placeholder}
-                    searchPlaceholder="Buscar proveedor..."
+                    searchPlaceholder="Buscar por nombre, descripción o email..."
                     emptyText="No se encontraron proveedores coincidentes"
                     leftIcon={<IconUserCog size={18} />}
                     renderOption={(supplier) => (

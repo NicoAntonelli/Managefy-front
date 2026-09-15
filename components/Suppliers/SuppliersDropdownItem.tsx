@@ -23,7 +23,7 @@ const SuppliersDropdownItem = (props: SuppliersDropdownItemProps) => {
                 <Text size="sm">{supplier.name}</Text>
                 {supplier.email && (
                     <Text size="xs" c="dimmed" lineClamp={1}>
-                        {supplier.email}
+                        {supplier.description}
                     </Text>
                 )}
             </div>
