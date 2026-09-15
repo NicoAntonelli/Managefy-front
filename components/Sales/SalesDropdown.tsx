@@ -86,16 +86,11 @@ const SalesDropdown = (props: SalesDropdownProps) => {
             ? TextHelper.dateFormatter(sale.date)
             : ''
         const matchesDate = formattedDate.toLowerCase().includes(query)
-        const matchesId = sale.id.toString().includes(query)
         const matchesObs = sale.observation?.toLowerCase().includes(query)
         const matchesState = sale.state?.toLowerCase().includes(query)
         const matchesTotal = sale.totalPrice?.toString().includes(query)
         return Boolean(
-            matchesDate ||
-            matchesId ||
-            matchesObs ||
-            matchesState ||
-            matchesTotal
+            matchesDate || matchesObs || matchesState || matchesTotal
         )
     }
 
@@ -130,7 +125,7 @@ const SalesDropdown = (props: SalesDropdownProps) => {
                     withinPortal={false}
                     loading={loading}
                     placeholder={placeholder}
-                    searchPlaceholder="Buscar por fecha, ID, observación, estado o monto..."
+                    searchPlaceholder="Buscar por fecha, observación, estado o monto..."
                     emptyText="No se encontraron ventas coincidentes"
                     leftIcon={<IconCashRegister size={18} />}
                     renderOption={(sale) => (
