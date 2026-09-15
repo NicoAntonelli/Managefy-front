@@ -6,7 +6,7 @@ import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 
 import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
 import ButtonCreate from '@/components/Common/Buttons/ButtonCreate'
-import ClientListItem from '@/components/Clients/ClientListItem'
+import ClientsListItem from '@/components/Clients/ClientsListItem'
 import SelectedBusinessBar from '@/components/Businesses/SelectedBusinessBar'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 
@@ -68,7 +68,7 @@ const ClientsList = () => {
                 <Stack gap="lg">
                     <ButtonCreate href="/clients/new" resourceName="cliente" />
                     {clients.map((client) => (
-                        <ClientListItem key={client.id} client={client} />
+                        <ClientsListItem key={client.id} client={client} />
                     ))}
                 </Stack>
             )}

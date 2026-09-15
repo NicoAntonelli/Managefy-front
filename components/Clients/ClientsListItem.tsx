@@ -9,11 +9,11 @@ import Client from '@/entities/clients/Client'
 import SkeletonSmall from '@/components/Common/Loader/SkeletonSmall'
 import ClientContact from './ClientContact'
 
-interface ClientListItemProps {
+interface ClientsListItemProps {
     client: Client
 }
 
-const ClientListItem = (props: ClientListItemProps) => {
+const ClientsListItem = (props: ClientsListItemProps) => {
     const { client } = props
 
     if (!client) return <SkeletonSmall />
@@ -46,4 +46,4 @@ const ClientListItem = (props: ClientListItemProps) => {
     )
 }
 
-export default ClientListItem
+export default ClientsListItem
