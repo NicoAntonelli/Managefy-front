@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { ActionIcon, Burger, Group } from '@mantine/core'
 import { IconSunMoon } from '@tabler/icons-react'
 
@@ -14,7 +14,6 @@ interface HeaderProps {
 }
 
 const Header = (props: HeaderProps) => {
-    const router = useRouter()
     const opened = useSidebarStore((state) => state.opened)
     const toggle = useSidebarStore((state) => state.toggle)
 
@@ -43,8 +42,9 @@ const Header = (props: HeaderProps) => {
                     />
                 )}
                 <ActionIcon
+                    component={Link}
+                    href="/"
                     variant="transparent"
-                    onClick={() => router.push('/')}
                     aria-label="Managefy Icon"
                     onMouseEnter={() => setIsIconHovered(true)}
                     onMouseLeave={() => setIsIconHovered(false)}
