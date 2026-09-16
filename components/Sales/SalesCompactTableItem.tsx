@@ -9,11 +9,11 @@ import TextHelper from '@/utils/string/TextHelper'
 
 import Sale from '@/entities/sales/Sale'
 
-interface SalesCompactListItemProps {
+interface SalesCompactTableItemProps {
     sale: Sale
 }
 
-const SalesCompactListItem = (props: SalesCompactListItemProps) => {
+const SalesCompactTableItem = (props: SalesCompactTableItemProps) => {
     const { sale } = props
 
     const router = useRouter()
@@ -54,4 +54,4 @@ const SalesCompactListItem = (props: SalesCompactListItemProps) => {
     )
 }
 
-export default SalesCompactListItem
+export default SalesCompactTableItem

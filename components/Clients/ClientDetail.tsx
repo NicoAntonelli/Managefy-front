@@ -14,7 +14,7 @@ import ButtonCreate from '@/components/Common/Buttons/ButtonCreate'
 import ButtonGoBack from '@/components/Common/Buttons/ButtonGoBack'
 import ClientCreateUpdate from '@/components/Clients/ClientCreateUpdate'
 import ClientDelete from '@/components/Clients/ClientDelete'
-import SalesCompactList from '@/components/Sales/SalesCompactList'
+import SalesCompactTable from '@/components/Sales/SalesCompactTable'
 import SelectedBusinessBar from '@/components/Businesses/SelectedBusinessBar'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 
@@ -213,7 +213,7 @@ const ClientDetail = () => {
                 </Group>
             </Card>
 
-            <SalesCompactList sales={sales} resourceName="cliente" />
+            <SalesCompactTable sales={sales} resourceName="cliente" />
 
             <ClientDelete
                 opened={deleteModalOpened}

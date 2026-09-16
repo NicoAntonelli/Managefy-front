@@ -4,14 +4,14 @@ import { Card, Table, Text, Title } from '@mantine/core'
 import ResourceName from '@/entities/helpTypes/ResourceName'
 import Sale from '@/entities/sales/Sale'
 
-import SalesCompactListItem from '@/components/Sales/SalesCompactListItem'
+import SalesCompactTableItem from '@/components/Sales/SalesCompactTableItem'
 
-interface SalesCompactListProps {
+interface SalesCompactTableProps {
     sales: Sale[]
     resourceName: ResourceName
 }
 
-const SalesCompactList = (props: SalesCompactListProps) => {
+const SalesCompactTable = (props: SalesCompactTableProps) => {
     const { sales, resourceName } = props
 
     return (
@@ -46,7 +46,7 @@ const SalesCompactList = (props: SalesCompactListProps) => {
                     </Table.Thead>
                     <Table.Tbody>
                         {sales.map((sale) => (
-                            <SalesCompactListItem key={sale.id} sale={sale} />
+                            <SalesCompactTableItem key={sale.id} sale={sale} />
                         ))}
                     </Table.Tbody>
                 </Table>
@@ -55,4 +55,4 @@ const SalesCompactList = (props: SalesCompactListProps) => {
     )
 }
 
-export default SalesCompactList
+export default SalesCompactTable
