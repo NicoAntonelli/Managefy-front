@@ -187,7 +187,6 @@ const UserValidation = () => {
                         w={{ base: '100%', sm: 'fit-content' }}
                         leftSection={<IconBuildingStore size={24} />}>
                         <Link href="/businesses">Ir a emprendimientos</Link>
-                        {/* onClick={() => router.push('/businesses')} */}
                     </Button>
                 </Group>
             </Card>
