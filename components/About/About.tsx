@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
-import { Button, Card, Stack, Text, Title } from '@mantine/core'
+import { Button, Card, Group, Stack, Text, Title } from '@mantine/core'
+import { IconBrandGithub } from '@tabler/icons-react'
 import Theme from '@/app/theme'
 
 import HomePresentation from '@/components/Home/HomePresentation'
@@ -49,30 +50,51 @@ const About = () => {
                     Managefy fue realizada por Nicolás Antonelli
                 </Text>
 
-                <Button mt="md" radius="md">
-                    <Link
-                        target="_blank"
-                        href="https://github.com/NicoAntonelli"
-                        style={{ color: 'inherit', textDecoration: 'inherit' }}>
-                        Visitar GitHub.com/NicoAntonelli
-                    </Link>
-                </Button>
-                <Button color={Theme.other!.secondaryColor} mt="md" radius="md">
-                    <Link
-                        target="_blank"
-                        href="https://github.com/NicoAntonelli/Managefy"
-                        style={{ color: 'inherit', textDecoration: 'inherit' }}>
-                        Visitar repo backend de Managefy
-                    </Link>
-                </Button>
-                <Button color={Theme.other!.secondaryColor} mt="md" radius="md">
-                    <Link
-                        target="_blank"
-                        href="https://github.com/NicoAntonelli/Managefy-front"
-                        style={{ color: 'inherit', textDecoration: 'inherit' }}>
-                        Visitar repo frontend de Managefy
-                    </Link>
-                </Button>
+                <Group mt="md" gap="md" wrap="wrap">
+                    <Button
+                        radius="md"
+                        leftSection={<IconBrandGithub size={20} />}
+                        style={{ flex: '1 1 30%', minWidth: '18rem' }}>
+                        <Link
+                            target="_blank"
+                            href="https://github.com/NicoAntonelli/Managefy"
+                            style={{
+                                color: 'inherit',
+                                textDecoration: 'inherit',
+                            }}>
+                            Visitar repo Managefy Backend
+                        </Link>
+                    </Button>
+                    <Button
+                        radius="md"
+                        leftSection={<IconBrandGithub size={20} />}
+                        style={{ flex: '1 1 30%', minWidth: '18rem' }}>
+                        <Link
+                            target="_blank"
+                            href="https://github.com/NicoAntonelli/Managefy-front"
+                            style={{
+                                color: 'inherit',
+                                textDecoration: 'inherit',
+                            }}>
+                            Visitar repo Managefy Frontend
+                        </Link>
+                    </Button>
+                    <Button
+                        color={Theme.other!.secondaryColor}
+                        radius="md"
+                        leftSection={<IconBrandGithub size={20} />}
+                        style={{ flex: '1 1 30%', minWidth: '18rem' }}>
+                        <Link
+                            target="_blank"
+                            href="https://github.com/NicoAntonelli"
+                            style={{
+                                color: 'inherit',
+                                textDecoration: 'inherit',
+                            }}>
+                            Visitar GitHub.com/NicoAntonelli
+                        </Link>
+                    </Button>
+                </Group>
             </Card>
         </Stack>
     )
