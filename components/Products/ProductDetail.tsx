@@ -240,15 +240,18 @@ const ProductDetail = () => {
                                 </Text>
                                 <Group gap="xs" align="center">
                                     <Text size="lg">{product.stock}</Text>
-                                    <ActionIcon
-                                        color={Theme.primaryColor}
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() =>
-                                            setStockModalOpened(true)
-                                        }>
-                                        <IconPencil size={16} />
-                                    </ActionIcon>
+                                    <Tooltip label="Actualizar stock">
+                                        <ActionIcon
+                                            color={Theme.primaryColor}
+                                            variant="outline"
+                                            size="sm"
+                                            aria-label="Actualizar stock"
+                                            onClick={() =>
+                                                setStockModalOpened(true)
+                                            }>
+                                            <IconPencil size={16} />
+                                        </ActionIcon>
+                                    </Tooltip>
                                 </Group>
                             </div>
                         </Stack>
@@ -310,47 +313,60 @@ const ProductDetail = () => {
                                         {product.supplier?.name || 'Ninguno'}
                                     </Text>
                                     {product.supplier && (
-                                        <ActionIcon
-                                            component={Link}
-                                            href={`/suppliers/${product.supplier.id}`}
-                                            color={Theme.other!.secondaryColor}
-                                            variant="outline"
-                                            size="sm"
-                                            aria-label="Ver proveedor">
-                                            <IconEye size={16} />
-                                        </ActionIcon>
+                                        <Tooltip label="Ver proveedor">
+                                            <ActionIcon
+                                                component={Link}
+                                                href={`/suppliers/${product.supplier.id}`}
+                                                color={
+                                                    Theme.other!.secondaryColor
+                                                }
+                                                variant="outline"
+                                                size="sm"
+                                                aria-label="Ver proveedor">
+                                                <IconEye size={16} />
+                                            </ActionIcon>
+                                        </Tooltip>
                                     )}
-                                    <ActionIcon
-                                        color={Theme.primaryColor}
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() =>
-                                            setSupplierModalOpened(true)
-                                        }
-                                        aria-label={
+                                    <Tooltip
+                                        label={
                                             product.supplier
                                                 ? 'Actualizar proveedor'
                                                 : 'Agregar proveedor'
                                         }>
-                                        {product.supplier ? (
-                                            <IconPencil size={16} />
-                                        ) : (
-                                            <IconPlus size={16} />
-                                        )}
-                                    </ActionIcon>
-                                    {product.supplier && (
                                         <ActionIcon
-                                            color={Theme.other!.danger}
+                                            color={Theme.primaryColor}
                                             variant="outline"
                                             size="sm"
                                             onClick={() =>
-                                                setEraseSupplierModalOpened(
-                                                    true
-                                                )
+                                                setSupplierModalOpened(true)
                                             }
-                                            aria-label="Remover proveedor">
-                                            <IconX size={16} />
+                                            aria-label={
+                                                product.supplier
+                                                    ? 'Actualizar proveedor'
+                                                    : 'Agregar proveedor'
+                                            }>
+                                            {product.supplier ? (
+                                                <IconPencil size={16} />
+                                            ) : (
+                                                <IconPlus size={16} />
+                                            )}
                                         </ActionIcon>
+                                    </Tooltip>
+                                    {product.supplier && (
+                                        <Tooltip label="Remover proveedor">
+                                            <ActionIcon
+                                                color={Theme.other!.danger}
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() =>
+                                                    setEraseSupplierModalOpened(
+                                                        true
+                                                    )
+                                                }
+                                                aria-label="Remover proveedor">
+                                                <IconX size={16} />
+                                            </ActionIcon>
+                                        </Tooltip>
                                     )}
                                 </Group>
                             </div>
