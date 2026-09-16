@@ -4,6 +4,7 @@ import Theme from '@/app/theme'
 
 import Operation from '@/entities/helpTypes/Operation'
 import ResourceName from '@/entities/helpTypes/ResourceName'
+import Role from '@/entities/helpTypes/Role'
 import SaleState from '@/entities/helpTypes/SaleState'
 import WeekDay from '@/entities/helpTypes/WeekDay'
 
@@ -73,6 +74,34 @@ const getOperationText = (operation: Operation) => {
     }
 }
 
+// Theme-default role color mapping
+const getRoleColor = (role: Role) => {
+    switch (role) {
+        case 'Manager':
+            return 'pink'
+        case 'Admin':
+            return 'red'
+        case 'Collaborator':
+            return 'green'
+        default:
+            return Theme.primaryColor
+    }
+}
+
+// Role text mapping
+const getRoleText = (role: Role) => {
+    switch (role) {
+        case 'Manager':
+            return 'Manager'
+        case 'Admin':
+            return 'Admin'
+        case 'Collaborator':
+            return 'Colaborador'
+        default:
+            return role
+    }
+}
+
 // Sale state text mapping
 const getSaleStateText = (saleState: SaleState) => {
     switch (saleState) {
@@ -89,6 +118,16 @@ const getSaleStateText = (saleState: SaleState) => {
         default:
             return saleState
     }
+}
+
+// Theme-default business visibility color mapping
+const getVisibilityColor = (isPublic: boolean) => {
+    return isPublic ? Theme.primaryColor : Theme.other!.secondaryColor
+}
+
+// Business visibility text mapping
+const getVisibilityText = (isPublic: boolean) => {
+    return isPublic ? 'Público' : 'Privado'
 }
 
 // Get the plural form of a resource name
@@ -117,7 +156,11 @@ const TextHelper = {
     dateFormatter,
     getOperationColor,
     getOperationText,
+    getRoleColor,
+    getRoleText,
     getSaleStateText,
+    getVisibilityColor,
+    getVisibilityText,
     pluralResourceName,
 }
 

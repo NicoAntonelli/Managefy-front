@@ -1,41 +1,29 @@
 import React from 'react'
-
 import { Badge } from '@mantine/core'
 
 import Role from '@/entities/helpTypes/Role'
+import TextHelper from '@/utils/string/TextHelper'
 
-interface BusinessesRoleBadgeProps {
+interface BusinessRoleBadgeProps {
     role?: Role | null
 }
 
-const BusinessRoleBadge = (props: BusinessesRoleBadgeProps) => {
+const BusinessRoleBadge = (props: BusinessRoleBadgeProps) => {
     const { role } = props
-
-    const roleColors: Record<NonNullable<Role>, string> = {
-        Manager: 'pink',
-        Admin: 'red',
-        Collaborator: 'green',
-    }
-
-    const roleLabels: Record<NonNullable<Role>, string> = {
-        Manager: 'Manager',
-        Admin: 'Admin',
-        Collaborator: 'Colaborador',
-    }
 
     // Empty role, return a blank fragment
     if (!role) return <></>
+
+    const roleColor = TextHelper.getRoleColor(role)
+    const roleText = TextHelper.getRoleText(role)
 
     return (
         <Badge
             size="lg"
             variant="filled"
-            color={roleColors[role]}
-            style={{
-                display: 'inline-flex',
-                whiteSpace: 'nowrap',
-            }}>
-            {roleLabels[role]}
+            color={roleColor}
+            style={{ display: 'inline-flex', whiteSpace: 'nowrap' }}>
+            {roleText}
         </Badge>
     )
 }

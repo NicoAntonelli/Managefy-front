@@ -1,7 +1,7 @@
 import React from 'react'
-
 import { Badge } from '@mantine/core'
-import Theme from '@/app/theme'
+
+import TextHelper from '@/utils/string/TextHelper'
 
 interface BusinessVisibilityBadgeProps {
     isPublic?: boolean | null
@@ -13,21 +13,16 @@ const BusinessVisibilityBadge = (props: BusinessVisibilityBadgeProps) => {
     // Empty info, return a blank fragment
     if (isPublic === null || isPublic === undefined) return <></>
 
-    const visibilityLabel = isPublic ? 'Público' : 'Privado'
-    const visibilityColor = isPublic
-        ? Theme.primaryColor
-        : Theme.other!.secondaryColor
+    const visibilityColor = TextHelper.getVisibilityColor(isPublic)
+    const visibilityText = TextHelper.getVisibilityText(isPublic)
 
     return (
         <Badge
             size="lg"
             variant="filled"
             color={visibilityColor}
-            style={{
-                display: 'inline-flex',
-                whiteSpace: 'nowrap',
-            }}>
-            {visibilityLabel}
+            style={{ display: 'inline-flex', whiteSpace: 'nowrap' }}>
+            {visibilityText}
         </Badge>
     )
 }
