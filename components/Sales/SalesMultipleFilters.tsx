@@ -77,30 +77,34 @@ const SalesMultipleFilters = (props: SalesMultipleFiltersProps) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <Stack gap="xs" mt="md">
-                <Text size="sm" fw={500}>
-                    Ventas pendientes
-                </Text>
-                <Checkbox
-                    checked={pendingSalesSelected}
-                    label="Traer todas las ventas con pago pendiente"
-                    onChange={(event) =>
-                        handlePendingSalesChange(event.currentTarget.checked)
-                    }
+            <Stack gap="1rem">
+                <Stack gap="xs" mt="md">
+                    <Text size="sm" fw={500}>
+                        Ventas no finalizadas
+                    </Text>
+                    <Checkbox
+                        checked={pendingSalesSelected}
+                        label="Traer todas las ventas con pago pendiente o parcial"
+                        onChange={(event) =>
+                            handlePendingSalesChange(
+                                event.currentTarget.checked
+                            )
+                        }
+                    />
+                </Stack>
+                <SalesRangeSelector
+                    value={selectedRange}
+                    onChange={handleRangeChange}
+                />
+                <ClientsDropdown
+                    businessID={businessID}
+                    initialClient={selectedClient}
+                    forceRefresh={!!selectedClient}
+                    enabled={clientSelected}
+                    onEnabledChange={handleClientEnabledChange}
+                    onChange={handleClientChange}
                 />
             </Stack>
-            <SalesRangeSelector
-                value={selectedRange}
-                onChange={handleRangeChange}
-            />
-            <ClientsDropdown
-                businessID={businessID}
-                initialClient={selectedClient}
-                forceRefresh={!!selectedClient}
-                enabled={clientSelected}
-                onEnabledChange={handleClientEnabledChange}
-                onChange={handleClientChange}
-            />
             <ButtonsSubmitAndCancel
                 operation="Create"
                 operationText="Aceptar"
