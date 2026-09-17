@@ -25,12 +25,20 @@ interface ClientsDropdownProps {
     initialClient?: Client | null
     forceRefresh?: boolean
     withinPortal?: boolean
+    enabled?: boolean
+    onEnabledChange?: (enabled: boolean) => void
     onChange: (client: Client | null) => void
 }
 
 const ClientsDropdown = (props: ClientsDropdownProps) => {
     const { businessID, initialClient } = props
-    const { forceRefresh = false, withinPortal = true, onChange } = props
+    const {
+        forceRefresh = false,
+        withinPortal = true,
+        enabled: controlledEnabled,
+        onEnabledChange,
+        onChange,
+    } = props
 
     const [enabled, setEnabled] = useState(!!initialClient)
     const [loading, setLoading] = useState(false)
@@ -42,6 +50,7 @@ const ClientsDropdown = (props: ClientsDropdownProps) => {
     const [cachedBusinessID, setCachedBusinessID] = useState<number | null>(
         null
     )
+    const isEnabled = controlledEnabled ?? enabled
 
     const selectClient = (client: Client | null) => {
         setSelectedID(client ? String(client.id) : null)
@@ -80,8 +89,14 @@ const ClientsDropdown = (props: ClientsDropdownProps) => {
         }
     }, [forceRefresh])
 
+    useEffect(() => {
+        setEnabled(!!initialClient)
+        setSelectedID(initialClient ? String(initialClient.id) : null)
+    }, [initialClient])
+
     const handleToggle = async (checked: boolean) => {
         setEnabled(checked)
+        onEnabledChange?.(checked)
         if (!checked) {
             selectClient(null)
             return
@@ -102,7 +117,7 @@ const ClientsDropdown = (props: ClientsDropdownProps) => {
         selectClient(response?.[0] ?? null)
     }
 
-    const showRefresh = enabled && clients === null && !forceRefresh
+    const showRefresh = isEnabled && clients === null && !forceRefresh
     const availableClients = clients ?? (initialClient ? [initialClient] : [])
     const selectedClient = availableClients.find(
         (client) => String(client.id) === selectedID
@@ -117,7 +132,7 @@ const ClientsDropdown = (props: ClientsDropdownProps) => {
         return Boolean(matchesName || matchesDescription || matchesEmail)
     }
 
-    const placeholder = !enabled
+    const placeholder = !isEnabled
         ? 'Ninguno'
         : clients === null || loading
           ? 'Cargando clientes...'
@@ -132,20 +147,20 @@ const ClientsDropdown = (props: ClientsDropdownProps) => {
             </Text>
             <Group align="center" gap="sm">
                 <Checkbox
-                    checked={enabled}
+                    checked={isEnabled}
                     onChange={(event) =>
                         handleToggle(event.currentTarget.checked)
                     }
                 />
                 <CustomDropdown<Client>
                     items={availableClients}
-                    value={enabled ? (selectedClient ?? null) : null}
+                    value={isEnabled ? (selectedClient ?? null) : null}
                     getItemKey={(client) => client.id}
                     getItemLabel={(client) => client.name}
                     filterPredicate={filterPredicate}
                     onSelect={selectClient}
                     loading={loading}
-                    disabled={!enabled || loading || clients?.length === 0}
+                    disabled={!isEnabled || loading || clients?.length === 0}
                     withinPortal={withinPortal}
                     placeholder={placeholder}
                     searchPlaceholder="Buscar por nombre, descripción o email..."

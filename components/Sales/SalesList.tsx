@@ -6,12 +6,13 @@ import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 
 import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
 import SalesListItem from '@/components/Sales/SalesListItem'
+import SalesMultipleFilters from '@/components/Sales/SalesMultipleFilters'
 import SelectedBusinessBar from '@/components/Businesses/SelectedBusinessBar'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
-import ClientsFilter from '@/components/Clients/ClientsFilter'
 
 import Client from '@/entities/clients/Client'
 import Sale from '@/entities/sales/Sale'
+import SalesDateRange from '@/entities/helpTypes/SalesDateRange'
 
 const SalesList = () => {
     const selectedBusiness = useSelectedBusinessStore(
@@ -20,12 +21,17 @@ const SalesList = () => {
     const businessID = selectedBusiness?.id
     const [sales, setSales] = useState<Sale[] | null>(null)
     const [loading, setLoading] = useState(true)
+
     const [selectedClient, setSelectedClient] = useState<Client | null>(null)
+    const [selectedRange, setSelectedRange] = useState<SalesDateRange | null>(
+        null
+    )
     const [prevBusinessID, setPrevBusinessID] = useState(businessID)
 
     if (businessID !== prevBusinessID) {
         setPrevBusinessID(businessID)
         setSelectedClient(null)
+        setSelectedRange(null)
     }
 
     useEffect(() => {
@@ -39,12 +45,19 @@ const SalesList = () => {
 
         const fetchSales = async () => {
             try {
-                const response = selectedClient
-                    ? await Sales.listSalesByClient(
+                const response = selectedRange
+                    ? await Sales.listSalesByInterval(
                           businessID,
-                          selectedClient.id
+                          selectedRange.dateFrom,
+                          selectedRange.dateTo
                       )
-                    : await Sales.listSalesIncomplete(businessID)
+                    : selectedClient
+                      ? await Sales.listSalesByClient(
+                            businessID,
+                            selectedClient.id
+                        )
+                      : await Sales.listSalesIncomplete(businessID)
+
                 setSales(response)
             } catch (error) {
                 setSales(null)
@@ -54,7 +67,7 @@ const SalesList = () => {
         }
 
         fetchSales()
-    }, [businessID, selectedClient])
+    }, [businessID, selectedClient, selectedRange])
 
     if (!selectedBusiness) {
         return <BusinessWelcome resourceName="venta" />
@@ -70,11 +83,15 @@ const SalesList = () => {
                 <SelectedBusinessBar
                     business={selectedBusiness}
                     filterContent={({ onClose }) => (
-                        <ClientsFilter
-                            key={`${selectedBusiness.id}-${selectedClient?.id ?? 'none'}`}
+                        <SalesMultipleFilters
+                            key={`${selectedBusiness.id}-${selectedClient?.id ?? 'none'}-${selectedRange?.dateFrom ?? 'none'}-${selectedRange?.dateTo ?? 'none'}`}
                             businessID={selectedBusiness.id}
                             appliedClient={selectedClient}
-                            onApply={setSelectedClient}
+                            appliedRange={selectedRange}
+                            onApply={(client, range) => {
+                                setSelectedClient(client)
+                                setSelectedRange(range)
+                            }}
                             onClose={onClose}
                         />
                     )}
