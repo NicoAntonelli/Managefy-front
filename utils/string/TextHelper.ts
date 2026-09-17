@@ -102,6 +102,24 @@ const getRoleText = (role: Role) => {
     }
 }
 
+// Theme-default sale state color mapping
+const getSaleStateColor = (saleState: SaleState) => {
+    switch (saleState) {
+        case 'Cancelled':
+            return Theme.other!.danger
+        case 'PendingPayment':
+            return Theme.primaryColor
+        case 'PartialPayment':
+            return Theme.other!.secondaryColor
+        case 'Paid':
+            return Theme.other!.success
+        case 'PaidAndBilled':
+            return Theme.other!.success
+        default:
+            return Theme.primaryColor
+    }
+}
+
 // Sale state text mapping
 const getSaleStateText = (saleState: SaleState) => {
     switch (saleState) {
@@ -158,6 +176,7 @@ const TextHelper = {
     getOperationText,
     getRoleColor,
     getRoleText,
+    getSaleStateColor,
     getSaleStateText,
     getVisibilityColor,
     getVisibilityText,

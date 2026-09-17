@@ -5,6 +5,8 @@ import TextHelper from '@/utils/string/TextHelper'
 
 import Sale from '@/entities/sales/Sale'
 
+import SaleStateBadge from '@/components/Sales/SaleStateBadge'
+
 interface SalesDropdownItemProps {
     sale: Sale
     isSelected: boolean
@@ -39,11 +41,7 @@ const SalesDropdownItem = (props: SalesDropdownItemProps) => {
                     )}
                 </div>
             </Group>
-            {sale.state && (
-                <Badge size="xs" variant="light">
-                    {TextHelper.getSaleStateText(sale.state)}
-                </Badge>
-            )}
+            {sale.state && <SaleStateBadge state={sale.state} />}
         </Group>
     )
 }

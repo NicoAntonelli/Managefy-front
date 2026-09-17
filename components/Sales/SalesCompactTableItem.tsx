@@ -1,13 +1,15 @@
 import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ActionIcon, Badge, Table, Tooltip } from '@mantine/core'
+import { ActionIcon, Table, Tooltip } from '@mantine/core'
 import { IconEye } from '@tabler/icons-react'
 
 import Theme from '@/app/theme'
 import TextHelper from '@/utils/string/TextHelper'
 
 import Sale from '@/entities/sales/Sale'
+
+import SaleStateBadge from '@/components/Sales/SaleStateBadge'
 
 interface SalesCompactTableItemProps {
     sale: Sale
@@ -32,9 +34,7 @@ const SalesCompactTableItem = (props: SalesCompactTableItemProps) => {
             </Table.Td>
             <Table.Td>${sale.totalPrice.toFixed(2)}</Table.Td>
             <Table.Td style={{ textAlign: 'center' }}>
-                <Badge size="sm" variant="light">
-                    {TextHelper.getSaleStateText(sale.state)}
-                </Badge>
+                <SaleStateBadge state={sale.state} />
             </Table.Td>
             <Table.Td style={{ width: '80px', textAlign: 'center' }}>
                 <Tooltip label="Ver venta">
