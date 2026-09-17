@@ -25,20 +25,16 @@ interface ClientsDropdownProps {
     initialClient?: Client | null
     forceRefresh?: boolean
     withinPortal?: boolean
+    isOptional?: boolean
     enabled?: boolean
     onEnabledChange?: (enabled: boolean) => void
     onChange: (client: Client | null) => void
 }
 
 const ClientsDropdown = (props: ClientsDropdownProps) => {
-    const { businessID, initialClient } = props
-    const {
-        forceRefresh = false,
-        withinPortal = true,
-        enabled: controlledEnabled,
-        onEnabledChange,
-        onChange,
-    } = props
+    const { businessID, initialClient, forceRefresh = false } = props
+    const { withinPortal = true, isOptional = false } = props
+    const { enabled: controlledEnabled, onEnabledChange, onChange } = props
 
     const [enabled, setEnabled] = useState(!!initialClient)
     const [loading, setLoading] = useState(false)
@@ -143,7 +139,7 @@ const ClientsDropdown = (props: ClientsDropdownProps) => {
     return (
         <Stack gap="xs" mt="md">
             <Text size="sm" fw={500}>
-                Cliente (opcional)
+                {`Cliente${isOptional ? ' (opcional)' : ''}`}
             </Text>
             <Group align="center" gap="sm">
                 <Checkbox

@@ -26,12 +26,13 @@ interface SuppliersDropdownProps {
     initialSupplier?: Supplier | null
     forceRefresh?: boolean
     withinPortal?: boolean
+    isOptional?: boolean
     onChange: (supplier: Supplier | null) => void
 }
 
 const SuppliersDropdown = (props: SuppliersDropdownProps) => {
-    const { businessID, initialSupplier } = props
-    const { forceRefresh = false, withinPortal = true, onChange } = props
+    const { businessID, initialSupplier, forceRefresh = false } = props
+    const { withinPortal = true, isOptional = false, onChange } = props
 
     const [enabled, setEnabled] = useState(!!initialSupplier)
     const [loading, setLoading] = useState(false)
@@ -134,7 +135,7 @@ const SuppliersDropdown = (props: SuppliersDropdownProps) => {
     return (
         <Stack gap="xs" mt="md">
             <Text size="sm" fw={500}>
-                Proveedor (opcional)
+                {`Proveedor${isOptional ? ' (opcional)' : ''}`}
             </Text>
             <Group align="center" gap="sm">
                 <Checkbox

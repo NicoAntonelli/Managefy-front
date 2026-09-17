@@ -239,6 +239,7 @@ const ProductCreateUpdate = (props: ProductCreateUpdateProps) => {
                     <SuppliersDropdown
                         businessID={selectedBusiness.id}
                         initialSupplier={initialSupplier}
+                        isOptional
                         onChange={setSelectedSupplier}
                     />
 
