@@ -43,7 +43,14 @@ const dateFormatter = (date: Date | string): string => {
         throw new Error('Cannot format an empty date')
     }
 
-    return new Date(date).toLocaleDateString('es-AR')
+    return new Date(date).toLocaleString('es-AR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hourCycle: 'h23',
+        hour: '2-digit',
+        minute: '2-digit',
+    })
 }
 
 // Theme-default operation color mapping
