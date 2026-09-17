@@ -67,7 +67,18 @@ const SalesList = () => {
     return (
         <Stack gap="lg" style={{ width: '100%' }}>
             <div style={{ marginBottom: 'var(--mantine-spacing-xl)' }}>
-                <SelectedBusinessBar business={selectedBusiness} hideFilter />
+                <SelectedBusinessBar
+                    business={selectedBusiness}
+                    filterContent={({ onClose }) => (
+                        <ClientsFilter
+                            key={`${selectedBusiness.id}-${selectedClient?.id ?? 'none'}`}
+                            businessID={selectedBusiness.id}
+                            appliedClient={selectedClient}
+                            onApply={setSelectedClient}
+                            onClose={onClose}
+                        />
+                    )}
+                />
             </div>
             {!sales?.length ? (
                 <Stack align="center" gap="md" py="xl">
