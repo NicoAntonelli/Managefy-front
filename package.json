@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "@mantine/core": "^8.0.1",
+    "@mantine/dates": "^8.3.18",
     "@mantine/form": "^8.0.1",
     "@mantine/hooks": "^8.0.1",
     "@mantine/notifications": "^8.0.1",
     "@tabler/icons-react": "^3.31.0",
     "axios": "^1.9.0",
+    "dayjs": "^1.11.23",
     "jsonwebtoken": "^9.0.2",
     "next": "^14.2.28",
     "react": "^18",
