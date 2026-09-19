@@ -22,6 +22,7 @@ import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
 import ButtonGoBack from '@/components/Common/Buttons/ButtonGoBack'
 import SaleCancel from '@/components/Sales/SaleCancel'
+import SaleLinesTable from '@/components/Sales/SaleLinesTable'
 import SelectedBusinessBar from '@/components/Businesses/SelectedBusinessBar'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 
@@ -174,6 +175,8 @@ const SaleDetail = () => {
                         </Group>
                     </div>
                 </Group>
+
+                <SaleLinesTable saleLines={sale.saleLines} />
 
                 {sale.state !== 'Cancelled' && (
                     <Group justify="flex-start" gap="sm" mt="xl">
