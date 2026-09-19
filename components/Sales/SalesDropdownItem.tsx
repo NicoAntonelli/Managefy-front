@@ -17,7 +17,7 @@ const SalesDropdownItem = (props: SalesDropdownItemProps) => {
     const { sale, isSelected, isLocked = false } = props
 
     const saleInfo = sale.date
-        ? `${TextHelper.dateFormatter(sale.date)} - $${sale.totalPrice.toFixed(2)}`
+        ? `${TextHelper.formatDate(sale.date)} - $${sale.totalPrice.toFixed(2)}`
         : `#${sale.id}`
 
     return (

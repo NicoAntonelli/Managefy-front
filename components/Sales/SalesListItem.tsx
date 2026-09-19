@@ -34,7 +34,7 @@ const SalesListItem = (props: SalesListItemProps) => {
             <Group justify="space-between">
                 <Title size="1rem">
                     {sale.date
-                        ? TextHelper.dateFormatter(sale.date)
+                        ? TextHelper.formatDate(sale.date)
                         : `Venta #${sale.id}`}
                 </Title>
                 <SaleStateBadge state={sale.state} />

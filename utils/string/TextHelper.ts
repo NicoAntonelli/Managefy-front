@@ -1,4 +1,4 @@
-//////////// PREDEFINED LISTS ////////////
+//////////// TEXT-RELATED TOOLS ////////////
 
 import Theme from '@/app/theme'
 
@@ -38,7 +38,7 @@ const createUrlSegment = (value: string): string => {
 }
 
 // Formats the date both for Date objects and date strings
-const dateFormatter = (date: Date | string): string => {
+const formatDate = (date: Date | string): string => {
     if (!date) {
         throw new Error('Cannot format an empty date')
     }
@@ -178,7 +178,7 @@ const pluralResourceName = (resourceName: ResourceName): string => {
 const TextHelper = {
     weekDaysComplete,
     createUrlSegment,
-    dateFormatter,
+    formatDate,
     getOperationColor,
     getOperationText,
     getRoleColor,

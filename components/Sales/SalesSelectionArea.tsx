@@ -100,7 +100,7 @@ const SalesSelectionArea = (props: SalesSelectionAreaProps) => {
                     selectedSaleIDs.map((id) => {
                         const sale = salesList.find((s) => s.id === id)
                         const saleInfo = sale?.date
-                            ? `${TextHelper.dateFormatter(sale.date)} ($${sale.totalPrice.toFixed(2)})`
+                            ? `${TextHelper.formatDate(sale.date)} ($${sale.totalPrice.toFixed(2)})`
                             : `#${id}`
                         return (
                             <SalesSelectionAreaItem

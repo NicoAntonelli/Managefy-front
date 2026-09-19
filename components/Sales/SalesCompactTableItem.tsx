@@ -25,9 +25,7 @@ const SalesCompactTableItem = (props: SalesCompactTableItemProps) => {
             style={{ cursor: 'pointer' }}
             onClick={() => router.push(`/sales/${sale.id}`)}>
             <Table.Td fw={500}>
-                {sale.date
-                    ? TextHelper.dateFormatter(sale.date)
-                    : `#${sale.id}`}
+                {sale.date ? TextHelper.formatDate(sale.date) : `#${sale.id}`}
             </Table.Td>
             <Table.Td c={sale.observation ? undefined : 'dimmed'}>
                 {sale.observation || 'Sin descripción'}

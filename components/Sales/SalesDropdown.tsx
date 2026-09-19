@@ -82,9 +82,7 @@ const SalesDropdown = (props: SalesDropdownProps) => {
     }
 
     const filterPredicate = (sale: Sale, query: string) => {
-        const formattedDate = sale.date
-            ? TextHelper.dateFormatter(sale.date)
-            : ''
+        const formattedDate = sale.date ? TextHelper.formatDate(sale.date) : ''
         const matchesDate = formattedDate.toLowerCase().includes(query)
         const matchesObs = sale.observation?.toLowerCase().includes(query)
         const matchesTotal = sale.totalPrice?.toString().includes(query)
@@ -111,7 +109,7 @@ const SalesDropdown = (props: SalesDropdownProps) => {
                     getItemKey={(sale) => sale.id}
                     getItemLabel={(sale) => {
                         const saleInfo = sale.date
-                            ? TextHelper.dateFormatter(sale.date)
+                            ? TextHelper.formatDate(sale.date)
                             : `#${sale.id}`
                         return `Venta ${saleInfo}`
                     }}
