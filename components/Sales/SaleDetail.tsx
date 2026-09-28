@@ -31,7 +31,10 @@ import ButtonGoBack from '@/components/Common/Buttons/ButtonGoBack'
 import SaleCancel from '@/components/Sales/SaleCancel'
 import SaleEraseClient from '@/components/Sales/SaleEraseClient'
 import SaleLinesTable from '@/components/Sales/SaleLinesTable'
+import SaleUpdateObservation from '@/components/Sales/SaleUpdateObservation'
 import SaleUpdateOrAddClient from '@/components/Sales/SaleUpdateOrAddClient'
+import SaleUpdatePartialPayment from '@/components/Sales/SaleUpdatePartialPayment'
+import SaleUpdateState from '@/components/Sales/SaleUpdateState'
 import SelectedBusinessBar from '@/components/Businesses/SelectedBusinessBar'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 
@@ -53,6 +56,10 @@ const SaleDetail = () => {
     const [cancelModalOpened, setCancelModalOpened] = useState(false)
     const [clientModalOpened, setClientModalOpened] = useState(false)
     const [eraseClientModalOpened, setEraseClientModalOpened] = useState(false)
+    const [observationModalOpened, setObservationModalOpened] = useState(false)
+    const [stateModalOpened, setStateModalOpened] = useState(false)
+    const [partialPaymentModalOpened, setPartialPaymentModalOpened] =
+        useState(false)
 
     useEffect(() => {
         if (!saleID || !businessID) {
@@ -137,9 +144,23 @@ const SaleDetail = () => {
                         <Text size="sm" fw={500} c="dimmed">
                             Observación
                         </Text>
-                        <Text c={sale.observation ? undefined : 'dimmed'}>
-                            {sale.observation || 'Sin asignar'}
-                        </Text>
+                        <Group gap="0.5rem" align="center">
+                            <Text c={sale.observation ? undefined : 'dimmed'}>
+                                {sale.observation || 'Sin asignar'}
+                            </Text>
+                            <Tooltip label="Actualizar observación">
+                                <ActionIcon
+                                    color={Theme.primaryColor}
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() =>
+                                        setObservationModalOpened(true)
+                                    }
+                                    aria-label="Actualizar observación">
+                                    <IconPencil size={16} />
+                                </ActionIcon>
+                            </Tooltip>
+                        </Group>
                     </div>
                 </Stack>
 
@@ -148,9 +169,21 @@ const SaleDetail = () => {
                         <Text size="sm" fw={500} c="dimmed">
                             Estado
                         </Text>
-                        <Text size="lg">
-                            {TextHelper.getSaleStateText(sale.state)}
-                        </Text>
+                        <Group gap="0.5rem" align="center">
+                            <Text size="lg">
+                                {TextHelper.getSaleStateText(sale.state)}
+                            </Text>
+                            <Tooltip label="Actualizar estado">
+                                <ActionIcon
+                                    color={Theme.primaryColor}
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => setStateModalOpened(true)}
+                                    aria-label="Actualizar estado">
+                                    <IconPencil size={16} />
+                                </ActionIcon>
+                            </Tooltip>
+                        </Group>
                     </div>
 
                     <div>
@@ -164,9 +197,23 @@ const SaleDetail = () => {
                         <Text size="sm" fw={500} c="dimmed">
                             Pago parcial
                         </Text>
-                        <Text size="lg">
-                            ${(sale.partialPayment ?? 0).toFixed(2)}
-                        </Text>
+                        <Group gap="0.5rem" align="center">
+                            <Text size="lg">
+                                ${(sale.partialPayment ?? 0).toFixed(2)}
+                            </Text>
+                            <Tooltip label="Actualizar pago parcial">
+                                <ActionIcon
+                                    color={Theme.primaryColor}
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() =>
+                                        setPartialPaymentModalOpened(true)
+                                    }
+                                    aria-label="Actualizar pago parcial">
+                                    <IconPencil size={16} />
+                                </ActionIcon>
+                            </Tooltip>
+                        </Group>
                     </div>
 
                     <div>
@@ -275,6 +322,33 @@ const SaleDetail = () => {
                     onClose={() => setEraseClientModalOpened(false)}
                 />
             )}
+
+            <SaleUpdateObservation
+                opened={observationModalOpened}
+                saleID={sale.id}
+                businessID={selectedBusiness.id}
+                currentObservation={sale.observation}
+                onSuccess={(updatedSale) => setSale(updatedSale)}
+                onClose={() => setObservationModalOpened(false)}
+            />
+
+            <SaleUpdateState
+                opened={stateModalOpened}
+                saleID={sale.id}
+                businessID={selectedBusiness.id}
+                currentState={sale.state}
+                onSuccess={(updatedSale) => setSale(updatedSale)}
+                onClose={() => setStateModalOpened(false)}
+            />
+
+            <SaleUpdatePartialPayment
+                opened={partialPaymentModalOpened}
+                saleID={sale.id}
+                businessID={selectedBusiness.id}
+                currentPartialPayment={sale.partialPayment ?? 0}
+                onSuccess={(updatedSale) => setSale(updatedSale)}
+                onClose={() => setPartialPaymentModalOpened(false)}
+            />
         </Stack>
     )
 }
