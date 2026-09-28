@@ -20,6 +20,7 @@ import {
 } from '@tabler/icons-react'
 import { notifications } from '@mantine/notifications'
 
+import DateHelper from '@/utils/math/DateHelper'
 import Sales from '@/services/sales'
 import Theme from '@/app/theme'
 import TextHelper from '@/utils/string/TextHelper'
@@ -113,7 +114,7 @@ const SaleDetail = () => {
     }
 
     const saleIdentifier = sale.date
-        ? TextHelper.formatDate(sale.date)
+        ? DateHelper.formatDateTime(sale.date)
         : `Venta #${sale.id}`
 
     return (

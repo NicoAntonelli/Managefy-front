@@ -1,8 +1,7 @@
-import { Badge, Group, Text } from '@mantine/core'
+import { Group, Text } from '@mantine/core'
 import { IconCheck, IconLock } from '@tabler/icons-react'
 
-import TextHelper from '@/utils/string/TextHelper'
-
+import DateHelper from '@/utils/math/DateHelper'
 import Sale from '@/entities/sales/Sale'
 
 import SaleStateBadge from '@/components/Sales/SaleStateBadge'
@@ -17,7 +16,7 @@ const SalesDropdownItem = (props: SalesDropdownItemProps) => {
     const { sale, isSelected, isLocked = false } = props
 
     const saleInfo = sale.date
-        ? `${TextHelper.formatDate(sale.date)} - $${sale.totalPrice.toFixed(2)}`
+        ? `${DateHelper.formatDateTime(sale.date)} - $${sale.totalPrice.toFixed(2)}`
         : `#${sale.id}`
 
     return (

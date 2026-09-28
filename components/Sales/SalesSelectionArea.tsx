@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Box, Stack, Text } from '@mantine/core'
 
 import Sales from '@/services/sales'
-import TextHelper from '@/utils/string/TextHelper'
 import Theme from '@/app/theme'
+
+import DateHelper from '@/utils/math/DateHelper'
 
 import SalesDropdown from '@/components/Sales/SalesDropdown'
 import SalesSelectionAreaItem from '@/components/Sales/SalesSelectionAreaItem'
@@ -100,7 +101,7 @@ const SalesSelectionArea = (props: SalesSelectionAreaProps) => {
                     selectedSaleIDs.map((id) => {
                         const sale = salesList.find((s) => s.id === id)
                         const saleInfo = sale?.date
-                            ? `${TextHelper.formatDate(sale.date)} ($${sale.totalPrice.toFixed(2)})`
+                            ? `${DateHelper.formatDateTime(sale.date)} ($${sale.totalPrice.toFixed(2)})`
                             : `#${id}`
                         return (
                             <SalesSelectionAreaItem

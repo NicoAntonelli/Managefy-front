@@ -5,8 +5,8 @@ import { ActionIcon, Table, Tooltip } from '@mantine/core'
 import { IconBan, IconEye } from '@tabler/icons-react'
 
 import Theme from '@/app/theme'
-import TextHelper from '@/utils/string/TextHelper'
 
+import DateHelper from '@/utils/math/DateHelper'
 import Sale from '@/entities/sales/Sale'
 
 import SaleCancel from '@/components/Sales/SaleCancel'
@@ -26,7 +26,7 @@ const SalesCompactTableItem = (props: SalesCompactTableItemProps) => {
     const [cancelModalOpened, setCancelModalOpened] = useState(false)
 
     const saleIdentifier = sale.date
-        ? TextHelper.formatDate(sale.date)
+        ? DateHelper.formatDateTime(sale.date)
         : `Venta #${sale.id}`
 
     const isActive = sale.state !== 'Cancelled'
@@ -41,7 +41,7 @@ const SalesCompactTableItem = (props: SalesCompactTableItemProps) => {
             <Table.Tr style={{ cursor: 'pointer' }} onClick={salesRedirection}>
                 <Table.Td fw={500}>
                     {sale.date
-                        ? TextHelper.formatDate(sale.date)
+                        ? DateHelper.formatDateTime(sale.date)
                         : `#${sale.id}`}
                 </Table.Td>
                 <Table.Td c={sale.observation ? undefined : 'dimmed'}>

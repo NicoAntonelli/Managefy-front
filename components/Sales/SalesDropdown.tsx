@@ -5,9 +5,10 @@ import { IconCashRegister, IconRefresh } from '@tabler/icons-react'
 
 import Helper from '@/services/helper'
 import Sales from '@/services/sales'
-import TextHelper from '@/utils/string/TextHelper'
-import Validation from '@/utils/validation/Validation'
 import Theme from '@/app/theme'
+
+import DateHelper from '@/utils/math/DateHelper'
+import Validation from '@/utils/validation/Validation'
 
 import CustomDropdown from '@/components/Common/CustomDropdown/CustomDropdown'
 import SalesDropdownItem from '@/components/Sales/SalesDropdownItem'
@@ -82,7 +83,9 @@ const SalesDropdown = (props: SalesDropdownProps) => {
     }
 
     const filterPredicate = (sale: Sale, query: string) => {
-        const formattedDate = sale.date ? TextHelper.formatDate(sale.date) : ''
+        const formattedDate = sale.date
+            ? DateHelper.formatDateTime(sale.date)
+            : ''
         const matchesDate = formattedDate.toLowerCase().includes(query)
         const matchesObs = sale.observation?.toLowerCase().includes(query)
         const matchesTotal = sale.totalPrice?.toString().includes(query)
@@ -109,7 +112,7 @@ const SalesDropdown = (props: SalesDropdownProps) => {
                     getItemKey={(sale) => sale.id}
                     getItemLabel={(sale) => {
                         const saleInfo = sale.date
-                            ? TextHelper.formatDate(sale.date)
+                            ? DateHelper.formatDateTime(sale.date)
                             : `#${sale.id}`
                         return `Venta ${saleInfo}`
                     }}
