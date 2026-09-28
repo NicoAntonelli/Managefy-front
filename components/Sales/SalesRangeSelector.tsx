@@ -10,10 +10,10 @@ interface SalesRangeSelectorProps {
     onChange: (range: SalesDateRange | null) => void
 }
 
-const getDateInputValue = (date: Date) => {
+const getDateInputValue = (date: Date, addOneDay?: boolean) => {
     const year = date.getFullYear()
     const month = String(date.getMonth() + 1).padStart(2, '0')
-    const day = String(date.getDate()).padStart(2, '0')
+    const day = String(date.getDate() + (addOneDay ? 1 : 0)).padStart(2, '0')
 
     return `${year}-${month}-${day}`
 }
@@ -25,7 +25,7 @@ const getDefaultRange = (): SalesDateRange => {
 
     return {
         dateFrom: getDateInputValue(dateFrom),
-        dateTo: getDateInputValue(dateTo),
+        dateTo: getDateInputValue(dateTo, true),
     }
 }
 
