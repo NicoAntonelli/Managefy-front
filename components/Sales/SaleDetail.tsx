@@ -11,7 +11,13 @@ import {
     Button,
     Tooltip,
 } from '@mantine/core'
-import { IconBan, IconEye } from '@tabler/icons-react'
+import {
+    IconBan,
+    IconEye,
+    IconPencil,
+    IconPlus,
+    IconX,
+} from '@tabler/icons-react'
 import { notifications } from '@mantine/notifications'
 
 import Sales from '@/services/sales'
@@ -23,10 +29,13 @@ import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
 import ButtonCreate from '@/components/Common/Buttons/ButtonCreate'
 import ButtonGoBack from '@/components/Common/Buttons/ButtonGoBack'
 import SaleCancel from '@/components/Sales/SaleCancel'
+import SaleEraseClient from '@/components/Sales/SaleEraseClient'
 import SaleLinesTable from '@/components/Sales/SaleLinesTable'
+import SaleUpdateOrAddClient from '@/components/Sales/SaleUpdateOrAddClient'
 import SelectedBusinessBar from '@/components/Businesses/SelectedBusinessBar'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 
+import Client from '@/entities/clients/Client'
 import Sale from '@/entities/sales/Sale'
 
 const SaleDetail = () => {
@@ -42,6 +51,8 @@ const SaleDetail = () => {
     const [loading, setLoading] = useState(true)
 
     const [cancelModalOpened, setCancelModalOpened] = useState(false)
+    const [clientModalOpened, setClientModalOpened] = useState(false)
+    const [eraseClientModalOpened, setEraseClientModalOpened] = useState(false)
 
     useEffect(() => {
         if (!saleID || !businessID) {
@@ -181,6 +192,43 @@ const SaleDetail = () => {
                                     </ActionIcon>
                                 </Tooltip>
                             )}
+                            <Tooltip
+                                label={
+                                    sale.client
+                                        ? 'Actualizar cliente'
+                                        : 'Agregar cliente'
+                                }>
+                                <ActionIcon
+                                    color={Theme.primaryColor}
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => setClientModalOpened(true)}
+                                    aria-label={
+                                        sale.client
+                                            ? 'Actualizar cliente'
+                                            : 'Agregar cliente'
+                                    }>
+                                    {sale.client ? (
+                                        <IconPencil size={16} />
+                                    ) : (
+                                        <IconPlus size={16} />
+                                    )}
+                                </ActionIcon>
+                            </Tooltip>
+                            {sale.client && (
+                                <Tooltip label="Remover cliente">
+                                    <ActionIcon
+                                        color={Theme.other!.danger}
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() =>
+                                            setEraseClientModalOpened(true)
+                                        }
+                                        aria-label="Remover cliente">
+                                        <IconX size={16} />
+                                    </ActionIcon>
+                                </Tooltip>
+                            )}
                         </Group>
                     </div>
                 </Group>
@@ -206,6 +254,27 @@ const SaleDetail = () => {
                 businessID={selectedBusiness.id}
                 onClose={() => setCancelModalOpened(false)}
             />
+
+            <SaleUpdateOrAddClient
+                opened={clientModalOpened}
+                saleID={sale.id}
+                businessID={selectedBusiness.id}
+                currentClient={sale.client as Client | null}
+                onSuccess={(updatedSale) => setSale(updatedSale)}
+                onClose={() => setClientModalOpened(false)}
+            />
+
+            {sale.client && (
+                <SaleEraseClient
+                    opened={eraseClientModalOpened}
+                    saleID={sale.id}
+                    businessID={selectedBusiness.id}
+                    clientName={sale.client.name}
+                    saleIdentifier={saleIdentifier}
+                    onSuccess={(updatedSale) => setSale(updatedSale)}
+                    onClose={() => setEraseClientModalOpened(false)}
+                />
+            )}
         </Stack>
     )
 }
