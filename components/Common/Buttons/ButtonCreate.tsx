@@ -10,10 +10,11 @@ import ResourceName from '@/entities/helpTypes/ResourceName'
 interface ButtonCreateProps {
     href: string
     resourceName: ResourceName
+    label?: string
 }
 
 const ButtonCreate = (props: ButtonCreateProps) => {
-    const { href, resourceName } = props
+    const { href, resourceName, label } = props
 
     return (
         <Button
@@ -22,7 +23,7 @@ const ButtonCreate = (props: ButtonCreateProps) => {
             color={Theme.other!.secondaryColor}
             w={{ base: '100%', sm: 'fit-content' }}
             leftSection={<IconHexagonPlus size={24} />}>
-            Crear un nuevo {resourceName}
+            {label ?? `Crear un nuevo ${resourceName}`}
         </Button>
     )
 }
