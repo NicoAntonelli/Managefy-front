@@ -8,7 +8,16 @@ import Role from '@/entities/helpTypes/Role'
 import SaleState from '@/entities/helpTypes/SaleState'
 import WeekDay from '@/entities/helpTypes/WeekDay'
 
-// List of complete week days
+// List of all possible sale states
+const saleStatesComplete: SaleState[] = [
+    'PendingPayment',
+    'PartialPayment',
+    'Paid',
+    'PaidAndBilled',
+    'Cancelled',
+]
+
+// List of all week days
 const weekDaysComplete: WeekDay[] = [
     'Monday',
     'Tuesday',
@@ -176,6 +185,7 @@ const pluralResourceName = (resourceName: ResourceName): string => {
 }
 
 const TextHelper = {
+    saleStatesComplete,
     weekDaysComplete,
     createUrlSegment,
     formatDate,
