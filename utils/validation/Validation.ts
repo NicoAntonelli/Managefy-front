@@ -46,6 +46,19 @@ const password = (value: string): boolean => {
     return true
 }
 
+// Percentage field validation
+const percentage = (value: number | null): boolean => {
+    if (value === null || value === undefined) return false
+    if (isNaN(value)) return false
+
+    const num = typeof value === 'number' ? value : Number(value)
+    if (!isFinite(num)) return false
+    if (num < Constant.MIN_PERCENTAGE) return false
+    if (num > Constant.MAX_PERCENTAGE) return false
+
+    return true
+}
+
 // Phone field validation
 const phone = (value: string): boolean => {
     if (!string(value)) return false
@@ -80,6 +93,7 @@ const Validation = {
     email,
     integer,
     password,
+    percentage,
     phone,
     string,
     urlSegment,
