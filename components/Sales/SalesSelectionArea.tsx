@@ -30,7 +30,12 @@ const SalesSelectionArea = (props: SalesSelectionAreaProps) => {
 
     useEffect(() => {
         if (businessID && salesList.length === 0) {
-            Sales.listSalesIncomplete(businessID)
+            const defaultRange = DateHelper.getDefaultRange()
+            Sales.listSalesByInterval(
+                businessID,
+                defaultRange.dateFrom,
+                defaultRange.dateTo
+            )
                 .then((res) => {
                     if (res) setSalesList(res)
                 })

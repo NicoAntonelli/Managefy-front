@@ -41,7 +41,12 @@ const SalesDropdown = (props: SalesDropdownProps) => {
     const fetchSales = async () => {
         setLoading(true)
         try {
-            const response = await Sales.listSalesIncomplete(businessID)
+            const defaultRange = DateHelper.getDefaultRange()
+            const response = await Sales.listSalesByInterval(
+                businessID,
+                defaultRange.dateFrom,
+                defaultRange.dateTo
+            )
             setSales(response ?? [])
             setCachedAt(Date.now())
             setCachedBusinessID(businessID)

@@ -3,6 +3,7 @@ import { Stack, Text, Title } from '@mantine/core'
 
 import Sales from '@/services/sales'
 import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
+import DateHelper from '@/utils/math/DateHelper'
 
 import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
 import ButtonCreate from '@/components/Common/Buttons/ButtonCreate'
@@ -25,14 +26,14 @@ const SalesList = () => {
 
     const [selectedClient, setSelectedClient] = useState<Client | null>(null)
     const [selectedRange, setSelectedRange] = useState<SalesDateRange | null>(
-        null
+        DateHelper.getDefaultRange()
     )
     const [prevBusinessID, setPrevBusinessID] = useState(businessID)
 
     if (businessID !== prevBusinessID) {
         setPrevBusinessID(businessID)
         setSelectedClient(null)
-        setSelectedRange(null)
+        setSelectedRange(DateHelper.getDefaultRange())
     }
 
     useEffect(() => {

@@ -78,6 +78,18 @@ const SalesMultipleFilters = (props: SalesMultipleFiltersProps) => {
     return (
         <form onSubmit={handleSubmit}>
             <Stack gap="1rem">
+                <SalesRangeSelector
+                    value={selectedRange}
+                    onChange={handleRangeChange}
+                />
+                <ClientsDropdown
+                    businessID={businessID}
+                    initialClient={selectedClient}
+                    forceRefresh={!!selectedClient}
+                    enabled={clientSelected}
+                    onEnabledChange={handleClientEnabledChange}
+                    onChange={handleClientChange}
+                />
                 <Stack gap="xs" mt="md">
                     <Text size="sm" fw={500}>
                         Ventas no finalizadas
@@ -92,18 +104,6 @@ const SalesMultipleFilters = (props: SalesMultipleFiltersProps) => {
                         }
                     />
                 </Stack>
-                <SalesRangeSelector
-                    value={selectedRange}
-                    onChange={handleRangeChange}
-                />
-                <ClientsDropdown
-                    businessID={businessID}
-                    initialClient={selectedClient}
-                    forceRefresh={!!selectedClient}
-                    enabled={clientSelected}
-                    onEnabledChange={handleClientEnabledChange}
-                    onChange={handleClientChange}
-                />
             </Stack>
             <ButtonsSubmitAndCancel
                 operation="Create"
