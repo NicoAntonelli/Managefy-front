@@ -1,11 +1,12 @@
 import React from 'react'
-import { NumberInput, Table, Tooltip, ActionIcon } from '@mantine/core'
-import { IconTrash } from '@tabler/icons-react'
+import { Table, Tooltip, ActionIcon } from '@mantine/core'
+import { IconX } from '@tabler/icons-react'
 
 import Math from '@/utils/math/Math'
 import Theme from '@/app/theme'
 
 import InputNumeric from '@/components/Common/Inputs/InputNumeric'
+import InputPercentage from '@/components/Common/Inputs/InputPercentage'
 
 import SaleLineDraft from '@/entities/sales/SaleLineDraft'
 
@@ -30,21 +31,20 @@ const SaleLineCreate = (props: SaleLineCreateProps) => {
         <Table.Tr>
             <Table.Td fw={500}>{saleLine.product.name}</Table.Td>
             <Table.Td style={{ width: '7rem' }}>
-                <NumberInput
-                    aria-label="Cantidad"
-                    size="sm"
-                    min={1}
-                    max={9999999}
-                    allowNegative={false}
-                    allowDecimal={false}
+                <InputNumeric
+                    name="amount"
+                    isInteger
                     hideControls
-                    value={saleLine.amount ?? ''}
-                    onChange={(value) =>
-                        onChange({
-                            ...saleLine,
-                            amount: value === '' ? null : Number(value),
-                        })
-                    }
+                    InputProps={{
+                        'aria-label': 'Cantidad',
+                        min: 1,
+                        value: saleLine.amount ?? undefined,
+                        onChange: (value) =>
+                            onChange({
+                                ...saleLine,
+                                amount: value === null ? null : Number(value),
+                            }),
+                    }}
                 />
             </Table.Td>
             <Table.Td style={{ width: '8rem', textAlign: 'center' }}>
@@ -54,20 +54,15 @@ const SaleLineCreate = (props: SaleLineCreateProps) => {
                 ${saleLine.product.unitCost.toFixed(2)}
             </Table.Td>
             <Table.Td style={{ width: '8rem' }}>
-                <InputNumeric
-                    name="discountPercentage"
-                    hideControls
-                    allowNegative
-                    InputProps={{
-                        min: -99.99,
-                        value: saleLine.discountPercentage ?? undefined,
-                        onChange: (value) =>
-                            onChange({
-                                ...saleLine,
-                                discountPercentage:
-                                    value === null ? null : Number(value),
-                            }),
-                    }}
+                <InputPercentage
+                    ariaLabel="Descuento/Recargo (%)"
+                    value={saleLine.discountPercentage ?? null}
+                    onChange={(value) =>
+                        onChange({
+                            ...saleLine,
+                            discountPercentage: value,
+                        })
+                    }
                 />
             </Table.Td>
             <Table.Td style={{ textAlign: 'center' }}>
@@ -81,7 +76,7 @@ const SaleLineCreate = (props: SaleLineCreateProps) => {
                         size="sm"
                         onClick={onRemove}
                         aria-label="Quitar producto">
-                        <IconTrash size={16} />
+                        <IconX size={16} />
                     </ActionIcon>
                 </Tooltip>
             </Table.Td>

@@ -2,15 +2,30 @@ import React, { useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 import { useForm } from '@mantine/form'
-import { Card, Checkbox, Group, Stack, Table, Text, Title } from '@mantine/core'
+import {
+    Card,
+    Checkbox,
+    Group,
+    Stack,
+    Table,
+    Text,
+    Title,
+    Tooltip,
+} from '@mantine/core'
 import { notifications } from '@mantine/notifications'
-import { IconCashRegister, IconCoins } from '@tabler/icons-react'
+import {
+    IconCashRegister,
+    IconCoins,
+    IconInfoCircle,
+} from '@tabler/icons-react'
 
-import Sales from '@/services/sales'
-import Helper from '@/services/helper'
-import Theme from '@/app/theme'
-import Validation from '@/utils/validation/Validation'
+import Math from '@/utils/math/Math'
 import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
+import Validation from '@/utils/validation/Validation'
+
+import Helper from '@/services/helper'
+import Sales from '@/services/sales'
+import Theme from '@/app/theme'
 
 import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
 import ButtonGoBack from '@/components/Common/Buttons/ButtonGoBack'
@@ -74,10 +89,17 @@ const SaleCreate = (props: SaleCreateProps) => {
         }
     }
 
-    const deriveSaleState = (partialPayment: number | null): SaleState => {
+    const deriveSaleState = (
+        partialPayment: number | null,
+        totalPrice: number
+    ): SaleState => {
         if (isBilled) return 'PaidAndBilled'
         if (isPaid) return 'Paid'
-        if (partialPayment && partialPayment > 0) return 'PartialPayment'
+        if (partialPayment && partialPayment > 0) {
+            if (partialPayment >= totalPrice) return 'Paid'
+            else return 'PartialPayment'
+        }
+
         return 'PendingPayment'
     }
 
@@ -138,10 +160,38 @@ const SaleCreate = (props: SaleCreateProps) => {
         return true
     }
 
+    const calculateTotalPrice = (lines: SaleLineDraft[]): number =>
+        lines.reduce(
+            (total, saleLine) =>
+                total +
+                Math.calculateSubtotal(
+                    saleLine.product.unitPrice,
+                    saleLine.amount ?? 0,
+                    saleLine.discountPercentage
+                        ? Math.formatPercentageToFactor(
+                              saleLine.discountPercentage
+                          )
+                        : undefined
+                ),
+            0
+        )
+
     const handleSubmit = async (values: SaleCreateForm) => {
         if (submitting || !selectedBusiness) return
 
         if (!validateSaleLines()) return
+
+        const totalPrice = calculateTotalPrice(saleLines)
+        if (values.partialPayment && values.partialPayment > totalPrice) {
+            form.setFieldError(
+                'partialPayment',
+                'El pago parcial no puede ser mayor al total de la venta'
+            )
+            return
+        }
+
+        const isFullyPaid =
+            !!values.partialPayment && values.partialPayment === totalPrice
 
         setSubmitting(true)
         try {
@@ -150,16 +200,18 @@ const SaleCreate = (props: SaleCreateProps) => {
                 price: saleLine.product.unitPrice,
                 cost: saleLine.product.unitCost,
                 discountSurcharge: saleLine.discountPercentage
-                    ? Validation.decimal(saleLine.discountPercentage, true)
-                        ? 1 + (saleLine.discountPercentage as number) * 0.01
+                    ? Validation.percentage(saleLine.discountPercentage)
+                        ? Math.formatPercentageToFactor(
+                              saleLine.discountPercentage
+                          )
                         : null
                     : null,
                 productID: saleLine.product.id,
             }))
 
             const saleC: SaleC = {
-                state: deriveSaleState(values.partialPayment),
-                partialPayment: values.partialPayment,
+                state: deriveSaleState(values.partialPayment, totalPrice),
+                partialPayment: isFullyPaid ? 0 : values.partialPayment,
                 observation: values.observation || null,
                 businessID: selectedBusiness.id,
                 client: selectedClient
@@ -205,6 +257,8 @@ const SaleCreate = (props: SaleCreateProps) => {
     }
 
     const selectedProductIDs = saleLines.map((saleLine) => saleLine.product.id)
+
+    const totalPrice = calculateTotalPrice(saleLines)
 
     return (
         <Stack gap="xs" w="100%" maw="60rem" mx="auto">
@@ -284,7 +338,20 @@ const SaleCreate = (props: SaleCreateProps) => {
                                         <Table.Th>Precio</Table.Th>
                                         <Table.Th>Costo</Table.Th>
                                         <Table.Th>
-                                            Descuento/Recargo (%)
+                                            <Group gap={4} wrap="nowrap">
+                                                Descuento/Recargo (%)
+                                                <Tooltip
+                                                    label="Negativo: descuento (hasta -99.99%). Positivo: recargo (hasta 200%)"
+                                                    multiline
+                                                    w={220}>
+                                                    <IconInfoCircle
+                                                        size={16}
+                                                        style={{
+                                                            cursor: 'help',
+                                                        }}
+                                                    />
+                                                </Tooltip>
+                                            </Group>
                                         </Table.Th>
                                         <Table.Th
                                             style={{ textAlign: 'center' }}>
@@ -324,6 +391,15 @@ const SaleCreate = (props: SaleCreateProps) => {
                             selectedProductIDs={selectedProductIDs}
                             onToggleProduct={handleToggleProduct}
                         />
+
+                        <Group justify="flex-end" gap="xs" mt="xs">
+                            <Text size="sm" fw={500}>
+                                Total:
+                            </Text>
+                            <Text size="lg" fw={700}>
+                                ${totalPrice.toFixed(2)}
+                            </Text>
+                        </Group>
                     </Stack>
 
                     {errorMessage && (
