@@ -15,10 +15,12 @@ type SaleCancelProps = {
     saleIdentifier: string
     businessID: number
     onClose: () => void
+    onSuccess?: () => void
 }
 
 const SaleCancel = (props: SaleCancelProps) => {
-    const { opened, saleID, saleIdentifier, businessID, onClose } = props
+    const { opened, saleID, saleIdentifier, businessID } = props
+    const { onClose, onSuccess } = props
 
     const router = useRouter()
     const [cancelling, setCancelling] = useState(false)
@@ -32,7 +34,11 @@ const SaleCancel = (props: SaleCancelProps) => {
                 message: 'Venta cancelada correctamente',
                 color: Theme.other!.success,
             })
-            router.push('/sales')
+            if (onSuccess) {
+                onSuccess()
+            } else {
+                router.push('/sales')
+            }
         } catch (error) {
             notifications.show({
                 title: 'Error',

@@ -213,7 +213,20 @@ const ClientDetail = () => {
                 </Group>
             </Card>
 
-            <SalesCompactTable sales={sales} resourceName="cliente" />
+            <SalesCompactTable
+                sales={sales}
+                resourceName="cliente"
+                businessID={selectedBusiness.id}
+                onSaleCancelled={(saleID) =>
+                    setSales((currentSales) =>
+                        currentSales.map((currentSale) =>
+                            currentSale.id === saleID
+                                ? { ...currentSale, state: 'Cancelled' }
+                                : currentSale
+                        )
+                    )
+                }
+            />
 
             <ClientDelete
                 opened={deleteModalOpened}

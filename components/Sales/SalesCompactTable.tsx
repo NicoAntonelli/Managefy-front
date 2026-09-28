@@ -9,10 +9,12 @@ import SalesCompactTableItem from '@/components/Sales/SalesCompactTableItem'
 interface SalesCompactTableProps {
     sales: Sale[]
     resourceName: ResourceName
+    businessID: number
+    onSaleCancelled: (saleID: number) => void
 }
 
 const SalesCompactTable = (props: SalesCompactTableProps) => {
-    const { sales, resourceName } = props
+    const { sales, resourceName, businessID, onSaleCancelled } = props
 
     return (
         <Card
@@ -46,7 +48,12 @@ const SalesCompactTable = (props: SalesCompactTableProps) => {
                     </Table.Thead>
                     <Table.Tbody>
                         {sales.map((sale) => (
-                            <SalesCompactTableItem key={sale.id} sale={sale} />
+                            <SalesCompactTableItem
+                                key={sale.id}
+                                sale={sale}
+                                businessID={businessID}
+                                onSaleCancelled={onSaleCancelled}
+                            />
                         ))}
                     </Table.Tbody>
                 </Table>
