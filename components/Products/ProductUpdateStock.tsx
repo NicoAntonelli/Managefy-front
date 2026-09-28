@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, NumberInput } from '@mantine/core'
+import { Modal } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
 import { IconCheck } from '@tabler/icons-react'
 
@@ -7,6 +7,7 @@ import Products from '@/services/products'
 import Theme from '@/app/theme'
 
 import ButtonsSubmitAndCancel from '@/components/Common/Buttons/ButtonsSubmitAndCancel'
+import InputNumeric from '@/components/Common/Inputs/InputNumeric'
 import Product from '@/entities/products/Product'
 
 interface ProductUpdateStockProps {
@@ -65,17 +66,19 @@ const ProductUpdateStock = (props: ProductUpdateStockProps) => {
             onClose={onClose}
             title="Actualizar stock"
             centered>
-            <NumberInput
+            <InputNumeric
+                name="stock"
+                isInteger
                 label="Stock"
                 placeholder="Ingresá el nuevo stock"
-                value={newStock}
-                onChange={(value) =>
-                    setNewStock(value === '' ? '' : Number(value))
-                }
-                allowNegative={false}
-                allowDecimal={false}
-                decimalScale={0}
-                mb="lg"
+                InputProps={{
+                    value: newStock,
+                    mb: 'lg',
+                    onChange: (value) =>
+                        setNewStock(
+                            value === '' || value === null ? '' : Number(value)
+                        ),
+                }}
             />
             <form
                 onSubmit={(event) => {
