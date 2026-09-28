@@ -211,7 +211,7 @@ const SaleCreate = (props: SaleCreateProps) => {
 
             const saleC: SaleC = {
                 state: deriveSaleState(values.partialPayment, totalPrice),
-                partialPayment: isFullyPaid ? 0 : values.partialPayment,
+                partialPayment: isFullyPaid ? null : values.partialPayment,
                 observation: values.observation || null,
                 businessID: selectedBusiness.id,
                 client: selectedClient
