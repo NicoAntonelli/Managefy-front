@@ -20,6 +20,7 @@ import TextHelper from '@/utils/string/TextHelper'
 import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 
 import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
+import ButtonCreate from '@/components/Common/Buttons/ButtonCreate'
 import ButtonGoBack from '@/components/Common/Buttons/ButtonGoBack'
 import SaleCancel from '@/components/Sales/SaleCancel'
 import SaleLinesTable from '@/components/Sales/SaleLinesTable'
@@ -103,6 +104,14 @@ const SaleDetail = () => {
 
             <div style={{ marginBottom: 'var(--mantine-spacing-xl)' }}>
                 <ButtonGoBack href="/sales" text="ventas" />
+            </div>
+
+            <div style={{ marginBottom: 'var(--mantine-spacing-sm)' }}>
+                <ButtonCreate
+                    href="/sales/new"
+                    resourceName="venta"
+                    label="Registrar nueva venta"
+                />
             </div>
 
             <Card

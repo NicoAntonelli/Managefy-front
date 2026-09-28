@@ -5,6 +5,7 @@ import Sales from '@/services/sales'
 import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 
 import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
+import ButtonCreate from '@/components/Common/Buttons/ButtonCreate'
 import SalesListItem from '@/components/Sales/SalesListItem'
 import SalesMultipleFilters from '@/components/Sales/SalesMultipleFilters'
 import SelectedBusinessBar from '@/components/Businesses/SelectedBusinessBar'
@@ -103,9 +104,19 @@ const SalesList = () => {
                     <Text ta="center" maw={480}>
                         Este emprendimiento aún no tiene ventas.
                     </Text>
+                    <ButtonCreate
+                        href="/sales/new"
+                        resourceName="venta"
+                        label="Registrar nueva venta"
+                    />
                 </Stack>
             ) : (
                 <Stack gap="lg">
+                    <ButtonCreate
+                        href="/sales/new"
+                        resourceName="venta"
+                        label="Registrar nueva venta"
+                    />
                     {sales.map((sale) => (
                         <SalesListItem key={sale.id} sale={sale} />
                     ))}
