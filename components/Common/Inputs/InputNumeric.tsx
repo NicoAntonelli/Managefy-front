@@ -6,26 +6,22 @@ import NumberInputPropsSimple from '@/entities/helpTypes/NumberInputPropsSimple'
 
 interface InputNumericProps {
     required?: boolean
-    label: string
+    label?: string
     placeholder?: string
     leftIcon?: ReactNode
     name: string
     isInteger?: boolean
+    allowNegative?: boolean
     hideControls?: boolean
     InputProps?: NumberInputPropsSimple
 }
 
 const InputNumeric = (props: InputNumericProps) => {
-    const {
-        name,
-        required,
-        label,
-        placeholder,
-        leftIcon,
-        isInteger = false,
-        hideControls = false,
-        InputProps,
-    } = props
+    const { name, required, label, placeholder, leftIcon } = props
+    const { isInteger = false, allowNegative = false } = props
+    const { hideControls = false, InputProps } = props
+
+    const { value, ...restInputProps } = InputProps ?? {}
 
     return (
         <NumberInput
@@ -36,14 +32,15 @@ const InputNumeric = (props: InputNumericProps) => {
             max={Constant.MAX_SAFE_NUMBER}
             maxLength={16}
             inputMode={isInteger ? 'numeric' : 'decimal'}
-            allowNegative={false}
+            allowNegative={allowNegative}
             allowDecimal={!isInteger}
             decimalScale={isInteger ? 0 : 2}
             hideControls={hideControls}
             label={label}
             placeholder={placeholder}
             leftSection={leftIcon}
-            {...InputProps}
+            {...restInputProps}
+            value={value === null || value === undefined ? '' : value}
             onChange={(value) => {
                 InputProps?.onChange?.(value === '' ? null : value)
             }}
