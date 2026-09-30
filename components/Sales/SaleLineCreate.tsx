@@ -48,10 +48,10 @@ const SaleLineCreate = (props: SaleLineCreateProps) => {
                 />
             </Table.Td>
             <Table.Td style={{ width: '8rem', textAlign: 'center' }}>
-                ${saleLine.product.unitPrice.toFixed(2)}
+                {Math.formatMoney(saleLine.product.unitPrice)}
             </Table.Td>
             <Table.Td style={{ width: '8rem', textAlign: 'center' }} c="dimmed">
-                ${saleLine.product.unitCost.toFixed(2)}
+                {Math.formatMoney(saleLine.product.unitCost)}
             </Table.Td>
             <Table.Td style={{ width: '8rem' }}>
                 <InputPercentage
@@ -66,7 +66,7 @@ const SaleLineCreate = (props: SaleLineCreateProps) => {
                 />
             </Table.Td>
             <Table.Td style={{ textAlign: 'center' }}>
-                ${subtotal.toFixed(2)}
+                {Math.formatMoney(subtotal)}
             </Table.Td>
             <Table.Td style={{ width: '4rem', textAlign: 'center' }}>
                 <Tooltip label="Quitar producto">

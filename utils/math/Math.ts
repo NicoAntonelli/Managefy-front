@@ -29,6 +29,22 @@ const formatFactorToPercentage = (factor: number): number => {
     return (factor - 1) * 100
 }
 
+// Format a factor as a percentage with two decimal places and "%" symbol. Can be negative
+const formatFactorToPercentageString = (factor: number): string => {
+    const decimal = formatFactorToPercentage(factor)
+
+    return `${decimal.toFixed(2)}%`
+}
+
+// Format a number as a monetary value with two decimal places and "$" sign
+const formatMoney = (amount: number): string => {
+    if (amount === null || amount === undefined) {
+        throw new Error('Cannot format an empty amount')
+    }
+
+    return `$${amount.toFixed(2)}`
+}
+
 // Format a percentage as a factor. Always positive
 const formatPercentageToFactor = (percentage: number): number => {
     if (percentage === null || percentage === undefined) {
@@ -40,7 +56,9 @@ const formatPercentageToFactor = (percentage: number): number => {
 
 const Math = {
     calculateSubtotal,
+    formatMoney,
     formatFactorToPercentage,
+    formatFactorToPercentageString,
     formatPercentageToFactor,
 }
 

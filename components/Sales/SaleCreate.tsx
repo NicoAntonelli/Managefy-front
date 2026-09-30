@@ -397,7 +397,7 @@ const SaleCreate = (props: SaleCreateProps) => {
                                 Total:
                             </Text>
                             <Text size="lg" fw={700}>
-                                ${totalPrice.toFixed(2)}
+                                {Math.formatMoney(totalPrice)}
                             </Text>
                         </Group>
                     </Stack>

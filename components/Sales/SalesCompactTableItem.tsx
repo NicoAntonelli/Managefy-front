@@ -7,6 +7,7 @@ import { IconBan, IconEye } from '@tabler/icons-react'
 import Theme from '@/app/theme'
 
 import DateHelper from '@/utils/math/DateHelper'
+import Math from '@/utils/math/Math'
 import Sale from '@/entities/sales/Sale'
 
 import SaleCancel from '@/components/Sales/SaleCancel'
@@ -47,7 +48,7 @@ const SalesCompactTableItem = (props: SalesCompactTableItemProps) => {
                 <Table.Td c={sale.observation ? undefined : 'dimmed'}>
                     {sale.observation || 'Sin descripción'}
                 </Table.Td>
-                <Table.Td>${sale.totalPrice.toFixed(2)}</Table.Td>
+                <Table.Td>{Math.formatMoney(sale.totalPrice)}</Table.Td>
                 <Table.Td style={{ textAlign: 'center' }}>
                     <SaleStateBadge state={sale.state} />
                 </Table.Td>

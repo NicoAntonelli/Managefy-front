@@ -5,6 +5,7 @@ import { Button, Card, Group, Text, Title } from '@mantine/core'
 import { IconChevronRight } from '@tabler/icons-react'
 
 import DateHelper from '@/utils/math/DateHelper'
+import Math from '@/utils/math/Math'
 import Theme from '@/app/theme'
 
 import Sale from '@/entities/sales/Sale'
@@ -45,7 +46,7 @@ const SalesListItem = (props: SalesListItemProps) => {
             </Text>
 
             <Text fw={500} mt="md">
-                Total: ${sale.totalPrice.toFixed(2)}
+                Total: {Math.formatMoney(sale.totalPrice)}
             </Text>
 
             <Group justify="flex-start" mt="md" gap="sm">

@@ -5,6 +5,7 @@ import Sales from '@/services/sales'
 import Theme from '@/app/theme'
 
 import DateHelper from '@/utils/math/DateHelper'
+import Math from '@/utils/math/Math'
 
 import SalesDropdown from '@/components/Sales/SalesDropdown'
 import SalesSelectionAreaItem from '@/components/Sales/SalesSelectionAreaItem'
@@ -106,7 +107,7 @@ const SalesSelectionArea = (props: SalesSelectionAreaProps) => {
                     selectedSaleIDs.map((id) => {
                         const sale = salesList.find((s) => s.id === id)
                         const saleInfo = sale?.date
-                            ? `${DateHelper.formatDateTime(sale.date)} ($${sale.totalPrice.toFixed(2)})`
+                            ? `${DateHelper.formatDateTime(sale.date)} (${Math.formatMoney(sale.totalPrice)})`
                             : `#${id}`
                         return (
                             <SalesSelectionAreaItem

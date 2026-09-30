@@ -22,7 +22,7 @@ import {
 import { notifications } from '@mantine/notifications'
 
 import Products from '@/services/products'
-import Helper from '@/services/helper'
+import Math from '@/utils/math/Math'
 import Theme from '@/app/theme'
 import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 
@@ -221,7 +221,7 @@ const ProductDetail = () => {
                                     Precio unitario
                                 </Text>
                                 <Text size="lg">
-                                    ${product.unitPrice.toFixed(2)}
+                                    {Math.formatMoney(product.unitPrice)}
                                 </Text>
                             </div>
 
@@ -230,7 +230,7 @@ const ProductDetail = () => {
                                     Costo unitario
                                 </Text>
                                 <Text size="lg">
-                                    ${product.unitCost.toFixed(2)}
+                                    {Math.formatMoney(product.unitCost)}
                                 </Text>
                             </div>
 

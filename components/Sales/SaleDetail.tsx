@@ -21,6 +21,7 @@ import {
 import { notifications } from '@mantine/notifications'
 
 import DateHelper from '@/utils/math/DateHelper'
+import Math from '@/utils/math/Math'
 import Sales from '@/services/sales'
 import Theme from '@/app/theme'
 import TextHelper from '@/utils/string/TextHelper'
@@ -191,7 +192,9 @@ const SaleDetail = () => {
                         <Text size="sm" fw={500} c="dimmed">
                             Total
                         </Text>
-                        <Text size="lg">${sale.totalPrice.toFixed(2)}</Text>
+                        <Text size="lg">
+                            {Math.formatMoney(sale.totalPrice)}
+                        </Text>
                     </div>
 
                     <div>
@@ -200,7 +203,7 @@ const SaleDetail = () => {
                         </Text>
                         <Group gap="0.5rem" align="center">
                             <Text size="lg">
-                                ${(sale.partialPayment ?? 0).toFixed(2)}
+                                {Math.formatMoney(sale.partialPayment ?? 0)}
                             </Text>
                             <Tooltip label="Actualizar pago parcial">
                                 <ActionIcon

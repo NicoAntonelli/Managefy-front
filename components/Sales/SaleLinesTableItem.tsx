@@ -15,6 +15,14 @@ interface SaleLinesTableItemProps {
 const SaleLinesTableItem = (props: SaleLinesTableItemProps) => {
     const { saleLine } = props
 
+    const calculateSubtotal = (saleLine: SaleLine) => {
+        return Math.calculateSubtotal(
+            saleLine.price,
+            saleLine.amount,
+            saleLine.discountSurcharge ?? undefined
+        )
+    }
+
     return (
         <Table.Tr>
             <Table.Td fw={500}>{saleLine.product.name}</Table.Td>
@@ -22,25 +30,20 @@ const SaleLinesTableItem = (props: SaleLinesTableItemProps) => {
                 {saleLine.amount}
             </Table.Td>
             <Table.Td style={{ textAlign: 'center' }}>
-                ${saleLine.price.toFixed(2)}
+                {Math.formatMoney(saleLine.price)}
             </Table.Td>
             <Table.Td style={{ textAlign: 'center' }} c="dimmed">
-                ${saleLine.cost.toFixed(2)}
+                {Math.formatMoney(saleLine.cost)}
             </Table.Td>
             <Table.Td
                 style={{ textAlign: 'center' }}
                 c={saleLine.discountSurcharge ? undefined : 'dimmed'}>
                 {saleLine.discountSurcharge
-                    ? `${Math.formatFactorToPercentage(saleLine.discountSurcharge).toFixed(2)}%`
+                    ? `${Math.formatFactorToPercentageString(saleLine.discountSurcharge)}`
                     : 'Sin asignar'}
             </Table.Td>
             <Table.Td style={{ textAlign: 'center' }}>
-                $
-                {Math.calculateSubtotal(
-                    saleLine.price,
-                    saleLine.amount,
-                    saleLine.discountSurcharge ?? undefined
-                ).toFixed(2)}
+                {Math.formatMoney(calculateSubtotal(saleLine))}
             </Table.Td>
             <Table.Td style={{ width: '80px', textAlign: 'center' }}>
                 <Tooltip label="Ver producto">
