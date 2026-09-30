@@ -16,6 +16,7 @@ const InputPercentage = (props: InputPercentageProps) => {
         <InputNumeric
             name="percentage"
             label={label}
+            aria-label={ariaLabel}
             hideControls
             allowNegative
             InputProps={{

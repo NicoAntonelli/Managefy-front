@@ -19,6 +19,7 @@ const InputPassword = (props: InputPasswordProps) => {
             maxLength={100}
             type="password"
             label="Contraseña"
+            aria-label="Contraseña"
             placeholder={isConfirmation ? 'Confirmar contraseña' : 'Contraseña'}
             leftSection={<IconLock />}
             {...InputProps}

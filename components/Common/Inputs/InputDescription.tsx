@@ -16,6 +16,7 @@ const InputDescription = (props: InputDescriptionProps) => {
         <InputTextArea
             required={required}
             label="Descripción"
+            aria-label="Descripción"
             placeholder={placeholder}
             leftIcon={<IconBook />}
             InputProps={InputProps}

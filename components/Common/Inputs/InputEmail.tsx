@@ -19,6 +19,7 @@ const InputEmail = (props: InputEmailProps) => {
             maxLength={100}
             flex={flex}
             label="Email"
+            aria-label="Email"
             placeholder="correo@mail.com"
             leftSection={<IconMail />}
             type="email"

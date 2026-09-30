@@ -37,6 +37,7 @@ const InputNumeric = (props: InputNumericProps) => {
             decimalScale={isInteger ? 0 : 2}
             hideControls={hideControls}
             label={label}
+            aria-label={label}
             placeholder={placeholder}
             leftSection={leftIcon}
             {...restInputProps}

@@ -25,6 +25,7 @@ const InputDate = (props: InputDateProps) => {
     return (
         <DateInput
             label={label}
+            aria-label={label}
             value={value}
             onChange={onChange}
             disabled={disabled}

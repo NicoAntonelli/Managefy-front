@@ -22,6 +22,7 @@ const InputTextArea = (props: InputTextAreaProps) => {
             maxLength={Constant.MAX_STRING_SIZE_DESCRIPTION}
             flex={flex}
             label={label}
+            aria-label={label}
             placeholder={placeholder}
             autosize
             minRows={3}

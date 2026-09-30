@@ -24,6 +24,7 @@ const InputPhone = (props: InputPhoneProps) => {
             inputMode="numeric"
             pattern="[0-9]*"
             label="Teléfono"
+            aria-label="Teléfono"
             placeholder="Número de teléfono"
             leftSection={<IconPhone />}
             {...InputProps}

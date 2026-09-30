@@ -22,6 +22,7 @@ const InputText = (props: InputTextProps) => {
             maxLength={Constant.MAX_STRING_SIZE_TITLE}
             flex={flex}
             label={label}
+            aria-label={label}
             placeholder={placeholder}
             leftSection={leftIcon}
             {...InputProps}
