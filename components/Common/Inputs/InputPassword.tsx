@@ -9,13 +9,13 @@ interface InputPasswordProps {
 }
 
 const InputPassword = (props: InputPasswordProps) => {
-    const { isConfirmation, InputProps } = props
+    const { required, isConfirmation, InputProps } = props
 
     return (
         <PasswordInput
             pt="1rem"
-            required
-            withAsterisk
+            required={required}
+            withAsterisk={required}
             maxLength={100}
             type="password"
             label="Contraseña"
