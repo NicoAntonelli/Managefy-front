@@ -30,8 +30,8 @@ const getDateInputValue = (date: Date, addOneDay?: boolean): string => {
 
 // Gets the default date range for sales filtering based on the constant interval
 const getDefaultRange = (): SalesDateRange => {
-    const dateTo = new Date()
-    const dateFrom = new Date()
+    const dateTo = today()
+    const dateFrom = today()
     dateFrom.setMonth(dateFrom.getMonth() - Constant.DEFAULT_INTERVAL_MONTHS)
 
     return {
@@ -40,6 +40,21 @@ const getDefaultRange = (): SalesDateRange => {
     }
 }
 
-const DateHelper = { formatDateTime, getDateInputValue, getDefaultRange }
+// Today's date
+const today = (): Date => new Date()
+
+// Tomorrow's date
+const tomorrow = (): Date => {
+    const todayDate = today()
+    return new Date(todayDate.setDate(todayDate.getDate() + 1))
+}
+
+const DateHelper = {
+    formatDateTime,
+    getDateInputValue,
+    getDefaultRange,
+    today,
+    tomorrow,
+}
 
 export default DateHelper
