@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { DateInput } from '@mantine/dates'
 import { IconCalendar } from '@tabler/icons-react'
 
@@ -6,11 +7,12 @@ interface InputDateProps {
     value: string | null
     disabled?: boolean
     flex?: number | string
+    error?: ReactNode
     onChange: (value: string | null) => void
 }
 
 const InputDate = (props: InputDateProps) => {
-    const { label, value, disabled, flex, onChange } = props
+    const { label, value, disabled, flex, error, onChange } = props
 
     return (
         <DateInput
@@ -19,6 +21,7 @@ const InputDate = (props: InputDateProps) => {
             onChange={onChange}
             disabled={disabled}
             flex={flex}
+            error={error}
             valueFormat="DD/MM/YYYY"
             leftSection={<IconCalendar size={16} />}
         />

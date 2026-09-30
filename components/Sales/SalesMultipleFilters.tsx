@@ -29,6 +29,7 @@ const SalesMultipleFilters = (props: SalesMultipleFiltersProps) => {
     const [pendingSalesSelected, setPendingSalesSelected] = useState(
         !appliedClient && !appliedRange
     )
+    const [rangeError, setRangeError] = useState('')
 
     const handlePendingSalesChange = (checked: boolean) => {
         if (!checked) return
@@ -37,12 +38,14 @@ const SalesMultipleFilters = (props: SalesMultipleFiltersProps) => {
         setSelectedClient(null)
         setClientSelected(false)
         setSelectedRange(null)
+        setRangeError('')
     }
 
     const handleClientEnabledChange = (enabled: boolean) => {
         if (enabled) {
             setPendingSalesSelected(false)
             setSelectedRange(null)
+            setRangeError('')
         } else {
             setPendingSalesSelected(true)
         }
@@ -55,11 +58,13 @@ const SalesMultipleFilters = (props: SalesMultipleFiltersProps) => {
             setPendingSalesSelected(false)
             setClientSelected(true)
             setSelectedRange(null)
+            setRangeError('')
         }
     }
 
     const handleRangeChange = (range: SalesDateRange | null) => {
         setSelectedRange(range)
+        setRangeError('')
         if (range) {
             setPendingSalesSelected(false)
             setSelectedClient(null)
@@ -71,6 +76,17 @@ const SalesMultipleFilters = (props: SalesMultipleFiltersProps) => {
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault()
+
+        if (
+            selectedRange &&
+            selectedRange.dateFrom > selectedRange.dateTo
+        ) {
+            setRangeError(
+                'La fecha de inicio no puede ser mayor que la fecha de fin'
+            )
+            return
+        }
+
         onApply(selectedClient, selectedRange)
         onClose()
     }
@@ -80,6 +96,7 @@ const SalesMultipleFilters = (props: SalesMultipleFiltersProps) => {
             <Stack gap="1rem">
                 <SalesRangeSelector
                     value={selectedRange}
+                    error={rangeError}
                     onChange={handleRangeChange}
                 />
                 <ClientsDropdown

@@ -1,17 +1,19 @@
 import React from 'react'
 import { Checkbox, Group, Stack, Text } from '@mantine/core'
 
+import Theme from '@/app/theme'
 import DateHelper from '@/utils/math/DateHelper'
 import InputDate from '@/components/Common/Inputs/InputDate'
 import SalesDateRange from '@/entities/helpTypes/SalesDateRange'
 
 interface SalesRangeSelectorProps {
     value: SalesDateRange | null
+    error?: string
     onChange: (range: SalesDateRange | null) => void
 }
 
 const SalesRangeSelector = (props: SalesRangeSelectorProps) => {
-    const { value, onChange } = props
+    const { value, error, onChange } = props
     const enabled = !!value
 
     return (
@@ -31,34 +33,43 @@ const SalesRangeSelector = (props: SalesRangeSelectorProps) => {
                         )
                     }
                 />
-                <Group grow flex={1} gap="sm">
-                    <InputDate
-                        label="Fecha inicio"
-                        value={value?.dateFrom ?? null}
-                        onChange={(dateFrom) =>
-                            onChange({
-                                ...(value ?? DateHelper.getDefaultRange()),
-                                dateFrom:
-                                    dateFrom ??
-                                    DateHelper.getDefaultRange().dateFrom,
-                            })
-                        }
-                        disabled={!enabled}
-                    />
-                    <InputDate
-                        label="Fecha fin"
-                        value={value?.dateTo ?? null}
-                        onChange={(dateTo) =>
-                            onChange({
-                                ...(value ?? DateHelper.getDefaultRange()),
-                                dateTo:
-                                    dateTo ??
-                                    DateHelper.getDefaultRange().dateTo,
-                            })
-                        }
-                        disabled={!enabled}
-                    />
-                </Group>
+                <Stack flex={1} gap={4}>
+                    <Group grow gap="sm">
+                        <InputDate
+                            label="Fecha inicio"
+                            value={value?.dateFrom ?? null}
+                            onChange={(dateFrom) =>
+                                onChange({
+                                    ...(value ?? DateHelper.getDefaultRange()),
+                                    dateFrom:
+                                        dateFrom ??
+                                        DateHelper.getDefaultRange().dateFrom,
+                                })
+                            }
+                            disabled={!enabled}
+                            error={!!error}
+                        />
+                        <InputDate
+                            label="Fecha fin"
+                            value={value?.dateTo ?? null}
+                            onChange={(dateTo) =>
+                                onChange({
+                                    ...(value ?? DateHelper.getDefaultRange()),
+                                    dateTo:
+                                        dateTo ??
+                                        DateHelper.getDefaultRange().dateTo,
+                                })
+                            }
+                            disabled={!enabled}
+                            error={!!error}
+                        />
+                    </Group>
+                    {error && (
+                        <Text size="xs" c={Theme.other!.danger}>
+                            {error}
+                        </Text>
+                    )}
+                </Stack>
             </Group>
         </Stack>
     )
