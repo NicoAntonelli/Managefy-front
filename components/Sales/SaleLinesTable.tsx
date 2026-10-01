@@ -1,7 +1,9 @@
 import React from 'react'
-import { Table, Text, Title } from '@mantine/core'
+import { useMediaQuery } from '@mantine/hooks'
+import { Stack, Table, Text, Title } from '@mantine/core'
 
 import SaleLine from '@/entities/sales/SaleLine'
+import Theme from '@/app/theme'
 
 import SaleLinesTableItem from '@/components/Sales/SaleLinesTableItem'
 
@@ -12,6 +14,8 @@ interface SaleLinesTableProps {
 const SaleLinesTable = (props: SaleLinesTableProps) => {
     const { saleLines } = props
 
+    const isSmallScreen = useMediaQuery(`(max-width: ${Theme.breakpoints?.sm})`)
+
     return (
         <>
             <Title size="1.5rem" mb="md">
@@ -19,6 +23,16 @@ const SaleLinesTable = (props: SaleLinesTableProps) => {
             </Title>
             {!saleLines || saleLines.length === 0 ? (
                 <Text c="dimmed">Esta venta no tiene productos</Text>
+            ) : isSmallScreen ? (
+                <Stack gap="sm">
+                    {saleLines.map((saleLine) => (
+                        <SaleLinesTableItem
+                            key={saleLine.position}
+                            saleLine={saleLine}
+                            isSmallScreen
+                        />
+                    ))}
+                </Stack>
             ) : (
                 <Table highlightOnHover withTableBorder withColumnBorders>
                     <Table.Thead>

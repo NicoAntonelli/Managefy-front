@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import { useRouter } from 'next/navigation'
+import { useMediaQuery } from '@mantine/hooks'
 import { useForm } from '@mantine/form'
 import {
     Card,
@@ -70,6 +71,7 @@ const SaleCreate = (props: SaleCreateProps) => {
     const [saleLines, setSaleLines] = useState<SaleLineDraft[]>([])
     const [isPaid, setIsPaid] = useState(false)
     const [isBilled, setIsBilled] = useState(false)
+    const isSmallScreen = useMediaQuery(`(max-width: ${Theme.breakpoints?.sm})`)
 
     const router = useRouter()
 
@@ -326,6 +328,22 @@ const SaleCreate = (props: SaleCreateProps) => {
                                 No hay productos agregados. Selecciona productos
                                 a continuación.
                             </Text>
+                        ) : isSmallScreen ? (
+                            <Stack gap="sm">
+                                {saleLines.map((saleLine) => (
+                                    <SaleLineCreate
+                                        key={saleLine.product.id}
+                                        saleLine={saleLine}
+                                        isSmallScreen
+                                        onChange={handleChangeSaleLine}
+                                        onRemove={() =>
+                                            handleRemoveSaleLine(
+                                                saleLine.product.id
+                                            )
+                                        }
+                                    />
+                                ))}
+                            </Stack>
                         ) : (
                             <Table
                                 highlightOnHover

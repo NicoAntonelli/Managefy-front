@@ -1,8 +1,10 @@
 import React from 'react'
-import { Card, Table, Text, Title } from '@mantine/core'
+import { useMediaQuery } from '@mantine/hooks'
+import { Card, Stack, Table, Text, Title } from '@mantine/core'
 
 import ResourceName from '@/entities/helpTypes/ResourceName'
 import Sale from '@/entities/sales/Sale'
+import Theme from '@/app/theme'
 
 import SalesCompactTableItem from '@/components/Sales/SalesCompactTableItem'
 
@@ -15,6 +17,8 @@ interface SalesCompactTableProps {
 
 const SalesCompactTable = (props: SalesCompactTableProps) => {
     const { sales, resourceName, businessID, onSaleCancelled } = props
+
+    const isSmallScreen = useMediaQuery(`(max-width: ${Theme.breakpoints?.sm})`)
 
     return (
         <Card
@@ -31,6 +35,18 @@ const SalesCompactTable = (props: SalesCompactTableProps) => {
                 <Text c="dimmed">
                     {`Este ${resourceName} no tiene ventas asociadas`}
                 </Text>
+            ) : isSmallScreen ? (
+                <Stack gap="sm">
+                    {sales.map((sale) => (
+                        <SalesCompactTableItem
+                            key={sale.id}
+                            sale={sale}
+                            businessID={businessID}
+                            isSmallScreen
+                            onSaleCancelled={onSaleCancelled}
+                        />
+                    ))}
+                </Stack>
             ) : (
                 <Table highlightOnHover withTableBorder withColumnBorders>
                     <Table.Thead>
