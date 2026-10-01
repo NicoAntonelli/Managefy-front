@@ -13,20 +13,21 @@ interface InputNumericProps {
     isInteger?: boolean
     allowNegative?: boolean
     hideControls?: boolean
+    noPaddingTop?: boolean
     InputProps?: NumberInputPropsSimple
 }
 
 const InputNumeric = (props: InputNumericProps) => {
     const { name, required, label, placeholder, leftIcon } = props
     const { isInteger = false, allowNegative = false } = props
-    const { hideControls = false, InputProps } = props
+    const { hideControls = false, noPaddingTop = false, InputProps } = props
 
     const { value, ...restInputProps } = InputProps ?? {}
 
     return (
         <NumberInput
             name={name}
-            pt="1rem"
+            pt={noPaddingTop ? undefined : '1rem'}
             required={required}
             withAsterisk={required}
             max={Constant.MAX_SAFE_NUMBER}

@@ -19,6 +19,7 @@ const InputPercentage = (props: InputPercentageProps) => {
             aria-label={ariaLabel}
             hideControls
             allowNegative
+            noPaddingTop
             InputProps={{
                 'aria-label': ariaLabel,
                 min: Constant.MIN_PERCENTAGE,
