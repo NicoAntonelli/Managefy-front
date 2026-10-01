@@ -37,3 +37,6 @@ next-env.d.ts
 
 # VSC
 .vscode
+
+# Kilo code
+.kilo
