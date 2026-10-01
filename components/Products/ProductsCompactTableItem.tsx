@@ -1,7 +1,15 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ActionIcon, Table, Tooltip } from '@mantine/core'
+import {
+    ActionIcon,
+    Card,
+    Group,
+    Stack,
+    Table,
+    Text,
+    Tooltip,
+} from '@mantine/core'
 import { IconEye, IconX } from '@tabler/icons-react'
 
 import Theme from '@/app/theme'
@@ -12,69 +20,107 @@ interface ProductsCompactTableItemProps {
     product: Product
     businessID?: number
     supplierName?: string
+    isSmallScreen?: boolean
     onRemoved?: (productID: number) => void
 }
 
 const ProductsCompactTableItem = (props: ProductsCompactTableItemProps) => {
-    const { product, businessID, supplierName, onRemoved } = props
+    const { product, businessID, supplierName, isSmallScreen, onRemoved } =
+        props
 
     const router = useRouter()
 
     const [eraseModalOpened, setEraseModalOpened] = useState(false)
 
-    return (
-        <Table.Tr
-            style={{ cursor: 'pointer' }}
-            onClick={() => router.push(`/products/${product.id}`)}>
-            <Table.Td fw={500}>{product.name}</Table.Td>
-            <Table.Td c={product.description ? undefined : 'dimmed'}>
-                {product.description || 'Sin descripción'}
-            </Table.Td>
-            <Table.Td style={{ width: '100px', textAlign: 'center' }}>
-                <Tooltip label="Ver producto">
+    const openProduct = () => router.push(`/products/${product.id}`)
+
+    const actions = (
+        <Group gap={4} wrap="nowrap" onClick={(e) => e.stopPropagation()}>
+            <Tooltip label="Ver producto">
+                <ActionIcon
+                    component={Link}
+                    href={`/products/${product.id}`}
+                    variant="outline"
+                    color={Theme.other!.secondaryColor}
+                    size="sm"
+                    aria-label="Ver producto">
+                    <IconEye size={16} />
+                </ActionIcon>
+            </Tooltip>
+
+            {businessID && supplierName && (
+                <Tooltip label="Remover producto de la lista">
                     <ActionIcon
-                        component={Link}
-                        href={`/products/${product.id}`}
                         variant="outline"
-                        color={Theme.other!.secondaryColor}
+                        color={Theme.other!.danger}
                         size="sm"
-                        aria-label="Ver producto"
-                        onClick={(e) => e.stopPropagation()}
-                        mr="xs">
-                        <IconEye size={16} />
+                        aria-label="Remover producto de la lista"
+                        onClick={() => setEraseModalOpened(true)}>
+                        <IconX size={16} />
                     </ActionIcon>
                 </Tooltip>
+            )}
+        </Group>
+    )
 
-                {businessID && supplierName && (
-                    <Tooltip label="Remover producto de la lista">
-                        <ActionIcon
-                            variant="outline"
-                            color={Theme.other!.danger}
+    const eraseModal = businessID && supplierName && (
+        <div onClick={(e) => e.stopPropagation()}>
+            <ProductEraseSupplier
+                opened={eraseModalOpened}
+                productID={product.id}
+                businessID={businessID}
+                supplierName={supplierName}
+                productName={product.name}
+                onSuccess={() => onRemoved?.(product.id)}
+                onClose={() => setEraseModalOpened(false)}
+            />
+        </div>
+    )
+
+    if (isSmallScreen) {
+        return (
+            <Card
+                withBorder
+                padding="sm"
+                radius="sm"
+                style={{ cursor: 'pointer' }}
+                onClick={openProduct}>
+                <Group
+                    justify="space-between"
+                    align="flex-start"
+                    wrap="nowrap"
+                    gap="sm">
+                    <Stack gap={4} style={{ minWidth: 0, flex: 1 }}>
+                        <Text fw={500} style={{ overflowWrap: 'anywhere' }}>
+                            {product.name}
+                        </Text>
+                        <Text
                             size="sm"
-                            aria-label="Remover producto de la lista"
-                            onClick={(e) => {
-                                e.stopPropagation()
-                                setEraseModalOpened(true)
-                            }}>
-                            <IconX size={16} />
-                        </ActionIcon>
-                    </Tooltip>
-                )}
+                            c={product.description ? undefined : 'dimmed'}
+                            style={{ overflowWrap: 'anywhere' }}>
+                            {product.description || 'Sin descripción'}
+                        </Text>
+                    </Stack>
+                    {actions}
+                </Group>
+                {eraseModal}
+            </Card>
+        )
+    }
 
-                {businessID && supplierName && (
-                    // Prevent click bubbling beyond the row
-                    <div onClick={(e) => e.stopPropagation()}>
-                        <ProductEraseSupplier
-                            opened={eraseModalOpened}
-                            productID={product.id}
-                            businessID={businessID}
-                            supplierName={supplierName}
-                            productName={product.name}
-                            onSuccess={() => onRemoved?.(product.id)}
-                            onClose={() => setEraseModalOpened(false)}
-                        />
-                    </div>
-                )}
+    return (
+        <Table.Tr style={{ cursor: 'pointer' }} onClick={openProduct}>
+            <Table.Td fw={500} style={{ overflowWrap: 'anywhere' }}>
+                {product.name}
+            </Table.Td>
+            <Table.Td
+                c={product.description ? undefined : 'dimmed'}
+                style={{ overflowWrap: 'anywhere' }}>
+                {product.description || 'Sin descripción'}
+            </Table.Td>
+            <Table.Td style={{ width: '100px' }}>
+                <Group justify="center">{actions}</Group>
+                {eraseModal}
             </Table.Td>
         </Table.Tr>
     )

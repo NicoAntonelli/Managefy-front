@@ -1,8 +1,10 @@
 import React from 'react'
-import { Card, Table, Text, Title } from '@mantine/core'
+import { useMediaQuery } from '@mantine/hooks'
+import { Card, Stack, Table, Text, Title } from '@mantine/core'
 
 import Product from '@/entities/products/Product'
 import ResourceName from '@/entities/helpTypes/ResourceName'
+import Theme from '@/app/theme'
 
 import ProductsCompactTableItem from '@/components/Products/ProductsCompactTableItem'
 
@@ -17,6 +19,8 @@ interface ProductsCompactTableProps {
 const ProductsCompactTable = (props: ProductsCompactTableProps) => {
     const { products, resourceName, businessID, supplierName } = props
     const { onProductRemoved } = props
+
+    const isSmallScreen = useMediaQuery(`(max-width: ${Theme.breakpoints?.sm})`)
 
     return (
         <Card
@@ -33,6 +37,19 @@ const ProductsCompactTable = (props: ProductsCompactTableProps) => {
                 <Text c="dimmed">
                     {`Este ${resourceName} no tiene productos asociados`}
                 </Text>
+            ) : isSmallScreen ? (
+                <Stack gap="sm">
+                    {products.map((product) => (
+                        <ProductsCompactTableItem
+                            key={product.id}
+                            product={product}
+                            businessID={businessID}
+                            supplierName={supplierName}
+                            isSmallScreen
+                            onRemoved={onProductRemoved}
+                        />
+                    ))}
+                </Stack>
             ) : (
                 <Table highlightOnHover withTableBorder withColumnBorders>
                     <Table.Thead>
