@@ -1,8 +1,8 @@
 'use client'
-import BusinessCreate from '@/components/Businesses/BusinessCreate'
+import BusinessCreateUpdate from '@/components/Businesses/BusinessCreateUpdate'
 
 const BusinessCreatePage = () => {
-    return <BusinessCreate />
+    return <BusinessCreateUpdate />
 }
 
 export default BusinessCreatePage

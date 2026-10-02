@@ -27,14 +27,15 @@ import InputText from '@/components/Common/Inputs/InputText'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 
 import Business from '@/entities/businesses/Business'
+import BusinessCU from '@/entities/businesses/BusinessCU'
 import WeekDay from '@/entities/helpTypes/WeekDay'
 
-interface BusinessCreateForm {
-    name: string
-    description: string
-    link: string
-    isPublic: boolean
-    businessDays: Record<WeekDay, boolean>
+interface BusinessCreateUpdateProps {
+    currentBusiness?: BusinessCU
+    backHref?: string
+    cancelHref?: string
+    onSuccess?: (business: Business) => void
+    onCancel?: () => void
 }
 
 const initialBusinessDays: Record<WeekDay, boolean> = {
@@ -57,25 +58,27 @@ const weekDayLabels: Record<WeekDay, string> = {
     Sunday: 'Domingo',
 }
 
-const BusinessCreate = () => {
+const BusinessCreateUpdate = (props: BusinessCreateUpdateProps) => {
+    const { currentBusiness } = props
+    const { backHref = '/businesses', cancelHref = '/businesses' } = props
+    const { onSuccess, onCancel } = props
+
+    const isUpdate = !!currentBusiness
+
     const [loading, setLoading] = useState(true)
     const [submitting, setSubmitting] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
     const suggestedLink = useRef('')
     const router = useRouter()
 
-    useEffect(() => {
-        setLoading(false)
-    }, [])
-
-    const form = useForm<BusinessCreateForm>({
+    const form = useForm<BusinessCU>({
         mode: 'controlled',
         initialValues: {
-            name: '',
-            description: '',
-            link: '',
-            isPublic: true,
-            businessDays: initialBusinessDays,
+            name: currentBusiness?.name ?? '',
+            description: currentBusiness?.description ?? '',
+            link: currentBusiness?.link ?? '',
+            isPublic: currentBusiness?.isPublic ?? true,
+            businessDays: currentBusiness?.businessDays ?? initialBusinessDays,
         },
         validate: {
             name: (value) =>
@@ -91,23 +94,46 @@ const BusinessCreate = () => {
         },
     })
 
-    const handleSubmit = async (values: BusinessCreateForm) => {
+    useEffect(() => {
+        setLoading(false)
+    }, [])
+
+    const handleSubmit = async (values: BusinessCU) => {
         if (submitting) return
 
         setSubmitting(true)
         try {
-            const response: Business = await Businesses.createBusiness(values)
-            if (!response?.id) throw new Error('Error creando emprendimiento')
+            values.id = currentBusiness?.id
+
+            const response: Business = isUpdate
+                ? await Businesses.updateBusiness(values)
+                : await Businesses.createBusiness(values)
+            if (!response?.id)
+                throw new Error(
+                    isUpdate
+                        ? 'Error actualizando emprendimiento'
+                        : 'Error creando emprendimiento'
+                )
 
             setErrorMessage('')
-            router.push('/businesses')
+
+            if (onSuccess) {
+                onSuccess(response)
+            } else {
+                router.push(
+                    isUpdate
+                        ? `/businesses/${currentBusiness?.id}`
+                        : '/businesses'
+                )
+            }
         } catch (error) {
             const message = Helper.parseError(error)
             setErrorMessage(message)
             notifications.show({
                 title: 'Error',
-                message:
-                    'Error al crear el emprendimiento. Inténtalo de nuevo más tarde.',
+                message: isUpdate
+                    ? 'Error al actualizar el emprendimiento. Inténtalo de nuevo más tarde.'
+                    : 'Error al crear el emprendimiento. Inténtalo de nuevo más tarde.',
                 color: Theme.other!.danger,
             })
         } finally {
@@ -137,7 +163,11 @@ const BusinessCreate = () => {
 
     return (
         <Stack gap="xs" w="100%" maw="40rem" mx="auto">
-            <ButtonGoBack href="/businesses" text="emprendimientos" />
+            <ButtonGoBack
+                href={backHref}
+                text={isUpdate ? 'emprendimiento detalle' : 'emprendimientos'}
+                onClick={onCancel}
+            />
 
             <Card
                 shadow="sm"
@@ -146,7 +176,11 @@ const BusinessCreate = () => {
                 withBorder
                 className="min-w-full">
                 <Group mt="md" mb="xs">
-                    <Title size="2rem">Nuevo emprendimiento</Title>
+                    <Title size="2rem">
+                        {isUpdate
+                            ? 'Editar emprendimiento'
+                            : 'Nuevo emprendimiento'}
+                    </Title>
                 </Group>
 
                 <form onSubmit={form.onSubmit(handleSubmit)}>
@@ -213,11 +247,12 @@ const BusinessCreate = () => {
                     )}
 
                     <ButtonsSubmitAndCancel
-                        operation="Create"
+                        operation={isUpdate ? 'Update' : 'Create'}
                         resourceName="emprendimiento"
                         leftIcon={<IconBuildingStore size={20} />}
                         submitting={submitting}
-                        cancelHref="/businesses"
+                        cancelHref={cancelHref}
+                        onCancel={onCancel}
                     />
                 </form>
             </Card>
@@ -225,4 +260,4 @@ const BusinessCreate = () => {
     )
 }
 
-export default BusinessCreate
+export default BusinessCreateUpdate
