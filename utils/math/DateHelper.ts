@@ -4,19 +4,36 @@ import Constant from '@/utils/validation/Constant'
 import SalesDateRange from '@/entities/helpTypes/SalesDateRange'
 
 // Formats the date both for Date objects and date strings
-const formatDateTime = (date: Date | string): string => {
+const formatDateTime = (date: Date | string, isFileName?: boolean): string => {
     if (!date) {
         throw new Error('Cannot format an empty date')
     }
 
-    return new Date(date).toLocaleString('es-AR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hourCycle: 'h23',
-        hour: '2-digit',
-        minute: '2-digit',
-    })
+    const parsedDate = new Date(date)
+
+    // Format output for file names: yyyy-MM-dd HH-mm-ss
+    if (isFileName) {
+        const year = parsedDate.getFullYear()
+        const month = String(parsedDate.getMonth() + 1).padStart(2, '0')
+        const day = String(parsedDate.getDate()).padStart(2, '0')
+        const hours = String(parsedDate.getHours()).padStart(2, '0')
+        const minutes = String(parsedDate.getMinutes()).padStart(2, '0')
+        const seconds = String(parsedDate.getSeconds()).padStart(2, '0')
+
+        return `${year}-${month}-${day} ${hours}-${minutes}-${seconds}`
+    }
+
+    // Format output default: dd/MM/yyyy HH:mm
+    return parsedDate
+        .toLocaleString('es-AR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hourCycle: 'h23',
+            hour: '2-digit',
+            minute: '2-digit',
+        })
+        .replace(',', '')
 }
 
 // Formats a date for use in HTML date input fields (YYYY-MM-DD)
