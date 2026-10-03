@@ -1,6 +1,7 @@
 'use client'
 import React from 'react'
 
+import { usePathname } from 'next/navigation'
 import { Inter } from 'next/font/google'
 
 import { MantineProvider, localStorageColorSchemeManager } from '@mantine/core'
@@ -26,6 +27,9 @@ export default function RootLayout({
         key: 'mantine-color-scheme',
     })
 
+    const pathname = usePathname()
+    const isInvoice = pathname?.includes('/invoice')
+
     return (
         <html lang="es">
             <head>
@@ -48,12 +52,19 @@ export default function RootLayout({
                     theme={Theme}
                     colorSchemeManager={colorSchemeManager}
                     defaultColorScheme="dark">
-                    <Layout>
-                        <main className="flex min-h-screen flex-col items-center justify-between p-12">
+                    {isInvoice ? (
+                        <>
                             {children}
-                        </main>
-                        <Notifications />
-                    </Layout>
+                            <Notifications />
+                        </>
+                    ) : (
+                        <Layout>
+                            <main className="flex min-h-screen flex-col items-center justify-between p-12">
+                                {children}
+                            </main>
+                            <Notifications />
+                        </Layout>
+                    )}
                 </MantineProvider>
             </body>
         </html>

@@ -14,6 +14,7 @@ import {
 import {
     IconBan,
     IconEye,
+    IconFileInvoice,
     IconPencil,
     IconPlus,
     IconX,
@@ -31,6 +32,7 @@ import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
 import ButtonCreate from '@/components/Common/Buttons/ButtonCreate'
 import ButtonGoBack from '@/components/Common/Buttons/ButtonGoBack'
 import SaleCancel from '@/components/Sales/SaleCancel'
+import SaleInvoiceCreate from '@/components/Sales/SaleInvoiceCreate'
 import SaleEraseClient from '@/components/Sales/SaleEraseClient'
 import SaleLinesTable from '@/components/Sales/SaleLinesTable'
 import SaleUpdateObservation from '@/components/Sales/SaleUpdateObservation'
@@ -56,6 +58,7 @@ const SaleDetail = () => {
     const [loading, setLoading] = useState(true)
 
     const [cancelModalOpened, setCancelModalOpened] = useState(false)
+    const [invoiceModalOpened, setInvoiceModalOpened] = useState(false)
     const [clientModalOpened, setClientModalOpened] = useState(false)
     const [eraseClientModalOpened, setEraseClientModalOpened] = useState(false)
     const [observationModalOpened, setObservationModalOpened] = useState(false)
@@ -289,6 +292,12 @@ const SaleDetail = () => {
                 {sale.state !== 'Cancelled' && (
                     <Group justify="flex-start" gap="sm" mt="xl">
                         <Button
+                            color={Theme.primaryColor}
+                            leftSection={<IconFileInvoice size={20} />}
+                            onClick={() => setInvoiceModalOpened(true)}>
+                            Facturar
+                        </Button>
+                        <Button
                             color={Theme.other!.danger}
                             leftSection={<IconBan size={20} />}
                             onClick={() => setCancelModalOpened(true)}>
@@ -297,6 +306,16 @@ const SaleDetail = () => {
                     </Group>
                 )}
             </Card>
+
+            <SaleInvoiceCreate
+                opened={invoiceModalOpened}
+                saleID={sale.id}
+                saleIdentifier={saleIdentifier}
+                businessID={selectedBusiness.id}
+                isBilled={sale.state === 'PaidAndBilled'}
+                onSuccess={(updatedSale) => setSale(updatedSale)}
+                onClose={() => setInvoiceModalOpened(false)}
+            />
 
             <SaleCancel
                 opened={cancelModalOpened}
