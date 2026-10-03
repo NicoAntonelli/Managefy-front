@@ -14,10 +14,11 @@ import { IconAlertTriangle, IconPrinter } from '@tabler/icons-react'
 
 import Sales from '@/services/sales'
 import Theme from '@/app/theme'
+
 import DateHelper from '@/utils/math/DateHelper'
 import Math from '@/utils/math/Math'
 
-import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
+import SplashLogo from '@/components/Common/Loader/SplashLogo'
 
 import Sale from '@/entities/sales/Sale'
 import SaleLine from '@/entities/sales/SaleLine'
@@ -79,7 +80,7 @@ const SaleInvoice = (props: SaleInvoiceProps) => {
         }
     }, [sale])
 
-    if (loading) return <SkeletonFull />
+    if (loading) return <SplashLogo />
 
     if (loadError) {
         return (

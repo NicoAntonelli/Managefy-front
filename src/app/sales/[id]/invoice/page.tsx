@@ -3,7 +3,7 @@ import { Suspense } from 'react'
 import { useParams, useSearchParams } from 'next/navigation'
 
 import SaleInvoice from '@/components/Sales/SaleInvoice'
-import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
+import SplashLogo from '@/components/Common/Loader/SplashLogo'
 
 const SaleInvoicePageContent = () => {
     const params = useParams()
@@ -16,7 +16,7 @@ const SaleInvoicePageContent = () => {
 
 const SaleInvoicePage = () => {
     return (
-        <Suspense fallback={<SkeletonFull />}>
+        <Suspense fallback={<SplashLogo />}>
             <SaleInvoicePageContent />
         </Suspense>
     )
