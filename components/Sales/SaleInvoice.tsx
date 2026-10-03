@@ -22,6 +22,7 @@ import SplashLogo from '@/components/Common/Loader/SplashLogo'
 
 import Sale from '@/entities/sales/Sale'
 import SaleLine from '@/entities/sales/SaleLine'
+import ErrorAlert from '../Common/Error/ErrorAlert'
 
 interface SaleInvoiceProps {
     saleID: number
@@ -84,31 +85,19 @@ const SaleInvoice = (props: SaleInvoiceProps) => {
 
     if (loadError) {
         return (
-            <Center mih="100vh" p="xl">
-                <Alert
-                    variant="light"
-                    color={Theme.other!.danger}
-                    title="Error"
-                    icon={<IconAlertTriangle />}
-                    maw={480}>
-                    No se pudo cargar la factura. Cerrá esta ventana para seguir
-                    navegando en Managefy.
-                </Alert>
-            </Center>
+            <ErrorAlert message="No se pudo cargar la factura. Cerrá esta ventana para seguir navegando en Managefy." />
         )
     }
 
     if (!sale) {
         return (
-            <Text c="dimmed" ta="center" mt="xl">
-                No se encontró la venta para generar la factura
-            </Text>
+            <ErrorAlert message="No se encontró la venta para generar la factura. Cerrá esta ventana para seguir navegando en Managefy." />
         )
     }
 
     const invoiceNumber = String(sale.id).padStart(8, '0')
     const issueDate = sale.date
-        ? new Date(sale.date).toLocaleDateString('es-AR')
+        ? DateHelper.formatDateTime(sale.date)
         : 'Sin asignar'
     const clientName = sale.client?.name || 'Consumidor Final'
     const lines = sale.saleLines ?? []
