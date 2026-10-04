@@ -9,11 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@mantine/core": "^8.0.1",
+    "@mantine/core": "^8.3.18",
     "@mantine/dates": "^8.3.18",
-    "@mantine/form": "^8.0.1",
-    "@mantine/hooks": "^8.0.1",
-    "@mantine/notifications": "^8.0.1",
+    "@mantine/form": "^8.3.18",
+    "@mantine/hooks": "^8.3.18",
+    "@mantine/notifications": "^8.3.18",
     "@tabler/icons-react": "^3.31.0",
     "axios": "^1.9.0",
     "dayjs": "^1.11.23",
