@@ -78,6 +78,22 @@ const createUserRole = async (
     }
 }
 
+const createUserRoleByMail = async (
+    email: string,
+    businessID: number,
+    role: Role
+): Promise<UserRole> => {
+    const endpoint = `${prefix}/business/${businessID}/createRoleByMail/${role}?email=${email}`
+    try {
+        const response = await api.put<UserRole>(endpoint)
+        Helper.validateResponseAPI(response)
+
+        return response.data
+    } catch (error: any) {
+        throw new Error(Helper.parseLogErrorAPI(error, endpoint))
+    }
+}
+
 const updateUserRole = async (
     userID: number,
     businessID: number,
@@ -142,6 +158,7 @@ const UserRoles = {
     getOneUserRoleForLogged,
     getOneUserRoleForOther,
     createUserRole,
+    createUserRoleByMail,
     updateUserRole,
     transferManagerRole,
     deleteUserRole,
