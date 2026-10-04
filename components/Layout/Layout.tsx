@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { usePathname } from 'next/navigation'
 import {
     AppShell,
     useComputedColorScheme,
@@ -18,7 +17,6 @@ interface Layout {
 
 const Layout = (props: Layout) => {
     const opened = useSidebarStore((state) => state.opened)
-    const pathName = usePathname()
     const [unloaded, setUnloaded] = useState(true)
 
     // Change between theme preferences
