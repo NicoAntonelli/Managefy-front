@@ -22,18 +22,22 @@ interface ProductsCompactTableItemProps {
     supplierName?: string
     isSmallScreen?: boolean
     hideActions?: boolean
+    disableNavigation?: boolean
     onRemoved?: (productID: number) => void
 }
 
 const ProductsCompactTableItem = (props: ProductsCompactTableItemProps) => {
     const { product, businessID, supplierName, isSmallScreen } = props
-    const { hideActions, onRemoved } = props
+    const { hideActions, disableNavigation, onRemoved } = props
 
     const router = useRouter()
 
     const [eraseModalOpened, setEraseModalOpened] = useState(false)
 
-    const openProduct = () => router.push(`/products/${product.id}`)
+    const openProduct = () => {
+        if (disableNavigation) return
+        router.push(`/products/${product.id}`)
+    }
 
     const actions = (
         <Group gap={4} wrap="nowrap" onClick={(e) => e.stopPropagation()}>
@@ -84,8 +88,8 @@ const ProductsCompactTableItem = (props: ProductsCompactTableItemProps) => {
                 withBorder
                 padding="sm"
                 radius="sm"
-                style={{ cursor: 'pointer' }}
-                onClick={openProduct}>
+                style={disableNavigation ? undefined : { cursor: 'pointer' }}
+                onClick={disableNavigation ? undefined : openProduct}>
                 <Group
                     justify="space-between"
                     align="flex-start"
@@ -116,7 +120,9 @@ const ProductsCompactTableItem = (props: ProductsCompactTableItemProps) => {
     }
 
     return (
-        <Table.Tr style={{ cursor: 'pointer' }} onClick={openProduct}>
+        <Table.Tr
+            style={disableNavigation ? undefined : { cursor: 'pointer' }}
+            onClick={disableNavigation ? undefined : openProduct}>
             <Table.Td
                 c={product.code ? undefined : 'dimmed'}
                 style={{ overflowWrap: 'anywhere' }}>

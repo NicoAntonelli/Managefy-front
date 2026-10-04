@@ -13,12 +13,13 @@ interface SalesCompactTableProps {
     resourceName: ResourceName
     businessID: number
     hideActions?: boolean
+    disableNavigation?: boolean
     onSaleCancelled?: (saleID: number) => void
 }
 
 const SalesCompactTable = (props: SalesCompactTableProps) => {
     const { sales, resourceName, businessID } = props
-    const { hideActions, onSaleCancelled } = props
+    const { hideActions, disableNavigation, onSaleCancelled } = props
 
     const isSmallScreen = useMediaQuery(`(max-width: ${Theme.breakpoints?.sm})`)
 
@@ -46,6 +47,7 @@ const SalesCompactTable = (props: SalesCompactTableProps) => {
                             businessID={businessID}
                             isSmallScreen
                             hideActions={hideActions}
+                            disableNavigation={disableNavigation}
                             onSaleCancelled={onSaleCancelled}
                         />
                     ))}
@@ -74,6 +76,7 @@ const SalesCompactTable = (props: SalesCompactTableProps) => {
                                 sale={sale}
                                 businessID={businessID}
                                 hideActions={hideActions}
+                            disableNavigation={disableNavigation}
                                 onSaleCancelled={onSaleCancelled}
                             />
                         ))}

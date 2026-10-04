@@ -12,14 +12,18 @@ interface SuppliersCompactTableItemProps {
     supplier: Supplier
     isSmallScreen?: boolean
     hideActions?: boolean
+    disableNavigation?: boolean
 }
 
 const SuppliersCompactTableItem = (props: SuppliersCompactTableItemProps) => {
-    const { supplier, isSmallScreen, hideActions } = props
+    const { supplier, isSmallScreen, hideActions, disableNavigation } = props
 
     const router = useRouter()
 
-    const openSupplier = () => router.push(`/suppliers/${supplier.id}`)
+    const openSupplier = () => {
+        if (disableNavigation) return
+        router.push(`/suppliers/${supplier.id}`)
+    }
 
     const actions = (
         <Group gap={4} wrap="nowrap" onClick={(event) => event.stopPropagation()}>
@@ -43,8 +47,8 @@ const SuppliersCompactTableItem = (props: SuppliersCompactTableItemProps) => {
                 withBorder
                 padding="sm"
                 radius="sm"
-                style={{ cursor: 'pointer' }}
-                onClick={openSupplier}>
+                style={disableNavigation ? undefined : { cursor: 'pointer' }}
+                onClick={disableNavigation ? undefined : openSupplier}>
                 <Group
                     justify="space-between"
                     align="flex-start"
@@ -78,7 +82,9 @@ const SuppliersCompactTableItem = (props: SuppliersCompactTableItemProps) => {
     }
 
     return (
-        <Table.Tr style={{ cursor: 'pointer' }} onClick={openSupplier}>
+        <Table.Tr
+            style={disableNavigation ? undefined : { cursor: 'pointer' }}
+            onClick={disableNavigation ? undefined : openSupplier}>
             <Table.Td fw={500} style={{ overflowWrap: 'anywhere' }}>
                 {supplier.name}
             </Table.Td>

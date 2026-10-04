@@ -18,12 +18,13 @@ interface SalesCompactTableItemProps {
     businessID: number
     isSmallScreen?: boolean
     hideActions?: boolean
+    disableNavigation?: boolean
     onSaleCancelled?: (saleID: number) => void
 }
 
 const SalesCompactTableItem = (props: SalesCompactTableItemProps) => {
     const { sale, businessID, isSmallScreen } = props
-    const { hideActions, onSaleCancelled } = props
+    const { hideActions, disableNavigation, onSaleCancelled } = props
 
     const router = useRouter()
 
@@ -37,7 +38,7 @@ const SalesCompactTableItem = (props: SalesCompactTableItemProps) => {
 
     // Prevent redirection if the sale is cancelled
     const salesRedirection = () => {
-        if (isActive) router.push(`/sales/${sale.id}`)
+        if (isActive && !disableNavigation) router.push(`/sales/${sale.id}`)
     }
 
     const actions = isActive && (
@@ -83,8 +84,12 @@ const SalesCompactTableItem = (props: SalesCompactTableItemProps) => {
                 withBorder
                 padding="sm"
                 radius="sm"
-                style={{ cursor: isActive ? 'pointer' : 'default' }}
-                onClick={salesRedirection}>
+                style={
+                    disableNavigation || !isActive
+                        ? undefined
+                        : { cursor: 'pointer' }
+                }
+                onClick={disableNavigation ? undefined : salesRedirection}>
                 <Group
                     justify="space-between"
                     align="flex-start"
@@ -122,8 +127,12 @@ const SalesCompactTableItem = (props: SalesCompactTableItemProps) => {
     return (
         <>
             <Table.Tr
-                style={{ cursor: isActive ? 'pointer' : 'default' }}
-                onClick={salesRedirection}>
+                style={
+                    disableNavigation || !isActive
+                        ? undefined
+                        : { cursor: 'pointer' }
+                }
+                onClick={disableNavigation ? undefined : salesRedirection}>
                 <Table.Td fw={500} style={{ overflowWrap: 'anywhere' }}>
                     {sale.date
                         ? DateHelper.formatDateTime(sale.date)

@@ -13,10 +13,11 @@ interface SuppliersCompactTableProps {
     suppliers: Supplier[]
     resourceName: ResourceName
     hideActions?: boolean
+    disableNavigation?: boolean
 }
 
 const SuppliersCompactTable = (props: SuppliersCompactTableProps) => {
-    const { suppliers, resourceName, hideActions } = props
+    const { suppliers, resourceName, hideActions, disableNavigation } = props
 
     const isSmallScreen = useMediaQuery(`(max-width: ${Theme.breakpoints?.sm})`)
 
@@ -43,6 +44,7 @@ const SuppliersCompactTable = (props: SuppliersCompactTableProps) => {
                             supplier={supplier}
                             isSmallScreen
                             hideActions={hideActions}
+                            disableNavigation={disableNavigation}
                         />
                     ))}
                 </Stack>
@@ -67,6 +69,7 @@ const SuppliersCompactTable = (props: SuppliersCompactTableProps) => {
                                 key={supplier.id}
                                 supplier={supplier}
                                 hideActions={hideActions}
+                            disableNavigation={disableNavigation}
                             />
                         ))}
                     </Table.Tbody>

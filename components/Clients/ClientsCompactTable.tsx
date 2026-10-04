@@ -13,10 +13,11 @@ interface ClientsCompactTableProps {
     clients: Client[]
     resourceName: ResourceName
     hideActions?: boolean
+    disableNavigation?: boolean
 }
 
 const ClientsCompactTable = (props: ClientsCompactTableProps) => {
-    const { clients, resourceName, hideActions } = props
+    const { clients, resourceName, hideActions, disableNavigation } = props
 
     const isSmallScreen = useMediaQuery(`(max-width: ${Theme.breakpoints?.sm})`)
 
@@ -43,6 +44,7 @@ const ClientsCompactTable = (props: ClientsCompactTableProps) => {
                             client={client}
                             isSmallScreen
                             hideActions={hideActions}
+                            disableNavigation={disableNavigation}
                         />
                     ))}
                 </Stack>
@@ -67,6 +69,7 @@ const ClientsCompactTable = (props: ClientsCompactTableProps) => {
                                 key={client.id}
                                 client={client}
                                 hideActions={hideActions}
+                            disableNavigation={disableNavigation}
                             />
                         ))}
                     </Table.Tbody>

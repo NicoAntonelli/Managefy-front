@@ -12,14 +12,18 @@ interface ClientsCompactTableItemProps {
     client: Client
     isSmallScreen?: boolean
     hideActions?: boolean
+    disableNavigation?: boolean
 }
 
 const ClientsCompactTableItem = (props: ClientsCompactTableItemProps) => {
-    const { client, isSmallScreen, hideActions } = props
+    const { client, isSmallScreen, hideActions, disableNavigation } = props
 
     const router = useRouter()
 
-    const openClient = () => router.push(`/clients/${client.id}`)
+    const openClient = () => {
+        if (disableNavigation) return
+        router.push(`/clients/${client.id}`)
+    }
 
     const actions = (
         <Group gap={4} wrap="nowrap" onClick={(event) => event.stopPropagation()}>
@@ -43,8 +47,8 @@ const ClientsCompactTableItem = (props: ClientsCompactTableItemProps) => {
                 withBorder
                 padding="sm"
                 radius="sm"
-                style={{ cursor: 'pointer' }}
-                onClick={openClient}>
+                style={disableNavigation ? undefined : { cursor: 'pointer' }}
+                onClick={disableNavigation ? undefined : openClient}>
                 <Group
                     justify="space-between"
                     align="flex-start"
@@ -74,7 +78,9 @@ const ClientsCompactTableItem = (props: ClientsCompactTableItemProps) => {
     }
 
     return (
-        <Table.Tr style={{ cursor: 'pointer' }} onClick={openClient}>
+        <Table.Tr
+            style={disableNavigation ? undefined : { cursor: 'pointer' }}
+            onClick={disableNavigation ? undefined : openClient}>
             <Table.Td fw={500} style={{ overflowWrap: 'anywhere' }}>
                 {client.name}
             </Table.Td>

@@ -6,8 +6,9 @@ import Clients from '@/services/clients'
 import Products from '@/services/products'
 import Sales from '@/services/sales'
 import Suppliers from '@/services/suppliers'
-import Theme from '@/app/theme'
+
 import DateHelper from '@/utils/math/DateHelper'
+import Theme from '@/app/theme'
 
 import ClientsCompactTable from '@/components/Clients/ClientsCompactTable'
 import ProductsCompactTable from '@/components/Products/ProductsCompactTable'
@@ -80,6 +81,7 @@ const BusinessDetailResourcesTabs = (
                     products={products}
                     resourceName="emprendimiento"
                     hideActions
+                    disableNavigation
                 />
             </Tabs.Panel>
             <Tabs.Panel value="suppliers">
@@ -87,6 +89,7 @@ const BusinessDetailResourcesTabs = (
                     suppliers={suppliers}
                     resourceName="emprendimiento"
                     hideActions
+                    disableNavigation
                 />
             </Tabs.Panel>
             <Tabs.Panel value="clients">
@@ -94,6 +97,7 @@ const BusinessDetailResourcesTabs = (
                     clients={clients}
                     resourceName="emprendimiento"
                     hideActions
+                    disableNavigation
                 />
             </Tabs.Panel>
             <Tabs.Panel value="sales">
@@ -102,6 +106,7 @@ const BusinessDetailResourcesTabs = (
                     resourceName="emprendimiento"
                     businessID={businessID}
                     hideActions
+                    disableNavigation
                 />
             </Tabs.Panel>
         </Tabs>

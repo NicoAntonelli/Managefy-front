@@ -14,12 +14,13 @@ interface ProductsCompactTableProps {
     businessID?: number
     supplierName?: string
     hideActions?: boolean
+    disableNavigation?: boolean
     onProductRemoved?: (productID: number) => void
 }
 
 const ProductsCompactTable = (props: ProductsCompactTableProps) => {
     const { products, resourceName, businessID, supplierName } = props
-    const { hideActions, onProductRemoved } = props
+    const { hideActions, disableNavigation, onProductRemoved } = props
 
     const isSmallScreen = useMediaQuery(`(max-width: ${Theme.breakpoints?.sm})`)
 
@@ -48,6 +49,7 @@ const ProductsCompactTable = (props: ProductsCompactTableProps) => {
                             supplierName={supplierName}
                             isSmallScreen
                             hideActions={hideActions}
+                            disableNavigation={disableNavigation}
                             onRemoved={onProductRemoved}
                         />
                     ))}
@@ -74,6 +76,7 @@ const ProductsCompactTable = (props: ProductsCompactTableProps) => {
                                 businessID={businessID}
                                 supplierName={supplierName}
                                 hideActions={hideActions}
+                            disableNavigation={disableNavigation}
                                 onRemoved={onProductRemoved}
                             />
                         ))}
