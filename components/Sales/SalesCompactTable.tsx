@@ -12,11 +12,13 @@ interface SalesCompactTableProps {
     sales: Sale[]
     resourceName: ResourceName
     businessID: number
-    onSaleCancelled: (saleID: number) => void
+    hideActions?: boolean
+    onSaleCancelled?: (saleID: number) => void
 }
 
 const SalesCompactTable = (props: SalesCompactTableProps) => {
-    const { sales, resourceName, businessID, onSaleCancelled } = props
+    const { sales, resourceName, businessID } = props
+    const { hideActions, onSaleCancelled } = props
 
     const isSmallScreen = useMediaQuery(`(max-width: ${Theme.breakpoints?.sm})`)
 
@@ -43,6 +45,7 @@ const SalesCompactTable = (props: SalesCompactTableProps) => {
                             sale={sale}
                             businessID={businessID}
                             isSmallScreen
+                            hideActions={hideActions}
                             onSaleCancelled={onSaleCancelled}
                         />
                     ))}
@@ -57,9 +60,11 @@ const SalesCompactTable = (props: SalesCompactTableProps) => {
                             <Table.Th style={{ textAlign: 'center' }}>
                                 Estado
                             </Table.Th>
-                            <Table.Th style={{ textAlign: 'center' }}>
-                                Acciones
-                            </Table.Th>
+                            {!hideActions && (
+                                <Table.Th style={{ textAlign: 'center' }}>
+                                    Acciones
+                                </Table.Th>
+                            )}
                         </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>
@@ -68,6 +73,7 @@ const SalesCompactTable = (props: SalesCompactTableProps) => {
                                 key={sale.id}
                                 sale={sale}
                                 businessID={businessID}
+                                hideActions={hideActions}
                                 onSaleCancelled={onSaleCancelled}
                             />
                         ))}

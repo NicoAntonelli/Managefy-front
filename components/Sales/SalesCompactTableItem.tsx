@@ -1,15 +1,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import {
-    ActionIcon,
-    Card,
-    Group,
-    Stack,
-    Table,
-    Text,
-    Tooltip,
-} from '@mantine/core'
+import { ActionIcon, Card, Group, Table, Text, Tooltip } from '@mantine/core'
 import { IconBan, IconEye } from '@tabler/icons-react'
 
 import Theme from '@/app/theme'
@@ -25,11 +17,13 @@ interface SalesCompactTableItemProps {
     sale: Sale
     businessID: number
     isSmallScreen?: boolean
-    onSaleCancelled: (saleID: number) => void
+    hideActions?: boolean
+    onSaleCancelled?: (saleID: number) => void
 }
 
 const SalesCompactTableItem = (props: SalesCompactTableItemProps) => {
-    const { sale, businessID, isSmallScreen, onSaleCancelled } = props
+    const { sale, businessID, isSmallScreen } = props
+    const { hideActions, onSaleCancelled } = props
 
     const router = useRouter()
 
@@ -79,7 +73,7 @@ const SalesCompactTableItem = (props: SalesCompactTableItemProps) => {
             saleIdentifier={saleIdentifier}
             businessID={businessID}
             onClose={() => setCancelModalOpened(false)}
-            onSuccess={() => onSaleCancelled(sale.id)}
+            onSuccess={() => onSaleCancelled?.(sale.id)}
         />
     )
 
@@ -118,7 +112,7 @@ const SalesCompactTableItem = (props: SalesCompactTableItemProps) => {
                     <Text size="sm" fw={500}>
                         {Math.formatMoney(sale.totalPrice)}
                     </Text>
-                    {actions}
+                    {!hideActions && actions}
                 </Group>
                 {cancelModal}
             </Card>
@@ -144,9 +138,11 @@ const SalesCompactTableItem = (props: SalesCompactTableItemProps) => {
                 <Table.Td style={{ textAlign: 'center' }}>
                     <SaleStateBadge state={sale.state} />
                 </Table.Td>
-                <Table.Td style={{ width: '100px' }}>
-                    <Group justify="center">{actions}</Group>
-                </Table.Td>
+                {!hideActions && (
+                    <Table.Td style={{ width: '100px' }}>
+                        <Group justify="center">{actions}</Group>
+                    </Table.Td>
+                )}
             </Table.Tr>
             {cancelModal}
         </>
