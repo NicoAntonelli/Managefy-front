@@ -24,6 +24,8 @@ import TextHelper from '@/utils/string/TextHelper'
 import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 
 import Businesses from '@/services/businesses'
+import Users from '@/services/users'
+
 import Theme from '@/app/theme'
 
 import BusinessCreateUpdate from '@/components/Businesses/BusinessCreateUpdate'
@@ -61,11 +63,9 @@ const BusinessDetail = (props: BusinessDetailProps) => {
     const businessID = params?.id ? Number(params.id) : null
     const linkParam = params?.link
 
-    // If the business is being accessed by link, use the link parameter and check visibility
+    // If the business is being accessed by link, use the link parameter
     const businessLink =
         typeof linkParam === 'string' ? linkParam : (linkParam?.[0] ?? null)
-
-    console.log(businessLink)
 
     const selectedBusiness = useSelectedBusinessStore(
         (state) => state.selectedBusiness
@@ -87,9 +87,22 @@ const BusinessDetail = (props: BusinessDetailProps) => {
 
         const fetchBusiness = async () => {
             try {
-                const businessData = findByLink
+                // Get by ID
+                if (!findByLink) {
+                    const businessData = await Businesses.getOneBusiness(
+                        businessID!
+                    )
+
+                    setBusiness(businessData)
+                    return
+                }
+
+                // Get by Link - If the user isn't logged in, we need to check public businesses only
+                const userIsLogged = await Users.checkSession()
+
+                const businessData = userIsLogged
                     ? await Businesses.getOneBusinessByLink(businessLink!)
-                    : await Businesses.getOneBusiness(businessID!)
+                    : await Businesses.getOneBusinessByLinkPublic(businessLink!)
                 setBusiness(businessData)
             } catch (error) {
                 notifications.show({
