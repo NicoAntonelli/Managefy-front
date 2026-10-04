@@ -2,18 +2,18 @@ import Link from 'next/link'
 import { Button, Card, Stack, Text, Title } from '@mantine/core'
 import { IconMailCheck, IconUser } from '@tabler/icons-react'
 
+import CheckUserLogin from '@/entities/helpTypes/CheckUserLogin'
 import Theme from '@/app/theme'
 
 interface UserValidationContinueProps {
-    isLogged: boolean | null
-    isValidated: boolean | null
+    checkUserLogin: CheckUserLogin
 }
 
 const UserValidationContinue = (props: UserValidationContinueProps) => {
-    const { isLogged, isValidated } = props
+    const { checkUserLogin } = props
 
     // User is not logged in
-    if (!isLogged) {
+    if (!checkUserLogin.isLogged) {
         return (
             <Stack align="center" gap="md" py="xl">
                 <Stack align="center" gap="md">
@@ -37,7 +37,7 @@ const UserValidationContinue = (props: UserValidationContinueProps) => {
     }
 
     // Don't show anything if the user is already validated
-    if (isValidated) return <></>
+    if (checkUserLogin.isValidated) return <></>
 
     // User is logged in but not validated
     return (
