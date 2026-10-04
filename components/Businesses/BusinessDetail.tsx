@@ -1,13 +1,30 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'next/navigation'
-import { Button, Card, Grid, Group, Stack, Text, Title } from '@mantine/core'
-import { IconLink, IconPencil, IconTrash } from '@tabler/icons-react'
+import { useParams, useRouter } from 'next/navigation'
+import {
+    ActionIcon,
+    Button,
+    Card,
+    Grid,
+    Group,
+    Stack,
+    Text,
+    Title,
+    Tooltip,
+} from '@mantine/core'
+import {
+    IconClipboard,
+    IconExternalLink,
+    IconLink,
+    IconPencil,
+    IconTrash,
+} from '@tabler/icons-react'
 import { notifications } from '@mantine/notifications'
+
+import TextHelper from '@/utils/string/TextHelper'
+import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 
 import Businesses from '@/services/businesses'
 import Theme from '@/app/theme'
-import TextHelper from '@/utils/string/TextHelper'
-import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 
 import BusinessCreateUpdate from '@/components/Businesses/BusinessCreateUpdate'
 import BusinessDelete from '@/components/Businesses/BusinessDelete'
@@ -31,9 +48,24 @@ const weekDayLabels: Record<WeekDay, string> = {
     Sunday: 'Domingo',
 }
 
-const BusinessDetail = () => {
+interface BusinessDetailProps {
+    findByLink?: boolean
+}
+
+const BusinessDetail = (props: BusinessDetailProps) => {
+    const { findByLink } = props
+
+    const router = useRouter()
+
     const params = useParams()
     const businessID = params?.id ? Number(params.id) : null
+    const linkParam = params?.link
+
+    // If the business is being accessed by link, use the link parameter and check visibility
+    const businessLink =
+        typeof linkParam === 'string' ? linkParam : (linkParam?.[0] ?? null)
+
+    console.log(businessLink)
 
     const selectedBusiness = useSelectedBusinessStore(
         (state) => state.selectedBusiness
@@ -48,14 +80,16 @@ const BusinessDetail = () => {
     const [editing, setEditing] = useState(false)
 
     useEffect(() => {
-        if (!businessID) {
+        if (!businessID && !findByLink) {
             setLoading(false)
             return
         }
 
         const fetchBusiness = async () => {
             try {
-                const businessData = await Businesses.getOneBusiness(businessID)
+                const businessData = findByLink
+                    ? await Businesses.getOneBusinessByLink(businessLink!)
+                    : await Businesses.getOneBusiness(businessID!)
                 setBusiness(businessData)
             } catch (error) {
                 notifications.show({
@@ -69,11 +103,26 @@ const BusinessDetail = () => {
         }
 
         fetchBusiness()
-    }, [businessID])
+    }, [businessID, findByLink, businessLink])
 
     const handleEdit = () => {
         if (!business) return
         setEditing(true)
+    }
+
+    const copyToClipboard = (link: string) => async () => {
+        const fullLink = `${window.location.origin}/businesses/link/${link}`
+
+        await navigator.clipboard.writeText(fullLink)
+        notifications.show({
+            title: 'Éxito',
+            message: 'Copiado al portapapeles',
+            color: Theme.other!.success,
+        })
+    }
+
+    const redirectToLink = (link: string) => {
+        router.push(`/businesses/link/${link}`)
     }
 
     const activeDays = TextHelper.weekDaysComplete
@@ -210,6 +259,40 @@ const BusinessDetail = () => {
                                 c={business.link ? undefined : 'dimmed'}>
                                 {business.link || 'Sin asignar'}
                             </Text>
+                            {business.link && (
+                                <>
+                                    <Tooltip label="Copiar link al portapapeles">
+                                        <ActionIcon
+                                            color={Theme.primaryColor}
+                                            variant="outline"
+                                            size="sm"
+                                            aria-label="Copiar link al portapapeles"
+                                            onClick={copyToClipboard(
+                                                business.link
+                                            )}>
+                                            <IconClipboard size={16} />
+                                        </ActionIcon>
+                                    </Tooltip>
+                                    {!findByLink && (
+                                        <Tooltip label="Visitar enlace">
+                                            <ActionIcon
+                                                color={
+                                                    Theme.other!.secondaryColor
+                                                }
+                                                variant="outline"
+                                                size="sm"
+                                                aria-label="Visitar enlace"
+                                                onClick={() =>
+                                                    redirectToLink(
+                                                        business.link
+                                                    )
+                                                }>
+                                                <IconExternalLink size={16} />
+                                            </ActionIcon>
+                                        </Tooltip>
+                                    )}
+                                </>
+                            )}
                         </Group>
                     </Grid.Col>
 
