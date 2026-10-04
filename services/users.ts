@@ -3,6 +3,7 @@ import decodeToken from '@/middlewares/decodeToken'
 import Env from '@/utils/Env'
 import Helper from './helper'
 
+import CheckUserLogin from '@/entities/helpTypes/CheckUserLogin'
 import GenericResponse from '@/entities/helpTypes/GenericResponse'
 import Login from '@/entities/users/Login'
 import Registration from '@/entities/users/Registration'
@@ -184,25 +185,16 @@ const getUserIPAddress = async (): Promise<string | null> => {
     }
 }
 
-// Checks if the user is currently logged in by verifying the session
-const checkSession = async (): Promise<boolean> => {
-    try {
-        const user = await Users.sessionGet()
-        return !!user?.email
-    } catch (error) {
-        return false
-    }
-}
-
 // Checks if the user is currently logged in and has completed the validation process
-const checkSessionAndValidation = async (): Promise<boolean> => {
+const checkSessionAndValidation = async (): Promise<CheckUserLogin> => {
     try {
         const user = await Users.sessionGet()
-        if (!user) return false
-        if (!user.email || !user.validated) return false
-        return true
+        if (!user) return { isLogged: false, isValidated: false }
+        if (!user.email || !user.validated)
+            return { isLogged: true, isValidated: false }
+        return { isLogged: true, isValidated: true }
     } catch (error) {
-        return false
+        return { isLogged: false, isValidated: false }
     }
 }
 
@@ -219,7 +211,6 @@ const Users = {
     sessionPost,
     sessionDelete,
     getUserIPAddress,
-    checkSession,
     checkSessionAndValidation,
 }
 

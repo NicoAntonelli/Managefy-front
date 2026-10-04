@@ -24,9 +24,9 @@ import TextHelper from '@/utils/string/TextHelper'
 import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
 
 import Businesses from '@/services/businesses'
-import Users from '@/services/users'
 
 import Theme from '@/app/theme'
+import useCheckUserLogin from '@/hooks/users/useCheckUserLogin'
 
 import BusinessCreateUpdate from '@/components/Businesses/BusinessCreateUpdate'
 import BusinessDelete from '@/components/Businesses/BusinessDelete'
@@ -79,6 +79,8 @@ const BusinessDetail = (props: BusinessDetailProps) => {
     const [deleteModalOpened, setDeleteModalOpened] = useState(false)
     const [editing, setEditing] = useState(false)
 
+    const checkUserLogin = useCheckUserLogin()
+
     useEffect(() => {
         if (!businessID && !findByLink) {
             setLoading(false)
@@ -98,9 +100,7 @@ const BusinessDetail = (props: BusinessDetailProps) => {
                 }
 
                 // Get by Link - If the user isn't logged in, we need to check public businesses only
-                const userIsLogged = await Users.checkSession()
-
-                const businessData = userIsLogged
+                const businessData = checkUserLogin.isLogged
                     ? await Businesses.getOneBusinessByLink(businessLink!)
                     : await Businesses.getOneBusinessByLinkPublic(businessLink!)
                 setBusiness(businessData)
