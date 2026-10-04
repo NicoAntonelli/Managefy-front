@@ -13,12 +13,13 @@ interface ProductsCompactTableProps {
     resourceName: ResourceName
     businessID?: number
     supplierName?: string
+    hideActions?: boolean
     onProductRemoved?: (productID: number) => void
 }
 
 const ProductsCompactTable = (props: ProductsCompactTableProps) => {
     const { products, resourceName, businessID, supplierName } = props
-    const { onProductRemoved } = props
+    const { hideActions, onProductRemoved } = props
 
     const isSmallScreen = useMediaQuery(`(max-width: ${Theme.breakpoints?.sm})`)
 
@@ -46,6 +47,7 @@ const ProductsCompactTable = (props: ProductsCompactTableProps) => {
                             businessID={businessID}
                             supplierName={supplierName}
                             isSmallScreen
+                            hideActions={hideActions}
                             onRemoved={onProductRemoved}
                         />
                     ))}
@@ -54,11 +56,14 @@ const ProductsCompactTable = (props: ProductsCompactTableProps) => {
                 <Table highlightOnHover withTableBorder withColumnBorders>
                     <Table.Thead>
                         <Table.Tr>
+                            <Table.Th>Código</Table.Th>
                             <Table.Th>Nombre</Table.Th>
                             <Table.Th>Descripción</Table.Th>
-                            <Table.Th style={{ textAlign: 'center' }}>
-                                Acciones
-                            </Table.Th>
+                            {!hideActions && (
+                                <Table.Th style={{ textAlign: 'center' }}>
+                                    Acciones
+                                </Table.Th>
+                            )}
                         </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>
@@ -68,6 +73,7 @@ const ProductsCompactTable = (props: ProductsCompactTableProps) => {
                                 product={product}
                                 businessID={businessID}
                                 supplierName={supplierName}
+                                hideActions={hideActions}
                                 onRemoved={onProductRemoved}
                             />
                         ))}

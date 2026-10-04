@@ -21,12 +21,13 @@ interface ProductsCompactTableItemProps {
     businessID?: number
     supplierName?: string
     isSmallScreen?: boolean
+    hideActions?: boolean
     onRemoved?: (productID: number) => void
 }
 
 const ProductsCompactTableItem = (props: ProductsCompactTableItemProps) => {
-    const { product, businessID, supplierName, isSmallScreen, onRemoved } =
-        props
+    const { product, businessID, supplierName, isSmallScreen } = props
+    const { hideActions, onRemoved } = props
 
     const router = useRouter()
 
@@ -91,6 +92,12 @@ const ProductsCompactTableItem = (props: ProductsCompactTableItemProps) => {
                     wrap="nowrap"
                     gap="sm">
                     <Stack gap={4} style={{ minWidth: 0, flex: 1 }}>
+                        <Text
+                            size="sm"
+                            c={product.code ? undefined : 'dimmed'}
+                            style={{ overflowWrap: 'anywhere' }}>
+                            {product.code || 'Sin código'}
+                        </Text>
                         <Text fw={500} style={{ overflowWrap: 'anywhere' }}>
                             {product.name}
                         </Text>
@@ -101,7 +108,7 @@ const ProductsCompactTableItem = (props: ProductsCompactTableItemProps) => {
                             {product.description || 'Sin descripción'}
                         </Text>
                     </Stack>
-                    {actions}
+                    {!hideActions && actions}
                 </Group>
                 {eraseModal}
             </Card>
@@ -110,6 +117,11 @@ const ProductsCompactTableItem = (props: ProductsCompactTableItemProps) => {
 
     return (
         <Table.Tr style={{ cursor: 'pointer' }} onClick={openProduct}>
+            <Table.Td
+                c={product.code ? undefined : 'dimmed'}
+                style={{ overflowWrap: 'anywhere' }}>
+                {product.code || 'Sin código'}
+            </Table.Td>
             <Table.Td fw={500} style={{ overflowWrap: 'anywhere' }}>
                 {product.name}
             </Table.Td>
@@ -118,10 +130,12 @@ const ProductsCompactTableItem = (props: ProductsCompactTableItemProps) => {
                 style={{ overflowWrap: 'anywhere' }}>
                 {product.description || 'Sin descripción'}
             </Table.Td>
-            <Table.Td style={{ width: '100px' }}>
-                <Group justify="center">{actions}</Group>
-                {eraseModal}
-            </Table.Td>
+            {!hideActions && (
+                <Table.Td style={{ width: '100px' }}>
+                    <Group justify="center">{actions}</Group>
+                    {eraseModal}
+                </Table.Td>
+            )}
         </Table.Tr>
     )
 }
