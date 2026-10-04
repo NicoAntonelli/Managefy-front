@@ -14,7 +14,7 @@ import SplashLogo from '@/components/Common/Loader/SplashLogo'
 
 import Sale from '@/entities/sales/Sale'
 import SaleLine from '@/entities/sales/SaleLine'
-import ErrorAlert from '../Common/Error/ErrorAlert'
+import ErrorAlert from '@/components/Common/Error/ErrorAlert'
 
 interface SaleInvoiceProps {
     saleID: number
