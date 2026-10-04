@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { Stack } from '@mantine/core'
 
 import Businesses from '@/services/businesses'
+
+import useCheckUserLogin from '@/hooks/users/useCheckUserLogin'
 import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
 
 import BusinessesListItem from '@/components/Businesses/BusinessesListItem'
 import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
 import ButtonCreate from '@/components/Common/Buttons/ButtonCreate'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
+import UserValidationContinue from '@/components/User/UserValidation/UserValidationContinue'
 
 import Business from '@/entities/businesses/Business'
 import BusinessMinInfo from '@/entities/businesses/BusinessMinInfo'
@@ -16,6 +19,8 @@ const BusinessesList = () => {
     const [businesses, setBusinesses] = useState<Business[] | null>(null)
     const [loading, setLoading] = useState(true)
 
+    const checkUserLogin = useCheckUserLogin()
+
     const initializeSelectedBusiness = useSelectedBusinessStore(
         (state) => state.initializeSelectedBusiness
     )
@@ -23,6 +28,8 @@ const BusinessesList = () => {
     useEffect(() => {
         const fetchBusinesses = async () => {
             try {
+                if (!checkUserLogin.isValidated) return
+
                 const response: Business[] | null =
                     await Businesses.listBusinesses()
 
@@ -50,10 +57,14 @@ const BusinessesList = () => {
             }
         }
         fetchBusinesses()
-    }, [initializeSelectedBusiness])
+    }, [checkUserLogin.isValidated, initializeSelectedBusiness])
 
     if (loading) {
         return <SkeletonFull />
+    }
+
+    if (!checkUserLogin.isValidated) {
+        return <UserValidationContinue checkUserLogin={checkUserLogin} />
     }
 
     if (!businesses?.length) {
