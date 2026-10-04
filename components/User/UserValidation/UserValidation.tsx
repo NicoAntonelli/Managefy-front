@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 
 import { Button, Card, Group, Paper, Text, Title } from '@mantine/core'
 import { useForm } from '@mantine/form'
@@ -99,8 +98,7 @@ const UserValidation = () => {
     }
 
     const handleValidateUser = async (
-        userValidationData: UserValidationForm,
-        router: AppRouterInstance
+        userValidationData: UserValidationForm
     ) => {
         try {
             if (submitting) return
@@ -117,9 +115,8 @@ const UserValidation = () => {
             }
 
             setErrorMessage('')
+            setCurrentUser({ ...response, validated: true })
             setNeedReload(true)
-
-            router.push('/businesses')
         } catch (error) {
             setErrorMessage(Helper.parseError(error))
             notifications.show({
@@ -218,7 +215,7 @@ const UserValidation = () => {
             </Group>
             <form
                 onSubmit={form.onSubmit((values) =>
-                    handleValidateUser(values, router)
+                    handleValidateUser(values)
                 )}>
                 <InputNumeric
                     key={form.key('code')}
