@@ -1,16 +1,7 @@
 import { useEffect, useState } from 'react'
-import {
-    Alert,
-    Button,
-    Center,
-    Group,
-    Stack,
-    Table,
-    Text,
-    Title,
-} from '@mantine/core'
+import { Button, Group, Stack, Table, Text, Title } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
-import { IconAlertTriangle, IconPrinter } from '@tabler/icons-react'
+import { IconPrinter } from '@tabler/icons-react'
 
 import Sales from '@/services/sales'
 import Theme from '@/app/theme'
@@ -43,6 +34,9 @@ const SaleInvoice = (props: SaleInvoiceProps) => {
     const [loading, setLoading] = useState(true)
     const [loadError, setLoadError] = useState(false)
 
+    // Invoice number is the Sale ID padded to 8 digits
+    const invoiceNumber = sale ? String(sale.id).padStart(8, '0') : ''
+
     useEffect(() => {
         if (!saleID || !businessID) {
             setLoading(false)
@@ -71,7 +65,6 @@ const SaleInvoice = (props: SaleInvoiceProps) => {
     useEffect(() => {
         if (!sale) return
 
-        const invoiceNumber = String(sale.id).padStart(8, '0')
         const dateTime = DateHelper.formatDateTime(DateHelper.today(), true)
         const previousTitle = document.title
         document.title = `Managefy - Factura venta #${invoiceNumber} - ${dateTime}`
@@ -95,11 +88,12 @@ const SaleInvoice = (props: SaleInvoiceProps) => {
         )
     }
 
-    const invoiceNumber = String(sale.id).padStart(8, '0')
     const issueDate = sale.date
         ? DateHelper.formatDateTime(sale.date)
         : 'Sin asignar'
+
     const clientName = sale.client?.name || 'Consumidor Final'
+
     const lines = sale.saleLines ?? []
 
     return (

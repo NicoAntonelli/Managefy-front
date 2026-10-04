@@ -95,7 +95,7 @@ const SaleInvoiceCreate = (props: SaleInvoiceCreateProps) => {
                     leftSection={<IconFileInvoice size={18} />}
                     loading={updating}
                     onClick={handleGenerateInvoice}>
-                    Generar factura
+                    Generar factura en PDF
                 </Button>
             </Group>
         </Modal>
