@@ -9,6 +9,7 @@ import UserRoles from '@/services/userRoles'
 
 import SkeletonSmall from '@/components/Common/Loader/SkeletonSmall'
 import UserRoleCreateUpdate from '@/components/UserRoles/UserRoleCreateUpdate'
+import UserRoleDelete from '@/components/UserRoles/UserRoleDelete'
 import UserRolesCompactTableItem from '@/components/UserRoles/UserRolesCompactTableItem'
 
 import UserRole from '@/entities/usersRoles/UserRole'
@@ -26,6 +27,7 @@ const UserRolesCompactTable = (props: UserRolesCompactTableProps) => {
     const [loading, setLoading] = useState(true)
     const [roleModalOpened, setRoleModalOpened] = useState(false)
     const [editingRole, setEditingRole] = useState<UserRole | null>(null)
+    const [deletingRole, setDeletingRole] = useState<UserRole | null>(null)
 
     useEffect(() => {
         const fetchUserRoles = async () => {
@@ -97,6 +99,7 @@ const UserRolesCompactTable = (props: UserRolesCompactTableProps) => {
                                 setEditingRole(userRole)
                                 setRoleModalOpened(true)
                             }}
+                            onDelete={setDeletingRole}
                         />
                     ))}
                 </Stack>
@@ -123,6 +126,7 @@ const UserRolesCompactTable = (props: UserRolesCompactTableProps) => {
                                     setEditingRole(userRole)
                                     setRoleModalOpened(true)
                                 }}
+                                onDelete={setDeletingRole}
                             />
                         ))}
                     </Table.Tbody>
@@ -138,6 +142,18 @@ const UserRolesCompactTable = (props: UserRolesCompactTableProps) => {
                     setRoleModalOpened(false)
                     setEditingRole(null)
                 }}
+            />
+            <UserRoleDelete
+                opened={!!deletingRole}
+                userID={deletingRole?.user.id ?? 0}
+                businessID={businessID}
+                userName={deletingRole?.user.name || 'Sin nombre'}
+                onSuccess={(userID) =>
+                    setUserRoles((current) =>
+                        current.filter((item) => item.user.id !== userID)
+                    )
+                }
+                onClose={() => setDeletingRole(null)}
             />
         </Card>
     )

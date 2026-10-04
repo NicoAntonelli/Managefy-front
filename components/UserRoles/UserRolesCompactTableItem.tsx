@@ -13,6 +13,7 @@ interface UserRolesCompactTableItemProps {
     userRole: UserRole
     isSmallScreen?: boolean
     onEdit: (userRole: UserRole) => void
+    onDelete: (userRole: UserRole) => void
 }
 
 const getRole = (userRole: UserRole): Role | null => {
@@ -23,7 +24,7 @@ const getRole = (userRole: UserRole): Role | null => {
 }
 
 const UserRolesCompactTableItem = (props: UserRolesCompactTableItemProps) => {
-    const { userRole, isSmallScreen, onEdit } = props
+    const { userRole, isSmallScreen, onEdit, onDelete } = props
     const role = getRole(userRole)
 
     const actions = role !== 'Manager' && (
@@ -44,7 +45,7 @@ const UserRolesCompactTableItem = (props: UserRolesCompactTableItemProps) => {
                     color={Theme.other!.danger}
                     size="sm"
                     aria-label="Eliminar"
-                    onClick={() => console.log('eliminar')}>
+                    onClick={() => onDelete(userRole)}>
                     <IconX size={16} />
                 </ActionIcon>
             </Tooltip>
