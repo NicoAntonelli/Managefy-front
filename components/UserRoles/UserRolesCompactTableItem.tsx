@@ -12,6 +12,7 @@ import UserRole from '@/entities/usersRoles/UserRole'
 interface UserRolesCompactTableItemProps {
     userRole: UserRole
     isSmallScreen?: boolean
+    onEdit: (userRole: UserRole) => void
 }
 
 const getRole = (userRole: UserRole): Role | null => {
@@ -22,7 +23,7 @@ const getRole = (userRole: UserRole): Role | null => {
 }
 
 const UserRolesCompactTableItem = (props: UserRolesCompactTableItemProps) => {
-    const { userRole, isSmallScreen } = props
+    const { userRole, isSmallScreen, onEdit } = props
     const role = getRole(userRole)
 
     const actions = (
@@ -33,7 +34,7 @@ const UserRolesCompactTableItem = (props: UserRolesCompactTableItemProps) => {
                     color={Theme.primaryColor}
                     size="sm"
                     aria-label="Editar"
-                    onClick={() => console.log('editar')}>
+                    onClick={() => onEdit(userRole)}>
                     <IconPencil size={16} />
                 </ActionIcon>
             </Tooltip>

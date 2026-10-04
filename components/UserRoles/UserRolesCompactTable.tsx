@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useMediaQuery } from '@mantine/hooks'
-import { Card, Stack, Table, Text, Title } from '@mantine/core'
+import { Button, Card, Group, Stack, Table, Text, Title } from '@mantine/core'
+import { IconUserPlus } from '@tabler/icons-react'
 import { notifications } from '@mantine/notifications'
 
 import Theme from '@/app/theme'
 import UserRoles from '@/services/userRoles'
 
 import SkeletonSmall from '@/components/Common/Loader/SkeletonSmall'
+import UserRoleCreateUpdate from '@/components/UserRoles/UserRoleCreateUpdate'
 import UserRolesCompactTableItem from '@/components/UserRoles/UserRolesCompactTableItem'
 
 import UserRole from '@/entities/usersRoles/UserRole'
@@ -22,6 +24,8 @@ const UserRolesCompactTable = (props: UserRolesCompactTableProps) => {
 
     const [userRoles, setUserRoles] = useState<UserRole[]>([])
     const [loading, setLoading] = useState(true)
+    const [roleModalOpened, setRoleModalOpened] = useState(false)
+    const [editingRole, setEditingRole] = useState<UserRole | null>(null)
 
     useEffect(() => {
         const fetchUserRoles = async () => {
@@ -44,6 +48,18 @@ const UserRolesCompactTable = (props: UserRolesCompactTableProps) => {
         fetchUserRoles()
     }, [businessID])
 
+    const handleCreateUpdate = (userRole: UserRole) => {
+        setUserRoles((current) => {
+            const exists = current.some(
+                (item) => item.user.id === userRole.user.id
+            )
+            if (!exists) return [...current, userRole]
+            return current.map((item) =>
+                item.user.id === userRole.user.id ? userRole : item
+            )
+        })
+    }
+
     return (
         <Card
             shadow="sm"
@@ -52,9 +68,18 @@ const UserRolesCompactTable = (props: UserRolesCompactTableProps) => {
             withBorder
             className="min-w-full"
             mt="md">
-            <Title size="1.5rem" mb="md">
-                Usuarios del emprendimiento
-            </Title>
+            <Group justify="space-between" align="center" mb="md">
+                <Title size="1.5rem">Usuarios del emprendimiento</Title>
+                <Button
+                    color={Theme.primaryColor}
+                    leftSection={<IconUserPlus size={18} />}
+                    onClick={() => {
+                        setEditingRole(null)
+                        setRoleModalOpened(true)
+                    }}>
+                    Agregar colaborador
+                </Button>
+            </Group>
             {loading ? (
                 <SkeletonSmall />
             ) : userRoles.length === 0 ? (
@@ -68,6 +93,10 @@ const UserRolesCompactTable = (props: UserRolesCompactTableProps) => {
                             key={userRole.user.id}
                             userRole={userRole}
                             isSmallScreen
+                            onEdit={(userRole) => {
+                                setEditingRole(userRole)
+                                setRoleModalOpened(true)
+                            }}
                         />
                     ))}
                 </Stack>
@@ -90,11 +119,26 @@ const UserRolesCompactTable = (props: UserRolesCompactTableProps) => {
                             <UserRolesCompactTableItem
                                 key={userRole.user.id}
                                 userRole={userRole}
+                                onEdit={(userRole) => {
+                                    setEditingRole(userRole)
+                                    setRoleModalOpened(true)
+                                }}
                             />
                         ))}
                     </Table.Tbody>
                 </Table>
             )}
+
+            <UserRoleCreateUpdate
+                opened={roleModalOpened}
+                businessID={businessID}
+                currentUserRole={editingRole ?? undefined}
+                onSuccess={(userRole) => handleCreateUpdate(userRole)}
+                onClose={() => {
+                    setRoleModalOpened(false)
+                    setEditingRole(null)
+                }}
+            />
         </Card>
     )
 }
