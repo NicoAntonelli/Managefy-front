@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import { Button, Group, Stack, Table, Text, Title } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
 import { IconPrinter } from '@tabler/icons-react'
@@ -126,9 +127,11 @@ const SaleInvoice = (props: SaleInvoiceProps) => {
                 }}>
                 <Group justify="space-between" align="flex-start" wrap="nowrap">
                     <Group align="flex-start" wrap="nowrap" gap="md">
-                        <img
+                        <Image
                             src="/Managefy-logo.jpeg"
                             alt="Managefy"
+                            width={72}
+                            height={72}
                             style={{ height: 72, width: 'auto' }}
                         />
                         <Stack gap={2}>

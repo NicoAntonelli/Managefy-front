@@ -2,7 +2,7 @@
 import React from 'react'
 
 import { usePathname } from 'next/navigation'
-import { Inter } from 'next/font/google'
+import { Montserrat, Roboto } from 'next/font/google'
 
 import { MantineProvider, localStorageColorSchemeManager } from '@mantine/core'
 import { Notifications } from '@mantine/notifications'
@@ -15,7 +15,20 @@ import './globals.css'
 import Theme from './theme'
 import Layout from '@/components/Layout/Layout'
 
-const inter = Inter({ subsets: ['latin'] })
+// Google Fonts - Roboto & Montserrat
+const roboto = Roboto({
+    subsets: ['latin'],
+    weight: ['400', '500', '700'],
+    display: 'swap',
+    variable: '--font-roboto',
+})
+
+const montserrat = Montserrat({
+    subsets: ['latin'],
+    weight: ['400', '500', '600', '700'],
+    display: 'swap',
+    variable: '--font-montserrat',
+})
 
 export default function RootLayout({
     children,
@@ -31,7 +44,7 @@ export default function RootLayout({
     const isInvoice = pathname?.includes('/invoice')
 
     return (
-        <html lang="es">
+        <html lang="es" className={`${roboto.variable} ${montserrat.variable}`}>
             <head>
                 <title>Managefy</title>
                 <meta
@@ -39,15 +52,8 @@ export default function RootLayout({
                     content="Easy-to-use resource management for your business"
                 />
                 <link rel="icon" href="/favicon.ico" />
-                {/* Google Fonts - Montserrat & Roboto */}
-                <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link rel="preconnect" href="https://fonts.gstatic.com" />
-                <link
-                    href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-                    rel="stylesheet"
-                />
             </head>
-            <body className={inter.className}>
+            <body>
                 <MantineProvider
                     theme={Theme}
                     colorSchemeManager={colorSchemeManager}

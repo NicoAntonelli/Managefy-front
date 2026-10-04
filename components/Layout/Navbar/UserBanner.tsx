@@ -10,10 +10,10 @@ interface UserBannerProps extends React.ComponentPropsWithoutRef<'button'> {
 }
 
 const UserBanner = forwardRef<HTMLButtonElement, UserBannerProps>(
-    (
+    function UserBanner(
         { profileIcon, name, email, isMenuOpen, ...others }: UserBannerProps,
         ref
-    ) => {
+    ) {
         const [isHovered, setIsHovered] = useState(false)
 
         return (

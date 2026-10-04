@@ -14,9 +14,11 @@ const Theme = createTheme({
         md: '1px 1px 3px rgba(0, 0, 0, .25)',
         xl: '5px 5px 3px rgba(0, 0, 0, .25)',
     },
-    fontFamily: 'Roboto, Verdana, sans-serif',
+    fontFamily: 'var(--font-roboto), Verdana, sans-serif',
     fontFamilyMonospace: 'Monaco, Courier, monospace',
-    headings: { fontFamily: 'Montserrat, Greycliff CF, sans-serif' },
+    headings: {
+        fontFamily: 'var(--font-montserrat), Greycliff CF, sans-serif',
+    },
     breakpoints: {
         xs: '36rem',
         sm: '72rem',
