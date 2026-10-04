@@ -129,7 +129,7 @@ const UserRoleCreateUpdate = (props: UserRoleCreateUpdateProps) => {
 
                 <Checkbox
                     mt="md"
-                    label="Es administrador"
+                    label="Es admin"
                     checked={isAdmin}
                     onChange={(event) =>
                         setIsAdmin(event.currentTarget.checked)

@@ -1,6 +1,14 @@
 import React from 'react'
-import { ActionIcon, Card, Group, Stack, Table, Text, Tooltip } from '@mantine/core'
-import { IconPencil, IconX } from '@tabler/icons-react'
+import {
+    ActionIcon,
+    Card,
+    Group,
+    Stack,
+    Table,
+    Text,
+    Tooltip,
+} from '@mantine/core'
+import { IconArrowsExchange, IconPencil, IconX } from '@tabler/icons-react'
 
 import Theme from '@/app/theme'
 
@@ -14,6 +22,7 @@ interface UserRolesCompactTableItemProps {
     isSmallScreen?: boolean
     onEdit: (userRole: UserRole) => void
     onDelete: (userRole: UserRole) => void
+    onTransfer?: (userRole: UserRole) => void
 }
 
 const getRole = (userRole: UserRole): Role | null => {
@@ -24,11 +33,14 @@ const getRole = (userRole: UserRole): Role | null => {
 }
 
 const UserRolesCompactTableItem = (props: UserRolesCompactTableItemProps) => {
-    const { userRole, isSmallScreen, onEdit, onDelete } = props
+    const { userRole, isSmallScreen, onEdit, onDelete, onTransfer } = props
     const role = getRole(userRole)
 
     const actions = role !== 'Manager' && (
-        <Group gap={4} wrap="nowrap" onClick={(event) => event.stopPropagation()}>
+        <Group
+            gap={4}
+            wrap="nowrap"
+            onClick={(event) => event.stopPropagation()}>
             <Tooltip label="Editar">
                 <ActionIcon
                     variant="outline"
@@ -39,6 +51,18 @@ const UserRolesCompactTableItem = (props: UserRolesCompactTableItemProps) => {
                     <IconPencil size={16} />
                 </ActionIcon>
             </Tooltip>
+            {onTransfer && (
+                <Tooltip label="Transferir rol de manager">
+                    <ActionIcon
+                        variant="outline"
+                        color={Theme.other!.warning}
+                        size="sm"
+                        aria-label="Transferir rol de manager"
+                        onClick={() => onTransfer(userRole)}>
+                        <IconArrowsExchange size={16} />
+                    </ActionIcon>
+                </Tooltip>
+            )}
             <Tooltip label="Eliminar">
                 <ActionIcon
                     variant="outline"
@@ -81,7 +105,11 @@ const UserRolesCompactTableItem = (props: UserRolesCompactTableItemProps) => {
                     </Stack>
                     {actions}
                 </Group>
-                <Group justify="space-between" align="center" mt="xs" wrap="nowrap">
+                <Group
+                    justify="space-between"
+                    align="center"
+                    mt="xs"
+                    wrap="nowrap">
                     <Text size="sm" c="dimmed">
                         Rol
                     </Text>
@@ -102,7 +130,7 @@ const UserRolesCompactTableItem = (props: UserRolesCompactTableItemProps) => {
                 {userRole.user?.email || 'Sin asignar'}
             </Table.Td>
             <Table.Td style={{ textAlign: 'center' }}>{roleBadge}</Table.Td>
-            <Table.Td style={{ width: '100px' }}>
+            <Table.Td style={{ width: '140px' }}>
                 {actions && <Group justify="center">{actions}</Group>}
             </Table.Td>
         </Table.Tr>
