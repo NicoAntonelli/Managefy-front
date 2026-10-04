@@ -11,6 +11,7 @@ import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
 
 import BusinessCreateUpdate from '@/components/Businesses/BusinessCreateUpdate'
 import BusinessDelete from '@/components/Businesses/BusinessDelete'
+import BusinessDetailResourcesTabs from '@/components/Businesses/BusinessDetailResourcesTabs'
 import ButtonCreate from '@/components/Common/Buttons/ButtonCreate'
 import ButtonGoBack from '@/components/Common/Buttons/ButtonGoBack'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
@@ -187,7 +188,8 @@ const BusinessDetail = () => {
                         <Text size="sm" fw={500} c="dimmed">
                             Tu rol en este emprendimiento
                         </Text>
-                        <Text c={business.currentUserRole ? undefined : 'dimmed'}>
+                        <Text
+                            c={business.currentUserRole ? undefined : 'dimmed'}>
                             {business.currentUserRole
                                 ? TextHelper.getRoleText(
                                       business.currentUserRole
@@ -241,6 +243,8 @@ const BusinessDetail = () => {
             </Card>
 
             <UserRolesCompactTable businessID={business.id} />
+
+            <BusinessDetailResourcesTabs businessID={business.id} />
 
             <BusinessDelete
                 opened={deleteModalOpened}
