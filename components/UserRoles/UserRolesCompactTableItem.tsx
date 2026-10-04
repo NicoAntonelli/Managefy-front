@@ -26,7 +26,7 @@ const UserRolesCompactTableItem = (props: UserRolesCompactTableItemProps) => {
     const { userRole, isSmallScreen, onEdit } = props
     const role = getRole(userRole)
 
-    const actions = (
+    const actions = role !== 'Manager' && (
         <Group gap={4} wrap="nowrap" onClick={(event) => event.stopPropagation()}>
             <Tooltip label="Editar">
                 <ActionIcon
@@ -102,7 +102,7 @@ const UserRolesCompactTableItem = (props: UserRolesCompactTableItemProps) => {
             </Table.Td>
             <Table.Td style={{ textAlign: 'center' }}>{roleBadge}</Table.Td>
             <Table.Td style={{ width: '100px' }}>
-                <Group justify="center">{actions}</Group>
+                {actions && <Group justify="center">{actions}</Group>}
             </Table.Td>
         </Table.Tr>
     )
