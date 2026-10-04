@@ -7,7 +7,7 @@ import { notifications } from '@mantine/notifications'
 import Suppliers from '@/services/suppliers'
 import Products from '@/services/products'
 import Theme from '@/app/theme'
-import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
+import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
 
 import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
 import ButtonCreate from '@/components/Common/Buttons/ButtonCreate'

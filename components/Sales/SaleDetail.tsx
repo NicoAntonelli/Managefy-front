@@ -26,7 +26,7 @@ import Math from '@/utils/math/Math'
 import Sales from '@/services/sales'
 import Theme from '@/app/theme'
 import TextHelper from '@/utils/string/TextHelper'
-import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
+import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
 
 import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
 import ButtonCreate from '@/components/Common/Buttons/ButtonCreate'

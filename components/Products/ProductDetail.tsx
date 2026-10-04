@@ -24,7 +24,7 @@ import { notifications } from '@mantine/notifications'
 import Products from '@/services/products'
 import Math from '@/utils/math/Math'
 import Theme from '@/app/theme'
-import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
+import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
 
 import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
 import ButtonCreate from '@/components/Common/Buttons/ButtonCreate'

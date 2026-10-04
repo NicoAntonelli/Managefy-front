@@ -7,7 +7,7 @@ import { IconAlertTriangle, IconDoorExit } from '@tabler/icons-react'
 import Theme from '@/app/theme'
 import UserRoles from '@/services/userRoles'
 
-import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
+import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
 
 import ButtonsSubmitAndCancel from '@/components/Common/Buttons/ButtonsSubmitAndCancel'
 

@@ -10,7 +10,7 @@ import Clients from '@/services/clients'
 import Helper from '@/services/helper'
 import Sales from '@/services/sales'
 import Theme from '@/app/theme'
-import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
+import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
 import Validation from '@/utils/validation/Validation'
 
 import BusinessWelcome from '@/components/Businesses/BusinessWelcome'

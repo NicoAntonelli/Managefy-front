@@ -24,7 +24,7 @@ import Helper from '@/services/helper'
 import Users from '@/services/users'
 import User from '@/entities/users/User'
 import Theme from '@/app/theme'
-import useSessionReloadStore from '@/utils/stores/useSessionReloadStore'
+import useSessionReloadStore from '@/hooks/stores/useSessionReloadStore'
 
 import NavbarItem from './NavbarItem'
 import UserBanner from './UserBanner'

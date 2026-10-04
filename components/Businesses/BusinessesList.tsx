@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Stack } from '@mantine/core'
 
 import Businesses from '@/services/businesses'
-import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
+import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
 
 import BusinessesListItem from '@/components/Businesses/BusinessesListItem'
 import BusinessWelcome from '@/components/Businesses/BusinessWelcome'

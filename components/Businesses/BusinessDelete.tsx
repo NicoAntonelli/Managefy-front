@@ -6,7 +6,7 @@ import { IconAlertTriangle, IconTrash } from '@tabler/icons-react'
 
 import Businesses from '@/services/businesses'
 import Theme from '@/app/theme'
-import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
+import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
 
 import ButtonsSubmitAndCancel from '@/components/Common/Buttons/ButtonsSubmitAndCancel'
 

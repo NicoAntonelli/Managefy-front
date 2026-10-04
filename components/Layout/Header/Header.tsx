@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { ActionIcon, Burger, Group } from '@mantine/core'
 import { IconSunMoon } from '@tabler/icons-react'
 
-import useSidebarStore from '@/utils/stores/useSidebarStore'
+import useSidebarStore from '@/hooks/stores/useSidebarStore'
 
 import Theme from '@/app/theme'
 

@@ -9,7 +9,7 @@ import { useHotkeys } from '@mantine/hooks'
 import Header from './Header/Header'
 import Navbar from './Navbar/Navbar'
 import SplashLogo from '@/components/Common/Loader/SplashLogo'
-import useSidebarStore from '@/utils/stores/useSidebarStore'
+import useSidebarStore from '@/hooks/stores/useSidebarStore'
 
 interface Layout {
     children: React.ReactNode

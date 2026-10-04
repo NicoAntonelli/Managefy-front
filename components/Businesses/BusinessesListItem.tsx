@@ -6,7 +6,7 @@ import { Button, Card, Group, Text, Title } from '@mantine/core'
 import { IconCheck, IconChevronRight, IconSettings } from '@tabler/icons-react'
 
 import Business from '@/entities/businesses/Business'
-import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
+import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
 
 import BusinessMinInfo from '@/entities/businesses/BusinessMinInfo'
 import BusinessRoleBadge from '@/components/Businesses/BusinessRoleBadge'

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Stack, Text, Title } from '@mantine/core'
 
 import Sales from '@/services/sales'
-import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
+import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
 import DateHelper from '@/utils/math/DateHelper'
 
 import BusinessWelcome from '@/components/Businesses/BusinessWelcome'

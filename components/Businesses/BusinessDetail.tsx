@@ -21,7 +21,7 @@ import {
 import { notifications } from '@mantine/notifications'
 
 import TextHelper from '@/utils/string/TextHelper'
-import useSelectedBusinessStore from '@/utils/stores/useSelectedBusinessStore'
+import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
 
 import Businesses from '@/services/businesses'
 import Users from '@/services/users'

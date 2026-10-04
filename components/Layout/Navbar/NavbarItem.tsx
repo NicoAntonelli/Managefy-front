@@ -4,7 +4,7 @@ import { useMediaQuery } from '@mantine/hooks'
 
 import CustomLink from '@/components/Common/CustomLink/CustomLink'
 import Theme from '@/app/theme'
-import useSidebarStore from '@/utils/stores/useSidebarStore'
+import useSidebarStore from '@/hooks/stores/useSidebarStore'
 
 interface NavbarItemProps {
     text: string
