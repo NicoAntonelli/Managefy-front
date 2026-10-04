@@ -83,7 +83,7 @@ const createUserRoleByMail = async (
     businessID: number,
     role: Role
 ): Promise<UserRole> => {
-    const endpoint = `${prefix}/business/${businessID}/createRoleByMail/${role}?email=${email}`
+    const endpoint = `${prefix}/business/${businessID}/createRoleByMail/${role}?email=${encodeURIComponent(email)}`
     try {
         const response = await api.put<UserRole>(endpoint)
         Helper.validateResponseAPI(response)
