@@ -194,6 +194,18 @@ const checkSession = async (): Promise<boolean> => {
     }
 }
 
+// Checks if the user is currently logged in and has completed the validation process
+const checkSessionAndValidation = async (): Promise<boolean> => {
+    try {
+        const user = await Users.sessionGet()
+        if (!user) return false
+        if (!user.email || !user.validated) return false
+        return true
+    } catch (error) {
+        return false
+    }
+}
+
 const Users = {
     listUsers,
     getOneUser,
@@ -208,6 +220,7 @@ const Users = {
     sessionDelete,
     getUserIPAddress,
     checkSession,
+    checkSessionAndValidation,
 }
 
 export default Users
