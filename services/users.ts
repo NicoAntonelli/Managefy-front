@@ -184,6 +184,16 @@ const getUserIPAddress = async (): Promise<string | null> => {
     }
 }
 
+// Checks if the user is currently logged in by verifying the session
+const checkSession = async (): Promise<boolean> => {
+    try {
+        const user = await Users.sessionGet()
+        return !!user?.email
+    } catch (error) {
+        return false
+    }
+}
+
 const Users = {
     listUsers,
     getOneUser,
@@ -197,6 +207,7 @@ const Users = {
     sessionPost,
     sessionDelete,
     getUserIPAddress,
+    checkSession,
 }
 
 export default Users
