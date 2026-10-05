@@ -26,6 +26,8 @@ import Math from '@/utils/math/Math'
 import Sales from '@/services/sales'
 import Theme from '@/app/theme'
 import TextHelper from '@/utils/string/TextHelper'
+
+import useGetUserOrAuthenticate from '@/hooks/users/useGetUserOrAuthenticate'
 import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
 
 import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
@@ -66,6 +68,8 @@ const SaleDetail = () => {
     const [partialPaymentModalOpened, setPartialPaymentModalOpened] =
         useState(false)
 
+    const { user } = useGetUserOrAuthenticate(true)
+
     useEffect(() => {
         if (!saleID || !businessID) {
             setLoading(false)
@@ -90,7 +94,7 @@ const SaleDetail = () => {
         fetchSale()
     }, [saleID, businessID])
 
-    if (loading) {
+    if (loading || !user) {
         return <SkeletonFull />
     }
 

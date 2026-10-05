@@ -15,6 +15,8 @@ import Products from '@/services/products'
 import Helper from '@/services/helper'
 import Theme from '@/app/theme'
 import Validation from '@/utils/validation/Validation'
+
+import useGetUserOrAuthenticate from '@/hooks/users/useGetUserOrAuthenticate'
 import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
 
 import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
@@ -75,6 +77,8 @@ const ProductCreateUpdate = (props: ProductCreateUpdateProps) => {
     const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(
         initialSupplier
     )
+
+    const { user } = useGetUserOrAuthenticate(true)
 
     const router = useRouter()
 
@@ -187,7 +191,7 @@ const ProductCreateUpdate = (props: ProductCreateUpdateProps) => {
         }
     }
 
-    if (loading) {
+    if (loading || !user) {
         return <SkeletonFull />
     }
 

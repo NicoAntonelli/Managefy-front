@@ -17,8 +17,10 @@ import { IconBuildingStore, IconLink } from '@tabler/icons-react'
 import Businesses from '@/services/businesses'
 import Helper from '@/services/helper'
 import TextHelper from '@/utils/string/TextHelper'
-import Theme from '@/app/theme'
 import Validation from '@/utils/validation/Validation'
+
+import Theme from '@/app/theme'
+import useGetUserOrAuthenticate from '@/hooks/users/useGetUserOrAuthenticate'
 
 import ButtonGoBack from '@/components/Common/Buttons/ButtonGoBack'
 import ButtonsSubmitAndCancel from '@/components/Common/Buttons/ButtonsSubmitAndCancel'
@@ -70,6 +72,8 @@ const BusinessCreateUpdate = (props: BusinessCreateUpdateProps) => {
     const [errorMessage, setErrorMessage] = useState('')
     const suggestedLink = useRef('')
     const router = useRouter()
+
+    const { user } = useGetUserOrAuthenticate(true)
 
     const form = useForm<BusinessCU>({
         mode: 'controlled',
@@ -157,7 +161,7 @@ const BusinessCreateUpdate = (props: BusinessCreateUpdateProps) => {
         }
     }
 
-    if (loading) {
+    if (loading || !user) {
         return <SkeletonFull />
     }
 

@@ -24,6 +24,8 @@ import { notifications } from '@mantine/notifications'
 import Products from '@/services/products'
 import Math from '@/utils/math/Math'
 import Theme from '@/app/theme'
+
+import useGetUserOrAuthenticate from '@/hooks/users/useGetUserOrAuthenticate'
 import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
 
 import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
@@ -58,6 +60,8 @@ const ProductDetail = () => {
     const [supplierModalOpened, setSupplierModalOpened] = useState(false)
     const [eraseSupplierModalOpened, setEraseSupplierModalOpened] =
         useState(false)
+
+    const { user } = useGetUserOrAuthenticate(true)
 
     useEffect(() => {
         if (!productID || !businessID) {
@@ -112,7 +116,7 @@ const ProductDetail = () => {
         }
     }
 
-    if (loading) {
+    if (loading || !user) {
         return <SkeletonFull />
     }
 

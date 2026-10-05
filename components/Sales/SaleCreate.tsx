@@ -21,8 +21,10 @@ import {
 } from '@tabler/icons-react'
 
 import Math from '@/utils/math/Math'
-import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
 import Validation from '@/utils/validation/Validation'
+
+import useGetUserOrAuthenticate from '@/hooks/users/useGetUserOrAuthenticate'
+import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
 
 import Helper from '@/services/helper'
 import Sales from '@/services/sales'
@@ -36,6 +38,7 @@ import InputDescription from '@/components/Common/Inputs/InputDescription'
 import InputNumeric from '@/components/Common/Inputs/InputNumeric'
 import ProductsDropdown from '@/components/Products/ProductsDropdown'
 import SaleLineCreate from '@/components/Sales/SaleLineCreate'
+import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 
 import Client from '@/entities/clients/Client'
 import Product from '@/entities/products/Product'
@@ -72,6 +75,8 @@ const SaleCreate = (props: SaleCreateProps) => {
     const [isPaid, setIsPaid] = useState(false)
     const [isBilled, setIsBilled] = useState(false)
     const isSmallScreen = useMediaQuery(`(max-width: ${Theme.breakpoints?.sm})`)
+
+    const { user } = useGetUserOrAuthenticate(true)
 
     const router = useRouter()
 
@@ -252,6 +257,10 @@ const SaleCreate = (props: SaleCreateProps) => {
         } finally {
             setSubmitting(false)
         }
+    }
+
+    if (!user) {
+        return <SkeletonFull />
     }
 
     if (!selectedBusiness) {

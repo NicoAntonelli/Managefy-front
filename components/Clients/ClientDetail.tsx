@@ -7,6 +7,8 @@ import { notifications } from '@mantine/notifications'
 import Clients from '@/services/clients'
 import Sales from '@/services/sales'
 import Theme from '@/app/theme'
+
+import useGetUserOrAuthenticate from '@/hooks/users/useGetUserOrAuthenticate'
 import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
 
 import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
@@ -37,6 +39,8 @@ const ClientDetail = () => {
 
     const [deleteModalOpened, setDeleteModalOpened] = useState(false)
     const [editing, setEditing] = useState(false)
+
+    const { user } = useGetUserOrAuthenticate(true)
 
     useEffect(() => {
         if (!clientID || !businessID) {
@@ -71,7 +75,7 @@ const ClientDetail = () => {
         setEditing(true)
     }
 
-    if (loading) {
+    if (loading || !user) {
         return <SkeletonFull />
     }
 

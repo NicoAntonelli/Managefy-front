@@ -10,6 +10,8 @@ import Clients from '@/services/clients'
 import Helper from '@/services/helper'
 import Sales from '@/services/sales'
 import Theme from '@/app/theme'
+
+import useGetUserOrAuthenticate from '@/hooks/users/useGetUserOrAuthenticate'
 import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
 import Validation from '@/utils/validation/Validation'
 
@@ -61,6 +63,8 @@ const ClientCreateUpdate = (props: ClientCreateUpdateProps) => {
     const [lockedSaleIDs, setLockedSaleIDs] = useState<number[]>(
         currentClient?.salesIDs ?? []
     )
+
+    const { user } = useGetUserOrAuthenticate(true)
 
     const router = useRouter()
 
@@ -164,7 +168,7 @@ const ClientCreateUpdate = (props: ClientCreateUpdateProps) => {
         }
     }
 
-    if (loading) {
+    if (loading || !user) {
         return <SkeletonFull />
     }
 
