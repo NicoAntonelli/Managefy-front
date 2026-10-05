@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
 
 import { Button, Card, Group, Paper, Text, Title } from '@mantine/core'
 import { useForm } from '@mantine/form'
@@ -13,6 +12,7 @@ import Theme from '@/app/theme'
 
 import Helper from '@/services/helper'
 import Users from '@/services/users'
+import useGetUserOrAuthenticate from '@/hooks/users/useGetUserOrAuthenticate'
 import useSessionReloadStore from '@/hooks/stores/useSessionReloadStore'
 import Validation from '@/utils/validation/Validation'
 
@@ -26,28 +26,13 @@ interface UserValidationForm {
 }
 
 const UserValidation = () => {
-    const needReload = useSessionReloadStore((state) => state.needReload)
     const setNeedReload = useSessionReloadStore((state) => state.setNeedReload)
 
-    // User data needed for account validation process
-    const [currentUser, setCurrentUser] = useState<User | null>(null)
-    const [loading, setLoading] = useState(true)
+    const { user, loading } = useGetUserOrAuthenticate(true)
 
-    const router = useRouter()
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const user = await Helper.getUserOrAuthenticate(router, true)
-                setCurrentUser(user)
-            } catch (error) {
-                setCurrentUser(null)
-            } finally {
-                setLoading(false)
-            }
-        }
-        fetchUser()
-    }, [needReload])
+    // Overrides the session user right after validating the account
+    const [validatedUser, setValidatedUser] = useState<User | null>(null)
+    const currentUser = validatedUser ?? user
 
     const [secondsRemaining, setSecondsRemaining] = useState<number>(0)
     const [sendingNewCode, setSendingNewCode] = useState<boolean>(false)
@@ -115,7 +100,7 @@ const UserValidation = () => {
             }
 
             setErrorMessage('')
-            setCurrentUser({ ...response, validated: true })
+            setValidatedUser({ ...response, validated: true })
             setNeedReload(true)
         } catch (error) {
             setErrorMessage(Helper.parseError(error))

@@ -23,7 +23,9 @@ import {
 
 import Helper from '@/services/helper'
 import Users from '@/services/users'
+
 import Theme from '@/app/theme'
+import useGetUserOrAuthenticate from '@/hooks/users/useGetUserOrAuthenticate'
 import useSessionReloadStore from '@/hooks/stores/useSessionReloadStore'
 import Validation from '@/utils/validation/Validation'
 
@@ -31,6 +33,7 @@ import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 import InputEmail from '@/components/Common/Inputs/InputEmail'
 import InputPassword from '@/components/Common/Inputs/InputPassword'
 import InputText from '@/components/Common/Inputs/InputText'
+
 import User from '@/entities/users/User'
 import UserU from '@/entities/users/UserU'
 
@@ -43,13 +46,14 @@ interface ProfileForm {
 }
 
 const Profile = () => {
-    const needReload = useSessionReloadStore((state) => state.needReload)
     const setNeedReload = useSessionReloadStore((state) => state.setNeedReload)
     const [opened, { open, close }] = useDisclosure(false)
 
-    // User data needed for profile edition
-    const [currentUser, setCurrentUser] = useState<User | null>(null)
-    const [loading, setLoading] = useState(true)
+    const { user, loading } = useGetUserOrAuthenticate(true)
+
+    // Overrides the session user right after deleting the account
+    const [signedOut, setSignedOut] = useState(false)
+    const currentUser = signedOut ? null : user
 
     const router = useRouter()
 
@@ -58,19 +62,10 @@ const Profile = () => {
     const [errorMessage, setErrorMessage] = useState<string>('')
 
     useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const user = await Helper.getUserOrAuthenticate(router, true)
-                setCurrentUser(user)
-                if (user) setFormInitialValues(user)
-            } catch (error) {
-                setCurrentUser(null)
-            } finally {
-                setLoading(false)
-            }
-        }
-        fetchUser()
-    }, [needReload])
+        if (!user) return
+
+        setFormInitialValues(user)
+    }, [user])
 
     const setFormInitialValues = (user: User) => {
         form.setValues({
@@ -133,7 +128,7 @@ const Profile = () => {
             }
 
             await Users.sessionDelete()
-            setCurrentUser(null)
+            setSignedOut(true)
 
             setErrorMessage('')
             setNeedReload(true)
@@ -204,7 +199,7 @@ const Profile = () => {
         )
     }
 
-    if (loading) {
+    if (loading || !currentUser) {
         return <SkeletonFull />
     }
 

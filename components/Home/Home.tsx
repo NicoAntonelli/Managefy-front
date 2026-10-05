@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Stack } from '@mantine/core'
 
 import Health from '@/services/health'
-import Helper from '@/services/helper'
+import useGetUserOrAuthenticate from '@/hooks/users/useGetUserOrAuthenticate'
 
 import HomePresentation from '@/components/Home/HomePresentation'
 import LoginRegister from '@/components/User/LoginRegister/LoginRegister'
@@ -21,29 +21,20 @@ const getHealth = async () => {
 }
 
 const Home = () => {
-    useEffect(() => {
-        getHealth()
-
-        const fetchUser = async () => {
-            try {
-                const user = await Helper.getUserOrAuthenticate(router, false)
-                if (user?.email) {
-                    if (user.validated) router.push('/businesses')
-                    else router.push('/users/validation')
-                }
-            } catch (error) {
-                // Can't fetch user nor log error, stay on home page
-                console.log(error)
-            } finally {
-                setLoading(false)
-            }
-        }
-        fetchUser()
-    }, [])
-
-    const [loading, setLoading] = useState(true)
+    const { user, loading } = useGetUserOrAuthenticate(false)
 
     const router = useRouter()
+
+    useEffect(() => {
+        getHealth()
+    }, [])
+
+    useEffect(() => {
+        if (loading || !user) return
+
+        if (user.validated) router.push('/businesses')
+        else router.push('/users/validation')
+    }, [user, loading, router])
 
     if (loading) {
         return <SkeletonFull />

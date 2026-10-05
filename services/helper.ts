@@ -1,64 +1,10 @@
 import axios, { AxiosResponse } from 'axios'
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 
 import ErrorLogs from './errorLog'
 import Users from './users'
 
 import ErrorResponse from '@/entities/helpTypes/ErrorResponse'
-import User from '@/entities/users/User'
 import ErrorLogC from '@/entities/errorLogs/ErrorLogC'
-
-// Check if there is a valid user logged, otherwise redirect to login/register or validation
-const authenticate = async (
-    router: AppRouterInstance,
-    validatedOnly: boolean
-): Promise<void> => {
-    try {
-        const user: User | null = await Users.sessionGet()
-        if (!user?.email) {
-            console.log('No valid user found in session')
-            router.push('/users/loginRegister')
-            return
-        }
-        if (validatedOnly && !user.validated) {
-            console.log('User correctly logged but not validated')
-            router.push('/users/validation')
-            return
-        }
-
-        return
-    } catch (error) {
-        console.error(error)
-        parseLogError(error)
-
-        router.push('/users/loginRegister')
-        return
-    }
-}
-
-// Get current user, optionally redirect to login/register
-const getUserOrAuthenticate = async (
-    router: AppRouterInstance,
-    redirect: boolean
-): Promise<User | null> => {
-    try {
-        const user: User | null = await Users.sessionGet()
-        if (!user?.email) {
-            console.log('No valid user found in session')
-            if (redirect) router.push('/users/loginRegister')
-            return null
-        }
-
-        return user
-    } catch (error) {
-        console.error(error)
-        parseLogError(error)
-
-        if (redirect) router.push('/users/loginRegister')
-
-        return null
-    }
-}
 
 // Type guard to check if data is an ErrorResponse
 const isErrorResponse = (data: any): data is ErrorResponse => {
@@ -158,8 +104,6 @@ const validateResponseAPI = (response: AxiosResponse<any, any>): void => {
 }
 
 const Helper = {
-    authenticate,
-    getUserOrAuthenticate,
     isErrorResponse,
     logError,
     parseError,

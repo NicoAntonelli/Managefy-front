@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 
@@ -20,11 +20,9 @@ import {
     IconUserDollar,
 } from '@tabler/icons-react'
 
-import Helper from '@/services/helper'
 import Users from '@/services/users'
-import User from '@/entities/users/User'
 import Theme from '@/app/theme'
-import useSessionReloadStore from '@/hooks/stores/useSessionReloadStore'
+import useGetUserOrAuthenticate from '@/hooks/users/useGetUserOrAuthenticate'
 
 import NavbarItem from './NavbarItem'
 import UserBanner from './UserBanner'
@@ -35,11 +33,11 @@ const iconSize = 40
 
 const logout = async (
     router: AppRouterInstance,
-    setCurrentUser: React.Dispatch<any>
+    onLoggedOut: () => void
 ) => {
     try {
         await Users.sessionDelete()
-        setCurrentUser(null)
+        onLoggedOut()
         router.push('/users/loginRegister')
     } catch (error) {
         notifications.show({
@@ -54,37 +52,15 @@ const logout = async (
 }
 
 const Navbar = () => {
-    const needReload = useSessionReloadStore((state) => state.needReload)
-    const setNeedReload = useSessionReloadStore((state) => state.setNeedReload)
+    const { user, loading } = useGetUserOrAuthenticate(false)
 
-    // User data needed for showing it in the navbar
-    const [currentUser, setCurrentUser] = useState<User | null>(null)
-    const [loading, setLoading] = useState(true)
+    // Overrides the session user right after logging out
+    const [signedOut, setSignedOut] = useState(false)
+    const currentUser = signedOut ? null : user
 
     const [userMenuOpened, userMenuHandlers] = useDisclosure(false)
 
     const router = useRouter()
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const user = await Helper.getUserOrAuthenticate(router, false)
-                setCurrentUser(user)
-            } catch (error) {
-                setCurrentUser(null)
-                notifications.show({
-                    title: 'Error',
-                    message:
-                        'Error al validar la sesión actual. Inténtalo de nuevo más tarde.',
-                    color: Theme.other!.danger,
-                })
-            } finally {
-                setNeedReload(false)
-                setLoading(false)
-            }
-        }
-        fetchUser()
-    }, [needReload])
 
     if (loading) {
         return <SkeletonSmall />
@@ -146,7 +122,7 @@ const Navbar = () => {
                                 }
                                 small
                                 background="inherit"
-                                onClick={() => logout(router, setCurrentUser)}
+                                onClick={() => logout(router, () => setSignedOut(true))}
                             />
                         </>
                     )}
