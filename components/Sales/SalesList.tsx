@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Stack, Text, Title } from '@mantine/core'
 
 import Sales from '@/services/sales'
+import useCheckUserLogin from '@/hooks/users/useCheckUserLogin'
 import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
 import DateHelper from '@/utils/math/DateHelper'
 
@@ -11,6 +12,7 @@ import SalesListItem from '@/components/Sales/SalesListItem'
 import SalesMultipleFilters from '@/components/Sales/SalesMultipleFilters'
 import SelectedBusinessBar from '@/components/Businesses/SelectedBusinessBar'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
+import UserValidationContinue from '@/components/User/UserValidation/UserValidationContinue'
 
 import Client from '@/entities/clients/Client'
 import Sale from '@/entities/sales/Sale'
@@ -30,6 +32,8 @@ const SalesList = () => {
     )
     const [prevBusinessID, setPrevBusinessID] = useState(businessID)
 
+    const checkUserLogin = useCheckUserLogin()
+
     if (businessID !== prevBusinessID) {
         setPrevBusinessID(businessID)
         setSelectedClient(null)
@@ -37,6 +41,11 @@ const SalesList = () => {
     }
 
     useEffect(() => {
+        if (!checkUserLogin.isValidated) {
+            setLoading(false)
+            return
+        }
+
         if (businessID === undefined) {
             setSales(null)
             setLoading(false)
@@ -69,14 +78,18 @@ const SalesList = () => {
         }
 
         fetchSales()
-    }, [businessID, selectedClient, selectedRange])
+    }, [checkUserLogin.isValidated, businessID, selectedClient, selectedRange])
+
+    if (loading || checkUserLogin.isValidated === null) {
+        return <SkeletonFull />
+    }
+
+    if (!checkUserLogin.isValidated) {
+        return <UserValidationContinue checkUserLogin={checkUserLogin} />
+    }
 
     if (!selectedBusiness) {
         return <BusinessWelcome resourceName="venta" />
-    }
-
-    if (loading) {
-        return <SkeletonFull />
     }
 
     return (

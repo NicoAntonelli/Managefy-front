@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Stack, Text, Title } from '@mantine/core'
 
 import Suppliers from '@/services/suppliers'
+import useCheckUserLogin from '@/hooks/users/useCheckUserLogin'
 import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
 
 import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
@@ -9,6 +10,7 @@ import ButtonCreate from '@/components/Common/Buttons/ButtonCreate'
 import SelectedBusinessBar from '@/components/Businesses/SelectedBusinessBar'
 import SkeletonFull from '@/components/Common/Loader/SkeletonFull'
 import SuppliersListItem from '@/components/Suppliers/SuppliersListItem'
+import UserValidationContinue from '@/components/User/UserValidation/UserValidationContinue'
 
 import Supplier from '@/entities/suppliers/Supplier'
 
@@ -20,7 +22,14 @@ const SuppliersList = () => {
     const [suppliers, setSuppliers] = useState<Supplier[] | null>(null)
     const [loading, setLoading] = useState(true)
 
+    const checkUserLogin = useCheckUserLogin()
+
     useEffect(() => {
+        if (!checkUserLogin.isValidated) {
+            setLoading(false)
+            return
+        }
+
         if (businessID === undefined) {
             setSuppliers(null)
             setLoading(false)
@@ -41,14 +50,18 @@ const SuppliersList = () => {
         }
 
         fetchSuppliers()
-    }, [businessID])
+    }, [checkUserLogin.isValidated, businessID])
+
+    if (loading || checkUserLogin.isValidated === null) {
+        return <SkeletonFull />
+    }
+
+    if (!checkUserLogin.isValidated) {
+        return <UserValidationContinue checkUserLogin={checkUserLogin} />
+    }
 
     if (!selectedBusiness) {
         return <BusinessWelcome resourceName="proveedor" />
-    }
-
-    if (loading) {
-        return <SkeletonFull />
     }
 
     return (

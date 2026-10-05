@@ -26,10 +26,15 @@ const BusinessesList = () => {
     )
 
     useEffect(() => {
+        if (!checkUserLogin.isValidated) {
+            setLoading(false)
+            return
+        }
+
+        setLoading(true)
+
         const fetchBusinesses = async () => {
             try {
-                if (!checkUserLogin.isValidated) return
-
                 const response: Business[] | null =
                     await Businesses.listBusinesses()
 
@@ -59,7 +64,7 @@ const BusinessesList = () => {
         fetchBusinesses()
     }, [checkUserLogin.isValidated, initializeSelectedBusiness])
 
-    if (loading) {
+    if (loading || checkUserLogin.isValidated === null) {
         return <SkeletonFull />
     }
 
