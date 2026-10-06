@@ -41,30 +41,21 @@ const UserValidationContinue = (props: UserValidationContinueProps) => {
 
     // User is logged in but not validated
     return (
-        <Card
-            withBorder
-            padding="lg"
-            radius="md"
-            w="100%"
-            bg="light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5))">
-            <Stack align="center" gap="md">
-                <Title size="1.5rem" ta="center">
-                    Terminá la validación para continuar
-                </Title>
-                <Text ta="center" maw={480}>
-                    Para continuar tenés que terminar el proceso de validación
-                    de tu usuario.
-                </Text>
-                <Button
-                    color={Theme.primaryColor}
-                    w={{ base: '100%', sm: 'fit-content' }}
-                    leftSection={<IconMailCheck size={24} />}
-                    component={Link}
-                    href="/users/validation">
-                    Ir a validar usuario
-                </Button>
-            </Stack>
-        </Card>
+        <Stack align="center" gap="md" py="xl">
+            <Title size="2rem">Terminá la validación para continuar</Title>
+            <Text ta="center" maw={480}>
+                Para continuar tenés que terminar el proceso de validación de tu
+                usuario.
+            </Text>
+            <Button
+                color={Theme.primaryColor}
+                w={{ base: '100%', sm: 'fit-content' }}
+                leftSection={<IconMailCheck size={24} />}
+                component={Link}
+                href="/users/validation">
+                Ir a validar usuario
+            </Button>
+        </Stack>
     )
 }
 
