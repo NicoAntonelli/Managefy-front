@@ -20,12 +20,14 @@ interface UserRoleCreateUpdateProps {
     opened: boolean
     businessID: number
     currentUserRole?: UserRole
+    canAssignAdmin: boolean // Only the manager can assign the admin role
     onSuccess: (userRole: UserRole) => void
     onClose: () => void
 }
 
 const UserRoleCreateUpdate = (props: UserRoleCreateUpdateProps) => {
-    const { opened, businessID, currentUserRole, onSuccess, onClose } = props
+    const { opened, businessID, currentUserRole, canAssignAdmin } = props
+    const { onSuccess, onClose } = props
 
     const isUpdate = !!currentUserRole
 
@@ -131,6 +133,7 @@ const UserRoleCreateUpdate = (props: UserRoleCreateUpdateProps) => {
                     mt="md"
                     label="Es admin"
                     checked={isAdmin}
+                    disabled={!canAssignAdmin}
                     onChange={(event) =>
                         setIsAdmin(event.currentTarget.checked)
                     }

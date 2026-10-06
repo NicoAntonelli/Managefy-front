@@ -20,8 +20,9 @@ import UserRole from '@/entities/usersRoles/UserRole'
 interface UserRolesCompactTableItemProps {
     userRole: UserRole
     isSmallScreen?: boolean
-    onEdit: (userRole: UserRole) => void
-    onDelete: (userRole: UserRole) => void
+    isLoggedUser?: boolean
+    onEdit?: (userRole: UserRole) => void
+    onDelete?: (userRole: UserRole) => void
     onTransfer?: (userRole: UserRole) => void
 }
 
@@ -33,24 +34,32 @@ const getRole = (userRole: UserRole): Role | null => {
 }
 
 const UserRolesCompactTableItem = (props: UserRolesCompactTableItemProps) => {
-    const { userRole, isSmallScreen, onEdit, onDelete, onTransfer } = props
+    const { userRole, isSmallScreen, isLoggedUser } = props
+    const { onEdit, onDelete, onTransfer } = props
+
     const role = getRole(userRole)
 
-    const actions = role !== 'Manager' && (
+    // Each action is shown only if its handler is received (depends on the logged user's role)
+    const hasActions = !!(onEdit || onDelete || onTransfer)
+
+    // No actions for the manager nor for the logged user's own row
+    const actions = role !== 'Manager' && !isLoggedUser && hasActions && (
         <Group
             gap={4}
             wrap="nowrap"
             onClick={(event) => event.stopPropagation()}>
-            <Tooltip label="Editar">
-                <ActionIcon
-                    variant="outline"
-                    color={Theme.primaryColor}
-                    size="sm"
-                    aria-label="Editar"
-                    onClick={() => onEdit(userRole)}>
-                    <IconPencil size={16} />
-                </ActionIcon>
-            </Tooltip>
+            {onEdit && (
+                <Tooltip label="Editar">
+                    <ActionIcon
+                        variant="outline"
+                        color={Theme.primaryColor}
+                        size="sm"
+                        aria-label="Editar"
+                        onClick={() => onEdit(userRole)}>
+                        <IconPencil size={16} />
+                    </ActionIcon>
+                </Tooltip>
+            )}
             {onTransfer && (
                 <Tooltip label="Transferir rol de manager">
                     <ActionIcon
@@ -63,16 +72,18 @@ const UserRolesCompactTableItem = (props: UserRolesCompactTableItemProps) => {
                     </ActionIcon>
                 </Tooltip>
             )}
-            <Tooltip label="Eliminar">
-                <ActionIcon
-                    variant="outline"
-                    color={Theme.other!.danger}
-                    size="sm"
-                    aria-label="Eliminar"
-                    onClick={() => onDelete(userRole)}>
-                    <IconX size={16} />
-                </ActionIcon>
-            </Tooltip>
+            {onDelete && (
+                <Tooltip label="Eliminar">
+                    <ActionIcon
+                        variant="outline"
+                        color={Theme.other!.danger}
+                        size="sm"
+                        aria-label="Eliminar"
+                        onClick={() => onDelete(userRole)}>
+                        <IconX size={16} />
+                    </ActionIcon>
+                </Tooltip>
+            )}
         </Group>
     )
 

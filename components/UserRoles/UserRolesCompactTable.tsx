@@ -14,6 +14,8 @@ import UserRoleLeave from '@/components/UserRoles/UserRoleLeave'
 import UserRoleTransferManager from '@/components/UserRoles/UserRoleTransferManager'
 import UserRolesCompactTableItem from '@/components/UserRoles/UserRolesCompactTableItem'
 
+import useGetUserRole from '@/hooks/userRoles/useGetUserRole'
+
 import UserRole from '@/entities/usersRoles/UserRole'
 
 interface UserRolesCompactTableProps {
@@ -34,7 +36,16 @@ const UserRolesCompactTable = (props: UserRolesCompactTableProps) => {
         null
     )
     const [leaveOpened, setLeaveOpened] = useState(false)
-    const [loggedIsManager, setLoggedIsManager] = useState(false)
+
+    const { userRole, reload: reloadRole } = useGetUserRole(businessID)
+
+    const userIsManager = !!userRole?.isManager
+    const userIsAdmin = !!userRole?.isAdmin
+    const loggedUserID = userRole?.user?.id ?? null
+
+    // Manager can edit or delete anyone, admin can only edit or delete collaborators
+    const canEditOrDelete = (target: UserRole) =>
+        userIsManager || (userIsAdmin && !target.isAdmin && !target.isManager)
 
     useEffect(() => {
         const fetchUserRoles = async () => {
@@ -54,19 +65,13 @@ const UserRolesCompactTable = (props: UserRolesCompactTableProps) => {
             }
         }
 
-        const fetchLoggedRole = async () => {
-            try {
-                const response =
-                    await UserRoles.getOneUserRoleForLogged(businessID)
-                setLoggedIsManager(!!response?.isManager)
-            } catch (error) {
-                setLoggedIsManager(false)
-            }
-        }
-
         fetchUserRoles()
-        fetchLoggedRole()
     }, [businessID])
+
+    const handleEdit = (userRole: UserRole) => {
+        setEditingRole(userRole)
+        setRoleModalOpened(true)
+    }
 
     const handleCreateUpdate = (userRole: UserRole) => {
         setUserRoles((current) => {
@@ -91,21 +96,25 @@ const UserRolesCompactTable = (props: UserRolesCompactTableProps) => {
             <Group justify="space-between" align="center" mb="md">
                 <Title size="1.5rem">Usuarios del emprendimiento</Title>
                 <Group gap="sm">
-                    <Button
-                        color={Theme.primaryColor}
-                        leftSection={<IconUserPlus size={18} />}
-                        onClick={() => {
-                            setEditingRole(null)
-                            setRoleModalOpened(true)
-                        }}>
-                        Agregar colaborador
-                    </Button>
-                    <Button
-                        color={Theme.other!.danger}
-                        leftSection={<IconDoorExit size={18} />}
-                        onClick={() => setLeaveOpened(true)}>
-                        Abandonar emprendimiento
-                    </Button>
+                    {(userIsManager || userIsAdmin) && (
+                        <Button
+                            color={Theme.primaryColor}
+                            leftSection={<IconUserPlus size={18} />}
+                            onClick={() => {
+                                setEditingRole(null)
+                                setRoleModalOpened(true)
+                            }}>
+                            Agregar colaborador
+                        </Button>
+                    )}
+                    {userRole && (
+                        <Button
+                            color={Theme.other!.danger}
+                            leftSection={<IconDoorExit size={18} />}
+                            onClick={() => setLeaveOpened(true)}>
+                            Abandonar emprendimiento
+                        </Button>
+                    )}
                 </Group>
             </Group>
             {loading ? (
@@ -120,14 +129,20 @@ const UserRolesCompactTable = (props: UserRolesCompactTableProps) => {
                         <UserRolesCompactTableItem
                             key={userRole.user.id}
                             userRole={userRole}
+                            isLoggedUser={userRole.user.id === loggedUserID}
                             isSmallScreen
-                            onEdit={(userRole) => {
-                                setEditingRole(userRole)
-                                setRoleModalOpened(true)
-                            }}
-                            onDelete={setDeletingRole}
+                            onEdit={
+                                canEditOrDelete(userRole)
+                                    ? handleEdit
+                                    : undefined
+                            }
+                            onDelete={
+                                canEditOrDelete(userRole)
+                                    ? setDeletingRole
+                                    : undefined
+                            }
                             onTransfer={
-                                loggedIsManager ? setTransferringRole : undefined
+                                userIsManager ? setTransferringRole : undefined
                             }
                         />
                     ))}
@@ -151,13 +166,19 @@ const UserRolesCompactTable = (props: UserRolesCompactTableProps) => {
                             <UserRolesCompactTableItem
                                 key={userRole.user.id}
                                 userRole={userRole}
-                                onEdit={(userRole) => {
-                                    setEditingRole(userRole)
-                                    setRoleModalOpened(true)
-                                }}
-                                onDelete={setDeletingRole}
+                                isLoggedUser={userRole.user.id === loggedUserID}
+                                onEdit={
+                                    canEditOrDelete(userRole)
+                                        ? handleEdit
+                                        : undefined
+                                }
+                                onDelete={
+                                    canEditOrDelete(userRole)
+                                        ? setDeletingRole
+                                        : undefined
+                                }
                                 onTransfer={
-                                    loggedIsManager
+                                    userIsManager
                                         ? setTransferringRole
                                         : undefined
                                 }
@@ -171,6 +192,7 @@ const UserRolesCompactTable = (props: UserRolesCompactTableProps) => {
                 opened={roleModalOpened}
                 businessID={businessID}
                 currentUserRole={editingRole ?? undefined}
+                canAssignAdmin={userIsManager}
                 onSuccess={(userRole) => handleCreateUpdate(userRole)}
                 onClose={() => {
                     setRoleModalOpened(false)
@@ -195,7 +217,7 @@ const UserRolesCompactTable = (props: UserRolesCompactTableProps) => {
                 businessID={businessID}
                 userName={transferringRole?.user.name || 'Sin nombre'}
                 onSuccess={() => {
-                    setLoggedIsManager(false)
+                    reloadRole()
                     UserRoles.listUserRolesByBusiness(businessID)
                         .then((response) => setUserRoles(response || []))
                         .catch(() => {})
