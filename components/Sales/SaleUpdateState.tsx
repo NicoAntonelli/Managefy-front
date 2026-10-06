@@ -17,6 +17,7 @@ interface SaleUpdateStateProps {
     saleID: number
     businessID: number
     currentState: SaleState
+    canCancel: boolean // Only admin or manager can set the sale as cancelled
     onSuccess: (sale: Sale) => void
     onClose: () => void
 }
@@ -27,8 +28,16 @@ const saleStateOptions = TextHelper.saleStatesComplete.map((state) => ({
 }))
 
 const SaleUpdateState = (props: SaleUpdateStateProps) => {
-    const { opened, saleID, businessID, currentState } = props
+    const { opened, saleID, businessID, currentState, canCancel } = props
     const { onSuccess, onClose } = props
+
+    // Keep the current state as an option so the select doesn't show up empty
+    const availableStateOptions = saleStateOptions.filter(
+        (option) =>
+            canCancel ||
+            option.value !== 'Cancelled' ||
+            option.value === currentState
+    )
 
     const [newState, setNewState] = useState<SaleState | null>(currentState)
     const [updatingState, setUpdatingState] = useState(false)
@@ -77,7 +86,7 @@ const SaleUpdateState = (props: SaleUpdateStateProps) => {
                 pt="1rem"
                 label="Estado"
                 placeholder="Seleccioná el nuevo estado"
-                data={saleStateOptions}
+                data={availableStateOptions}
                 value={newState}
                 onChange={(value) => setNewState(value as SaleState | null)}
                 allowDeselect={false}

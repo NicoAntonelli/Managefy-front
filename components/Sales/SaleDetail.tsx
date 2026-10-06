@@ -28,6 +28,7 @@ import Theme from '@/app/theme'
 import TextHelper from '@/utils/string/TextHelper'
 
 import useGetUserOrAuthenticate from '@/hooks/users/useGetUserOrAuthenticate'
+import useGetUserRole from '@/hooks/userRoles/useGetUserRole'
 import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
 
 import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
@@ -55,6 +56,10 @@ const SaleDetail = () => {
         (state) => state.selectedBusiness
     )
     const businessID = selectedBusiness?.id
+
+    // Only admin or manager can cancel the sale
+    const { userRole } = useGetUserRole(businessID)
+    const userCanCancel = !!userRole?.isManager || !!userRole?.isAdmin
 
     const [sale, setSale] = useState<Sale | null>(null)
     const [loading, setLoading] = useState(true)
@@ -301,12 +306,14 @@ const SaleDetail = () => {
                             onClick={() => setInvoiceModalOpened(true)}>
                             Facturar
                         </Button>
-                        <Button
-                            color={Theme.other!.danger}
-                            leftSection={<IconBan size={20} />}
-                            onClick={() => setCancelModalOpened(true)}>
-                            Cancelar venta
-                        </Button>
+                        {userCanCancel && (
+                            <Button
+                                color={Theme.other!.danger}
+                                leftSection={<IconBan size={20} />}
+                                onClick={() => setCancelModalOpened(true)}>
+                                Cancelar venta
+                            </Button>
+                        )}
                     </Group>
                 )}
             </Card>
@@ -364,6 +371,7 @@ const SaleDetail = () => {
                 saleID={sale.id}
                 businessID={selectedBusiness.id}
                 currentState={sale.state}
+                canCancel={userCanCancel}
                 onSuccess={(updatedSale) => setSale(updatedSale)}
                 onClose={() => setStateModalOpened(false)}
             />
