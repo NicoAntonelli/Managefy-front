@@ -27,6 +27,7 @@ import Businesses from '@/services/businesses'
 
 import Theme from '@/app/theme'
 import useCheckUserLogin from '@/hooks/users/useCheckUserLogin'
+import useGetUserRole from '@/hooks/userRoles/useGetUserRole'
 
 import BusinessCreateUpdate from '@/components/Businesses/BusinessCreateUpdate'
 import BusinessDelete from '@/components/Businesses/BusinessDelete'
@@ -80,6 +81,11 @@ const BusinessDetail = (props: BusinessDetailProps) => {
     const [editing, setEditing] = useState(false)
 
     const checkUserLogin = useCheckUserLogin()
+
+    // Admin or manager can edit the business, only the manager can delete it
+    const { userRole } = useGetUserRole(business?.id)
+    const userIsManager = !!userRole?.isManager
+    const userCanEdit = userIsManager || !!userRole?.isAdmin
 
     useEffect(() => {
         if (!businessID && !findByLink) {
@@ -321,21 +327,25 @@ const BusinessDetail = (props: BusinessDetailProps) => {
                     </Grid.Col>
                 </Grid>
 
-                <Group justify="flex-start" gap="sm" mt="xl">
-                    <Button
-                        color={Theme.primaryColor}
-                        leftSection={<IconPencil size={20} />}
-                        onClick={handleEdit}>
-                        Editar
-                    </Button>
+                {userCanEdit && (
+                    <Group justify="flex-start" gap="sm" mt="xl">
+                        <Button
+                            color={Theme.primaryColor}
+                            leftSection={<IconPencil size={20} />}
+                            onClick={handleEdit}>
+                            Editar
+                        </Button>
 
-                    <Button
-                        color={Theme.other!.danger}
-                        leftSection={<IconTrash size={20} />}
-                        onClick={() => setDeleteModalOpened(true)}>
-                        Eliminar
-                    </Button>
-                </Group>
+                        {userIsManager && (
+                            <Button
+                                color={Theme.other!.danger}
+                                leftSection={<IconTrash size={20} />}
+                                onClick={() => setDeleteModalOpened(true)}>
+                                Eliminar
+                            </Button>
+                        )}
+                    </Group>
+                )}
             </Card>
 
             <UserRolesCompactTable businessID={business.id} />
