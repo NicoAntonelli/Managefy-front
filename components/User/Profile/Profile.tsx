@@ -127,7 +127,11 @@ const Profile = () => {
 
             setErrorMessage('')
             requestReload()
-            setNeedReload(true)
+            notifications.show({
+                title: 'Éxito',
+                message: 'Cuenta eliminada correctamente',
+                color: Theme.other!.success,
+            })
             router.push('/users/loginRegister')
         } catch (error) {
             setErrorMessage(Helper.parseError(error))
