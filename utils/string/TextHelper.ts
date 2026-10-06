@@ -2,6 +2,7 @@
 
 import Theme from '@/app/theme'
 
+import NotificationType from '@/entities/helpTypes/NotificationType'
 import Operation from '@/entities/helpTypes/Operation'
 import ResourceName from '@/entities/helpTypes/ResourceName'
 import Role from '@/entities/helpTypes/Role'
@@ -44,6 +45,34 @@ const createUrlSegment = (value: string): string => {
 
     const suffix = Math.random().toString(36).slice(2, 8)
     return `${segment}-${suffix}`
+}
+
+// Theme-default notification type color mapping
+const getNotificationTypeColor = (notificationType: NotificationType) => {
+    switch (notificationType) {
+        case 'Low':
+            return Theme.other!.neutral
+        case 'Normal':
+            return Theme.primaryColor
+        case 'Priority':
+            return Theme.other!.danger
+        default:
+            return Theme.primaryColor
+    }
+}
+
+// Notification type text mapping
+const getNotificationTypeText = (notificationType: NotificationType) => {
+    switch (notificationType) {
+        case 'Low':
+            return 'Baja'
+        case 'Normal':
+            return 'Normal'
+        case 'Priority':
+            return 'Prioritaria'
+        default:
+            return notificationType
+    }
 }
 
 // Theme-default operation color mapping
@@ -172,6 +201,8 @@ const TextHelper = {
     saleStatesComplete,
     weekDaysComplete,
     createUrlSegment,
+    getNotificationTypeColor,
+    getNotificationTypeText,
     getOperationColor,
     getOperationText,
     getRoleColor,
