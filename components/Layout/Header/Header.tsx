@@ -1,14 +1,21 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ActionIcon, Burger, Group } from '@mantine/core'
-import { IconSunMoon } from '@tabler/icons-react'
+import { ActionIcon, Burger, Group, Indicator } from '@mantine/core'
+import { IconBell, IconSunMoon } from '@tabler/icons-react'
 
 import useSidebarStore from '@/hooks/stores/useSidebarStore'
+import useNotificationsReloadStore from '@/hooks/stores/useNotificationsReloadStore'
+import useGetNotifications from '@/hooks/notifications/useGetNotifications'
 
 import Theme from '@/app/theme'
 
+import NotificationsList from '@/components/Notifications/NotificationsList'
+
+import User from '@/entities/users/User'
+
 interface HeaderProps {
+    currentUser: User | null
     showNavbar: boolean
     toggleColorScheme: () => void
 }
@@ -20,10 +27,32 @@ const Header = (props: HeaderProps) => {
     const [isBurgerHovered, setIsBurgerHovered] = useState(false)
     const [isIconHovered, setIsIconHovered] = useState(false)
 
+    const { currentUser, showNavbar, toggleColorScheme } = props
+
+    // Notifications are only available for logged and validated users
+    const notificationsEnabled = !!currentUser?.validated
+
+    const {
+        notificationsList,
+        unreadCount,
+        updateNotification,
+        removeNotification,
+    } = useGetNotifications(notificationsEnabled)
+
+    const requestNotificationsReload = useNotificationsReloadStore(
+        (state) => state.requestReload
+    )
+    const [notificationsOpened, setNotificationsOpened] = useState(false)
+
+    const openNotifications = () => {
+        requestNotificationsReload()
+        setNotificationsOpened(true)
+    }
+
     return (
-        <>
+        <Group justify="space-between" h="100%" wrap="nowrap">
             <Group ml={15} h="100%" gap="xs">
-                {props.showNavbar && (
+                {showNavbar && (
                     <Burger
                         opened={opened}
                         onClick={toggle}
@@ -65,14 +94,43 @@ const Header = (props: HeaderProps) => {
                     variant="filled"
                     color={Theme.other!.secondaryColor}
                     aria-label="Cambiar entre tema claro y oscuro"
-                    onClick={props.toggleColorScheme}>
+                    onClick={toggleColorScheme}>
                     <IconSunMoon
                         style={{ width: '70%', height: '70%' }}
                         stroke={1.5}
                     />
                 </ActionIcon>
             </Group>
-        </>
+
+            {notificationsEnabled && (
+                <Group mr={15} h="100%">
+                    <Indicator
+                        label={unreadCount > 99 ? '99+' : unreadCount}
+                        size={18}
+                        color={Theme.other!.danger}
+                        disabled={unreadCount === 0}>
+                        <ActionIcon
+                            variant="light"
+                            size="lg"
+                            aria-label="Notificaciones"
+                            onClick={openNotifications}>
+                            <IconBell
+                                style={{ width: '70%', height: '70%' }}
+                                stroke={1.5}
+                            />
+                        </ActionIcon>
+                    </Indicator>
+
+                    <NotificationsList
+                        opened={notificationsOpened}
+                        notificationsList={notificationsList}
+                        onUpdate={updateNotification}
+                        onCloseNotification={removeNotification}
+                        onClose={() => setNotificationsOpened(false)}
+                    />
+                </Group>
+            )}
+        </Group>
     )
 }
 

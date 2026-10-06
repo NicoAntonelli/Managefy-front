@@ -22,12 +22,13 @@ import {
 
 import Users from '@/services/users'
 import Theme from '@/app/theme'
-import useGetUserOrAuthenticate from '@/hooks/users/useGetUserOrAuthenticate'
 import useSessionReloadStore from '@/hooks/stores/useSessionReloadStore'
 
 import NavbarItem from './NavbarItem'
 import UserBanner from './UserBanner'
 import SkeletonSmall from '@/components/Common/Loader/SkeletonSmall'
+
+import User from '@/entities/users/User'
 
 // Icon properties
 const iconSize = 40
@@ -49,8 +50,14 @@ const logout = async (router: AppRouterInstance, onLoggedOut: () => void) => {
     }
 }
 
-const Navbar = () => {
-    const { user: currentUser, loading } = useGetUserOrAuthenticate(false)
+interface NavbarProps {
+    currentUser: User | null
+    loading: boolean
+}
+
+const Navbar = (props: NavbarProps) => {
+    const { currentUser, loading } = props
+
     const requestReload = useSessionReloadStore((state) => state.requestReload)
 
     const [userMenuOpened, userMenuHandlers] = useDisclosure(false)

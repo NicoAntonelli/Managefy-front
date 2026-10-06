@@ -8,8 +8,11 @@ import { useHotkeys } from '@mantine/hooks'
 
 import Header from './Header/Header'
 import Navbar from './Navbar/Navbar'
-import SplashLogo from '@/components/Common/Loader/SplashLogo'
+
+import useGetUserOrAuthenticate from '@/hooks/users/useGetUserOrAuthenticate'
 import useSidebarStore from '@/hooks/stores/useSidebarStore'
+
+import SplashLogo from '@/components/Common/Loader/SplashLogo'
 
 interface Layout {
     children: React.ReactNode
@@ -18,6 +21,8 @@ interface Layout {
 const Layout = (props: Layout) => {
     const opened = useSidebarStore((state) => state.opened)
     const [unloaded, setUnloaded] = useState(true)
+
+    const { user, loading } = useGetUserOrAuthenticate(false)
 
     // Change between theme preferences
     const { setColorScheme } = useMantineColorScheme()
@@ -50,10 +55,11 @@ const Layout = (props: Layout) => {
                     <Header
                         toggleColorScheme={toggleColorScheme}
                         showNavbar={true}
+                        currentUser={user}
                     />
                 </AppShell.Header>
                 <AppShell.Navbar>
-                    <Navbar />
+                    <Navbar currentUser={user} loading={loading} />
                 </AppShell.Navbar>
                 <AppShell.Main>{props.children}</AppShell.Main>
             </AppShell>
