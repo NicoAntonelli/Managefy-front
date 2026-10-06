@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useRouter } from 'next/navigation'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 
@@ -23,6 +23,7 @@ import {
 import Users from '@/services/users'
 import Theme from '@/app/theme'
 import useGetUserOrAuthenticate from '@/hooks/users/useGetUserOrAuthenticate'
+import useSessionReloadStore from '@/hooks/stores/useSessionReloadStore'
 
 import NavbarItem from './NavbarItem'
 import UserBanner from './UserBanner'
@@ -31,10 +32,7 @@ import SkeletonSmall from '@/components/Common/Loader/SkeletonSmall'
 // Icon properties
 const iconSize = 40
 
-const logout = async (
-    router: AppRouterInstance,
-    onLoggedOut: () => void
-) => {
+const logout = async (router: AppRouterInstance, onLoggedOut: () => void) => {
     try {
         await Users.sessionDelete()
         onLoggedOut()
@@ -52,11 +50,8 @@ const logout = async (
 }
 
 const Navbar = () => {
-    const { user, loading } = useGetUserOrAuthenticate(false)
-
-    // Overrides the session user right after logging out
-    const [signedOut, setSignedOut] = useState(false)
-    const currentUser = signedOut ? null : user
+    const { user: currentUser, loading } = useGetUserOrAuthenticate(false)
+    const requestReload = useSessionReloadStore((state) => state.requestReload)
 
     const [userMenuOpened, userMenuHandlers] = useDisclosure(false)
 
@@ -122,7 +117,7 @@ const Navbar = () => {
                                 }
                                 small
                                 background="inherit"
-                                onClick={() => logout(router, () => setSignedOut(true))}
+                                onClick={() => logout(router, requestReload)}
                             />
                         </>
                     )}

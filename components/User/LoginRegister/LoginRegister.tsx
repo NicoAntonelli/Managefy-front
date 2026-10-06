@@ -41,7 +41,7 @@ interface LoginRegisterForm {
 }
 
 const LoginRegister = () => {
-    const setNeedReload = useSessionReloadStore((state) => state.setNeedReload)
+    const requestReload = useSessionReloadStore((state) => state.requestReload)
     const [opened, { open, close }] = useDisclosure(false)
 
     const [loading, setLoading] = useState(true)
@@ -87,7 +87,7 @@ const LoginRegister = () => {
                 }
 
                 setErrorMessage('')
-                setNeedReload(true)
+                requestReload()
 
                 router.push('/users/validation')
             }
@@ -103,7 +103,7 @@ const LoginRegister = () => {
             }
 
             setErrorMessage('')
-            setNeedReload(true)
+            requestReload()
 
             if (response.validated) router.push('/businesses')
             else router.push('/users/validation')

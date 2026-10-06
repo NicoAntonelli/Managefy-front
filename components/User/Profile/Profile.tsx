@@ -46,14 +46,10 @@ interface ProfileForm {
 }
 
 const Profile = () => {
-    const setNeedReload = useSessionReloadStore((state) => state.setNeedReload)
+    const requestReload = useSessionReloadStore((state) => state.requestReload)
     const [opened, { open, close }] = useDisclosure(false)
 
-    const { user, loading } = useGetUserOrAuthenticate(true)
-
-    // Overrides the session user right after deleting the account
-    const [signedOut, setSignedOut] = useState(false)
-    const currentUser = signedOut ? null : user
+    const { user: currentUser, loading } = useGetUserOrAuthenticate(true)
 
     const router = useRouter()
 
@@ -62,10 +58,10 @@ const Profile = () => {
     const [errorMessage, setErrorMessage] = useState<string>('')
 
     useEffect(() => {
-        if (!user) return
+        if (!currentUser) return
 
-        setFormInitialValues(user)
-    }, [user])
+        setFormInitialValues(currentUser)
+    }, [currentUser])
 
     const setFormInitialValues = (user: User) => {
         form.setValues({
@@ -100,7 +96,7 @@ const Profile = () => {
             }
 
             setErrorMessage('')
-            setNeedReload(true)
+            requestReload()
             setFinalized(true)
         } catch (error) {
             setErrorMessage(Helper.parseError(error))
@@ -128,9 +124,9 @@ const Profile = () => {
             }
 
             await Users.sessionDelete()
-            setSignedOut(true)
 
             setErrorMessage('')
+            requestReload()
             setNeedReload(true)
             router.push('/users/loginRegister')
         } catch (error) {

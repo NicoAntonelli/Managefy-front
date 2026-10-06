@@ -26,7 +26,7 @@ interface UserValidationForm {
 }
 
 const UserValidation = () => {
-    const setNeedReload = useSessionReloadStore((state) => state.setNeedReload)
+    const requestReload = useSessionReloadStore((state) => state.requestReload)
 
     const { user, loading } = useGetUserOrAuthenticate(true)
 
@@ -101,7 +101,7 @@ const UserValidation = () => {
 
             setErrorMessage('')
             setValidatedUser({ ...response, validated: true })
-            setNeedReload(true)
+            requestReload()
         } catch (error) {
             setErrorMessage(Helper.parseError(error))
             notifications.show({

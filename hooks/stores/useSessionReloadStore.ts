@@ -1,15 +1,13 @@
 import { create } from 'zustand'
 
 interface SessionReloadStoreState {
-    needReload: boolean
-    toggle: () => void
-    setNeedReload: (value: boolean) => void
+    reloadKey: number
+    requestReload: () => void
 }
 
 const useSessionReloadStore = create<SessionReloadStoreState>((set) => ({
-    needReload: false,
-    toggle: () => set((state) => ({ needReload: !state.needReload })),
-    setNeedReload: (value: boolean) => set({ needReload: value }),
+    reloadKey: 0,
+    requestReload: () => set((state) => ({ reloadKey: state.reloadKey + 1 })),
 }))
 
 export default useSessionReloadStore
