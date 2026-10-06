@@ -27,6 +27,7 @@ import Theme from '@/app/theme'
 
 import useGetUserOrAuthenticate from '@/hooks/users/useGetUserOrAuthenticate'
 import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
+import useGetUserRole from '@/hooks/userRoles/useGetUserRole'
 
 import BusinessWelcome from '@/components/Businesses/BusinessWelcome'
 import ButtonCreate from '@/components/Common/Buttons/ButtonCreate'
@@ -50,6 +51,10 @@ const ProductDetail = () => {
         (state) => state.selectedBusiness
     )
     const businessID = selectedBusiness?.id
+
+    // Only admin or manager can delete
+    const { userRole } = useGetUserRole(businessID)
+    const userCanDelete = !!userRole?.isManager || !!userRole?.isAdmin
 
     const [product, setProduct] = useState<Product | null>(null)
     const [loading, setLoading] = useState(true)
@@ -386,12 +391,14 @@ const ProductDetail = () => {
                         Editar
                     </Button>
 
-                    <Button
-                        color={Theme.other!.danger}
-                        leftSection={<IconTrash size={20} />}
-                        onClick={() => setDeleteModalOpened(true)}>
-                        Eliminar
-                    </Button>
+                    {userCanDelete && (
+                        <Button
+                            color={Theme.other!.danger}
+                            leftSection={<IconTrash size={20} />}
+                            onClick={() => setDeleteModalOpened(true)}>
+                            Eliminar
+                        </Button>
+                    )}
                 </Group>
             </Card>
 
