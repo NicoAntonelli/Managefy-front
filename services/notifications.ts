@@ -67,7 +67,7 @@ const updateNotificationState = async (
 const closeNotification = async (id: number): Promise<number> => {
     const endpoint = `${prefix}/${id}`
     try {
-        const response = await api.put<number>(endpoint)
+        const response = await api.delete<number>(endpoint)
         Helper.validateResponseAPI(response)
 
         return response.data
