@@ -1,12 +1,16 @@
 //////////// TEXT-RELATED TOOLS ////////////
 
 import Theme from '@/app/theme'
+import DateHelper from '@/utils/math/DateHelper'
 
 import NotificationType from '@/entities/helpTypes/NotificationType'
 import Operation from '@/entities/helpTypes/Operation'
 import ResourceName from '@/entities/helpTypes/ResourceName'
 import Role from '@/entities/helpTypes/Role'
+import SalesDateRange from '@/entities/helpTypes/SalesDateRange'
 import SaleState from '@/entities/helpTypes/SaleState'
+import StatsGrouping from '@/entities/helpTypes/StatsGrouping'
+import StatsPeriod from '@/entities/helpTypes/StatsPeriod'
 import WeekDay from '@/entities/helpTypes/WeekDay'
 
 // List of all possible sale states
@@ -16,6 +20,15 @@ const saleStatesComplete: SaleState[] = [
     'Paid',
     'PaidAndBilled',
     'Cancelled',
+]
+
+// List of all statistics periods
+const statsPeriodsComplete: StatsPeriod[] = [
+    'Week',
+    'Month',
+    'ThreeMonths',
+    'SixMonths',
+    'TwelveMonths',
 ]
 
 // List of all week days
@@ -167,6 +180,66 @@ const getSaleStateText = (saleState: SaleState) => {
     }
 }
 
+// Statistics time grouping text mapping
+const getStatsGroupingText = (grouping: StatsGrouping) => {
+    switch (grouping) {
+        case 'Day':
+            return 'día'
+        case 'Week':
+            return 'semana'
+        case 'Month':
+            return 'mes'
+        default:
+            return grouping
+    }
+}
+
+// Statistics period short text mapping
+const getStatsPeriodText = (period: StatsPeriod) => {
+    switch (period) {
+        case 'Week':
+            return 'Semana'
+        case 'Month':
+            return 'Mes'
+        case 'ThreeMonths':
+            return '3 meses'
+        case 'SixMonths':
+            return '6 meses'
+        case 'TwelveMonths':
+            return '12 meses'
+        default:
+            return period
+    }
+}
+
+// Statistics period text mapping, for titles ("Estadísticas de la última semana")
+const getStatsPeriodTitleText = (period: StatsPeriod) => {
+    switch (period) {
+        case 'Week':
+            return 'de la última semana'
+        case 'Month':
+            return 'del último mes'
+        case 'ThreeMonths':
+            return 'de los últimos 3 meses'
+        case 'SixMonths':
+            return 'de los últimos 6 meses'
+        case 'TwelveMonths':
+            return 'de los últimos 12 meses'
+        default:
+            return period
+    }
+}
+
+// Statistics title: by period, or by the custom range when there is no period
+const getStatsTitle = (period: StatsPeriod | null, range: SalesDateRange) => {
+    if (period) return `Estadísticas ${getStatsPeriodTitleText(period)}`
+
+    const dateFrom = DateHelper.formatDateInputValue(range.dateFrom)
+    const dateTo = DateHelper.formatDateInputValue(range.dateTo)
+
+    return `Estadísticas del rango entre ${dateFrom} y ${dateTo}`
+}
+
 // Theme-default business visibility color mapping
 const getVisibilityColor = (isPublic: boolean) => {
     return isPublic ? Theme.primaryColor : Theme.other!.secondaryColor
@@ -192,6 +265,8 @@ const pluralResourceName = (resourceName: ResourceName): string => {
             return 'ventas'
         case 'ventas':
             return 'ventas'
+        case 'estadísticas':
+            return 'estadísticas'
         default:
             return resourceName
     }
@@ -199,6 +274,7 @@ const pluralResourceName = (resourceName: ResourceName): string => {
 
 const TextHelper = {
     saleStatesComplete,
+    statsPeriodsComplete,
     weekDaysComplete,
     createUrlSegment,
     getNotificationTypeColor,
@@ -209,6 +285,10 @@ const TextHelper = {
     getRoleText,
     getSaleStateColor,
     getSaleStateText,
+    getStatsGroupingText,
+    getStatsPeriodText,
+    getStatsPeriodTitleText,
+    getStatsTitle,
     getVisibilityColor,
     getVisibilityText,
     pluralResourceName,
