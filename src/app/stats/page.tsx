@@ -1,6 +1,8 @@
 'use client'
+import StatsMain from '@/components/Stats/StatsMain'
+
 const StatsPage = () => {
-    return <p>Stats page placeholder</p>
+    return <StatsMain />
 }
 
 export default StatsPage
