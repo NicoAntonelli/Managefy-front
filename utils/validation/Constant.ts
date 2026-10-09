@@ -2,6 +2,7 @@
 
 const CACHE_DURATION_MS = 10 * 60 * 1000 // 10 minutes
 const DEFAULT_INTERVAL_MONTHS = 3
+const LOCALE_STRING = 'es-AR' // Argentina
 const MAX_PERCENTAGE = 200
 const MAX_PREVIOUS_MONTHS = 36 // 3 years
 const MAX_SAFE_NUMBER = 1000000000000 // Billon (Short scale) or Thousand Million (Long scale)
@@ -14,6 +15,7 @@ const STATS_TOP_ITEMS = 10 // Max items in the statistics rankings
 const Constant = {
     CACHE_DURATION_MS,
     DEFAULT_INTERVAL_MONTHS,
+    LOCALE_STRING,
     MAX_PERCENTAGE,
     MAX_PREVIOUS_MONTHS,
     MAX_SAFE_NUMBER,
