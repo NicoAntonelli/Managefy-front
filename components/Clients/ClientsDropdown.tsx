@@ -26,8 +26,8 @@ interface ClientsDropdownProps {
     forceRefresh?: boolean
     withinPortal?: boolean
     isOptional?: boolean
-    enabled?: boolean
-    onEnabledChange?: (enabled: boolean) => void
+    enabled?: boolean // Optionally controls the checkbox from outside
+    onEnabledChange?: (enabled: boolean) => void // Called when the checkbox is toggled
     onChange: (client: Client | null) => void
 }
 
