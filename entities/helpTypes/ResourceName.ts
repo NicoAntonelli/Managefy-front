@@ -5,5 +5,6 @@ type ResourceName =
     | 'cliente'
     | 'venta'
     | 'ventas'
+    | 'estadísticas'
 
 export default ResourceName

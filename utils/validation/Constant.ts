@@ -9,6 +9,7 @@ const MAX_STRING_SIZE_DESCRIPTION = 800
 const MAX_STRING_SIZE_TITLE = 200
 const MIN_PERCENTAGE = -99.99
 const POLLING_INTERVAL_MS = 60 * 1000 // 1 minute
+const STATS_TOP_ITEMS = 10 // Max items in the statistics rankings
 
 const Constant = {
     CACHE_DURATION_MS,
@@ -20,6 +21,7 @@ const Constant = {
     MAX_STRING_SIZE_TITLE,
     MIN_PERCENTAGE,
     POLLING_INTERVAL_MS,
+    STATS_TOP_ITEMS,
 }
 
 export default Constant
