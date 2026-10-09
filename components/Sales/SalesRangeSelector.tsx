@@ -2,6 +2,7 @@ import React from 'react'
 import { Checkbox, Group, Stack, Text } from '@mantine/core'
 
 import Theme from '@/app/theme'
+
 import DateHelper from '@/utils/math/DateHelper'
 import InputDate from '@/components/Common/Inputs/InputDate'
 import SalesDateRange from '@/entities/helpTypes/SalesDateRange'
@@ -9,12 +10,13 @@ import SalesDateRange from '@/entities/helpTypes/SalesDateRange'
 interface SalesRangeSelectorProps {
     value: SalesDateRange | null
     error?: string
+    alwaysEnabled?: boolean // Hides the checkbox, for places where the range is mandatory
     onChange: (range: SalesDateRange | null) => void
 }
 
 const SalesRangeSelector = (props: SalesRangeSelectorProps) => {
-    const { value, error, onChange } = props
-    const enabled = !!value
+    const { value, error, alwaysEnabled, onChange } = props
+    const enabled = alwaysEnabled || !!value
 
     return (
         <Stack gap="xs" mt="md">
@@ -22,17 +24,19 @@ const SalesRangeSelector = (props: SalesRangeSelectorProps) => {
                 Rango de fechas
             </Text>
             <Group align="flex-start" gap="sm" wrap="nowrap">
-                <Checkbox
-                    mt={8}
-                    checked={enabled}
-                    onChange={(event) =>
-                        onChange(
-                            event.currentTarget.checked
-                                ? (value ?? DateHelper.getDefaultRange())
-                                : null
-                        )
-                    }
-                />
+                {!alwaysEnabled && (
+                    <Checkbox
+                        mt={8}
+                        checked={enabled}
+                        onChange={(event) =>
+                            onChange(
+                                event.currentTarget.checked
+                                    ? (value ?? DateHelper.getDefaultRange())
+                                    : null
+                            )
+                        }
+                    />
+                )}
                 <Stack flex={1} gap={4}>
                     <Group grow gap="sm">
                         <InputDate
