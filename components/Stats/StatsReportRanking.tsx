@@ -1,31 +1,35 @@
 import React from 'react'
 import { Stack, Table, Text } from '@mantine/core'
 
+import Theme from '@/app/theme'
+
 import StatsDataPoint from '@/entities/stats/StatsDataPoint'
 
 interface StatsReportRankingProps {
     title: string
     valueLabel: string // Header of the value column
     data: StatsDataPoint[]
-    textColor: string
     valueFormatter: (value: number) => string
 }
 
 // Ranking table for the printable statistics report
 const StatsReportRanking = (props: StatsReportRankingProps) => {
-    const { title, valueLabel, data, textColor, valueFormatter } = props
+    const { title, valueLabel, data, valueFormatter } = props
 
     return (
         <Stack gap="xs">
-            <Text fw={700} c={textColor}>
+            <Text fw={700} c={Theme.other!.printText}>
                 {title}
             </Text>
             {data.length === 0 ? (
-                <Text size="sm" c={textColor}>
+                <Text size="sm" c={Theme.other!.printText}>
                     Sin datos para el período
                 </Text>
             ) : (
-                <Table withTableBorder withColumnBorders c={textColor}>
+                <Table
+                    withTableBorder
+                    withColumnBorders
+                    c={Theme.other!.printText}>
                     <Table.Thead>
                         <Table.Tr>
                             <Table.Th w={40}>#</Table.Th>

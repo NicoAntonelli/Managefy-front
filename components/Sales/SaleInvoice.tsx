@@ -121,9 +121,9 @@ const SaleInvoice = (props: SaleInvoiceProps) => {
                 gap="md"
                 p="xl"
                 style={{
-                    backgroundColor: '#fff',
-                    color: '#111',
-                    border: '1px solid #111',
+                    backgroundColor: Theme.other!.printBackground,
+                    color: Theme.other!.printText,
+                    border: `1px solid ${Theme.other!.printText}`,
                 }}>
                 <Group justify="space-between" align="flex-start" wrap="nowrap">
                     <Group align="flex-start" wrap="nowrap" gap="md">
@@ -135,7 +135,7 @@ const SaleInvoice = (props: SaleInvoiceProps) => {
                             style={{ height: 72, width: 'auto' }}
                         />
                         <Stack gap={2}>
-                            <Text fw={700} size="lg" c="#111">
+                            <Text fw={700} size="lg" c={Theme.other!.printText}>
                                 {sale.business?.name || 'Sin asignar'}
                             </Text>
                             <Text size="sm" c="#333">
@@ -152,8 +152,11 @@ const SaleInvoice = (props: SaleInvoiceProps) => {
                         align="center"
                         px="md"
                         py="xs"
-                        style={{ border: '2px solid #111', minWidth: 140 }}>
-                        <Title order={2} c="#111">
+                        style={{
+                            border: `2px solid ${Theme.other!.printText}`,
+                            minWidth: 140,
+                        }}>
+                        <Title order={2} c={Theme.other!.printText}>
                             C
                         </Title>
                         <Text size="xs" c="#333">
@@ -161,13 +164,13 @@ const SaleInvoice = (props: SaleInvoiceProps) => {
                         </Text>
                     </Stack>
                     <Stack gap={2} align="flex-end">
-                        <Title order={2} c="#111">
+                        <Title order={2} c={Theme.other!.printText}>
                             FACTURA
                         </Title>
-                        <Text size="sm" c="#111">
+                        <Text size="sm" c={Theme.other!.printText}>
                             Nº {invoiceNumber}
                         </Text>
-                        <Text size="sm" c="#111">
+                        <Text size="sm" c={Theme.other!.printText}>
                             Fecha: {issueDate}
                         </Text>
                     </Stack>
@@ -177,10 +180,10 @@ const SaleInvoice = (props: SaleInvoiceProps) => {
                     gap={2}
                     p="sm"
                     style={{
-                        borderTop: '1px solid #111',
-                        borderBottom: '1px solid #111',
+                        borderTop: `1px solid ${Theme.other!.printText}`,
+                        borderBottom: `1px solid ${Theme.other!.printText}`,
                     }}>
-                    <Text size="sm" c="#111">
+                    <Text size="sm" c={Theme.other!.printText}>
                         Cliente: {clientName}
                     </Text>
                     <Text size="sm" c="#333">
@@ -201,20 +204,30 @@ const SaleInvoice = (props: SaleInvoiceProps) => {
                 <Table
                     withTableBorder
                     withColumnBorders
-                    style={{ color: '#111' }}>
+                    style={{ color: Theme.other!.printText }}>
                     <Table.Thead>
                         <Table.Tr>
-                            <Table.Th c="#111">Producto</Table.Th>
-                            <Table.Th c="#111" style={{ textAlign: 'center' }}>
+                            <Table.Th c={Theme.other!.printText}>
+                                Producto
+                            </Table.Th>
+                            <Table.Th
+                                c={Theme.other!.printText}
+                                style={{ textAlign: 'center' }}>
                                 Cantidad
                             </Table.Th>
-                            <Table.Th c="#111" style={{ textAlign: 'right' }}>
+                            <Table.Th
+                                c={Theme.other!.printText}
+                                style={{ textAlign: 'right' }}>
                                 Precio unitario
                             </Table.Th>
-                            <Table.Th c="#111" style={{ textAlign: 'center' }}>
+                            <Table.Th
+                                c={Theme.other!.printText}
+                                style={{ textAlign: 'center' }}>
                                 Dto./Recargo
                             </Table.Th>
-                            <Table.Th c="#111" style={{ textAlign: 'right' }}>
+                            <Table.Th
+                                c={Theme.other!.printText}
+                                style={{ textAlign: 'right' }}>
                                 Subtotal
                             </Table.Th>
                         </Table.Tr>
@@ -229,21 +242,21 @@ const SaleInvoice = (props: SaleInvoiceProps) => {
                         ) : (
                             lines.map((saleLine) => (
                                 <Table.Tr key={saleLine.position}>
-                                    <Table.Td c="#111">
+                                    <Table.Td c={Theme.other!.printText}>
                                         {saleLine.product?.name || 'Sin nombre'}
                                     </Table.Td>
                                     <Table.Td
-                                        c="#111"
+                                        c={Theme.other!.printText}
                                         style={{ textAlign: 'center' }}>
                                         {saleLine.amount}
                                     </Table.Td>
                                     <Table.Td
-                                        c="#111"
+                                        c={Theme.other!.printText}
                                         style={{ textAlign: 'right' }}>
                                         {Math.formatMoney(saleLine.price)}
                                     </Table.Td>
                                     <Table.Td
-                                        c="#111"
+                                        c={Theme.other!.printText}
                                         style={{ textAlign: 'center' }}>
                                         {saleLine.discountSurcharge
                                             ? Math.formatFactorToPercentageString(
@@ -252,7 +265,7 @@ const SaleInvoice = (props: SaleInvoiceProps) => {
                                             : '—'}
                                     </Table.Td>
                                     <Table.Td
-                                        c="#111"
+                                        c={Theme.other!.printText}
                                         style={{ textAlign: 'right' }}>
                                         {Math.formatMoney(
                                             lineSubtotal(saleLine)
@@ -275,7 +288,7 @@ const SaleInvoice = (props: SaleInvoiceProps) => {
                         <Text size="sm" c="#333">
                             Factura C. El importe no discrimina IVA.
                         </Text>
-                        <Text fw={700} size="lg" c="#111">
+                        <Text fw={700} size="lg" c={Theme.other!.printText}>
                             Total: {Math.formatMoney(sale.totalPrice)}
                         </Text>
                     </Stack>

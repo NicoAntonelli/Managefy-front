@@ -30,9 +30,6 @@ interface StatsReportProps {
     filters: StatsFilters
 }
 
-// Black text on white, so it prints the same in light and dark mode
-const reportTextColor = '#111'
-
 const StatsReport = (props: StatsReportProps) => {
     const { businessID, filters } = props
 
@@ -121,9 +118,9 @@ const StatsReport = (props: StatsReportProps) => {
                 gap="lg"
                 p="xl"
                 style={{
-                    backgroundColor: '#fff',
-                    color: reportTextColor,
-                    border: `1px solid ${reportTextColor}`,
+                    backgroundColor: Theme.other!.printBackground,
+                    color: Theme.other!.printText,
+                    border: `1px solid ${Theme.other!.printText}`,
                 }}>
                 <Group align="flex-start" wrap="nowrap" gap="md">
                     <Image
@@ -134,13 +131,16 @@ const StatsReport = (props: StatsReportProps) => {
                         style={{ height: 72, width: 'auto' }}
                     />
                     <Stack gap={2}>
-                        <Text fw={700} size="lg" c={reportTextColor}>
+                        <Text fw={700} size="lg" c={Theme.other!.printText}>
                             {business?.name || 'Sin asignar'}
                         </Text>
-                        <Title order={2} size="1.3rem" c={reportTextColor}>
+                        <Title
+                            order={2}
+                            size="1.3rem"
+                            c={Theme.other!.printText}>
                             {title}
                         </Title>
-                        <Text size="sm" c={reportTextColor}>
+                        <Text size="sm" c={Theme.other!.printText}>
                             {!filters.includeNonBusinessDays &&
                                 'Sin incluir las ventas de días no hábiles. '}
                             Generado el{' '}
@@ -150,13 +150,13 @@ const StatsReport = (props: StatsReportProps) => {
                 </Group>
 
                 <Stack gap="xs">
-                    <Text fw={700} c={reportTextColor}>
+                    <Text fw={700} c={Theme.other!.printText}>
                         Resumen
                     </Text>
                     <Table
                         withTableBorder
                         withColumnBorders
-                        c={reportTextColor}>
+                        c={Theme.other!.printText}>
                         <Table.Tbody>
                             {summaryRows.map((row) => (
                                 <Table.Tr key={row.label}>
@@ -174,28 +174,24 @@ const StatsReport = (props: StatsReportProps) => {
                         valueLabel="Unidades"
                         data={topProductsByUnits}
                         valueFormatter={Math.formatUnits}
-                        textColor={reportTextColor}
                     />
                     <StatsReportRanking
                         title="Productos con mayor ganancia"
                         valueLabel="Ganancia neta"
                         data={topProductsByProfit}
                         valueFormatter={Math.formatMoney}
-                        textColor={reportTextColor}
                     />
                     <StatsReportRanking
                         title="Mejores clientes"
                         valueLabel="Total comprado"
                         data={topClients}
                         valueFormatter={Math.formatMoney}
-                        textColor={reportTextColor}
                     />
                     <StatsReportRanking
                         title="Proveedores con mayor ganancia"
                         valueLabel="Ganancia neta"
                         data={topSuppliers}
                         valueFormatter={Math.formatMoney}
-                        textColor={reportTextColor}
                     />
                 </SimpleGrid>
             </Stack>

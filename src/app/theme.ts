@@ -9,6 +9,8 @@ const Theme = createTheme({
         danger: 'red.8',
         success: 'green.8',
         neutral: 'gray.8',
+        printText: '#111', // Printable pages look the same in light and dark mode
+        printBackground: '#fff',
     },
     shadows: {
         md: '1px 1px 3px rgba(0, 0, 0, .25)',
