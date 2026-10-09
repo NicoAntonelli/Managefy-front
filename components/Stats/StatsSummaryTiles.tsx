@@ -1,6 +1,7 @@
 import React from 'react'
 import { SimpleGrid } from '@mantine/core'
 
+import Constant from '@/utils/validation/Constant'
 import Math from '@/utils/math/Math'
 
 import CustomSparkline from '@/components/Stats/CustomSparkline'
@@ -29,7 +30,9 @@ const StatsSummaryTiles = (props: StatsSummaryTilesProps) => {
             <CustomSparkline
                 title="Cantidad de ventas"
                 description={`Cantidad de ventas realizadas en el período. La línea muestra la cantidad de cada ${groupingText}`}
-                value={summary.salesCount.toLocaleString('es-AR')}
+                value={summary.salesCount.toLocaleString(
+                    Constant.LOCALE_STRING
+                )}
                 data={timeline.map((point) => point.salesCount)}
             />
             <CustomSparkline

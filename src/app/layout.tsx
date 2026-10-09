@@ -42,7 +42,9 @@ export default function RootLayout({
     })
 
     const pathname = usePathname()
-    const isInvoice = pathname?.includes('/invoice')
+    // Printable pages are shown without the app layout
+    const isPrintable =
+        pathname?.includes('/invoice') || pathname?.includes('/stats/report')
 
     return (
         <html lang="es" className={`${roboto.variable} ${montserrat.variable}`}>
@@ -59,7 +61,7 @@ export default function RootLayout({
                     theme={Theme}
                     colorSchemeManager={colorSchemeManager}
                     defaultColorScheme="dark">
-                    {isInvoice ? (
+                    {isPrintable ? (
                         <>
                             {children}
                             <Notifications />

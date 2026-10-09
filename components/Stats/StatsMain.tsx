@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
-import { SimpleGrid, Stack, Text, Title } from '@mantine/core'
+import { Button, Group, SimpleGrid, Stack, Text, Title } from '@mantine/core'
+import { IconPrinter } from '@tabler/icons-react'
 
+import Theme from '@/app/theme'
 import useCheckUserLogin from '@/hooks/users/useCheckUserLogin'
 import useGetStatsData from '@/hooks/stats/useGetStatsData'
 import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
@@ -51,6 +53,25 @@ const StatsMain = () => {
     const groupingText = TextHelper.getStatsGroupingText(grouping)
     const title = TextHelper.getStatsTitle(filters.period, filters.range)
 
+    // The report is opened in a new tab, ready to print
+    const openReport = () => {
+        if (!businessID) return
+
+        const params = new URLSearchParams({
+            businessID: String(businessID),
+            from: filters.range.dateFrom,
+            to: filters.range.dateTo,
+            includeNonBusinessDays: String(filters.includeNonBusinessDays),
+        })
+        if (filters.period) params.set('period', filters.period)
+
+        window.open(
+            `/stats/report?${params.toString()}`,
+            '_blank',
+            'noopener,noreferrer'
+        )
+    }
+
     if (checkUserLogin.isValidated === null) {
         return <SkeletonFull />
     }
@@ -79,14 +100,24 @@ const StatsMain = () => {
                 />
             </div>
 
-            <Stack gap={4}>
-                <Title size="1.8rem">{title}</Title>
-                {!filters.includeNonBusinessDays && (
-                    <Text size="sm" c="dimmed">
-                        Sin incluir las ventas de días no hábiles
-                    </Text>
-                )}
-            </Stack>
+            <Group justify="space-between" align="center" gap="md">
+                <Stack gap={4}>
+                    <Title size="1.8rem">{title}</Title>
+                    {!filters.includeNonBusinessDays && (
+                        <Text size="sm" c="dimmed">
+                            Sin incluir las ventas de días no hábiles
+                        </Text>
+                    )}
+                </Stack>
+                <Button
+                    color={Theme.primaryColor}
+                    variant="light"
+                    leftSection={<IconPrinter size={18} />}
+                    disabled={loading || statsSales.length === 0}
+                    onClick={openReport}>
+                    Imprimir reporte
+                </Button>
+            </Group>
 
             {loading ? (
                 <SkeletonFull />
