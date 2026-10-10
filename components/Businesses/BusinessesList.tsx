@@ -21,8 +21,8 @@ const BusinessesList = () => {
 
     const checkUserLogin = useCheckUserLogin()
 
-    const initializeSelectedBusiness = useSelectedBusinessStore(
-        (state) => state.initializeSelectedBusiness
+    const syncSelectedBusiness = useSelectedBusinessStore(
+        (state) => state.syncSelectedBusiness
     )
 
     useEffect(() => {
@@ -40,21 +40,17 @@ const BusinessesList = () => {
 
                 setBusinesses(response)
 
-                const currentSelectedBusiness =
-                    useSelectedBusinessStore.getState().selectedBusiness
+                // The selected business may no longer be valid (e.g. the user was removed from it)
+                const businessesMinInfo: BusinessMinInfo[] = (
+                    response ?? []
+                ).map(({ id, name, isPublic, currentUserRole }) => ({
+                    id,
+                    name,
+                    isPublic,
+                    currentUserRole,
+                }))
 
-                if (!currentSelectedBusiness && response?.length) {
-                    const businessesMinInfo: BusinessMinInfo[] = response.map(
-                        ({ id, name, isPublic, currentUserRole }) => ({
-                            id,
-                            name,
-                            isPublic,
-                            currentUserRole,
-                        })
-                    )
-
-                    initializeSelectedBusiness(businessesMinInfo)
-                }
+                syncSelectedBusiness(businessesMinInfo)
             } catch (error) {
                 setBusinesses(null)
             } finally {
@@ -62,7 +58,7 @@ const BusinessesList = () => {
             }
         }
         fetchBusinesses()
-    }, [checkUserLogin.isValidated, initializeSelectedBusiness])
+    }, [checkUserLogin.isValidated, syncSelectedBusiness])
 
     if (loading || checkUserLogin.isValidated === null) {
         return <SkeletonFull />

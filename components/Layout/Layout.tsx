@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
     AppShell,
     useComputedColorScheme,
@@ -10,6 +10,7 @@ import Header from './Header/Header'
 import Navbar from './Navbar/Navbar'
 
 import useGetUserOrAuthenticate from '@/hooks/users/useGetUserOrAuthenticate'
+import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
 import useSidebarStore from '@/hooks/stores/useSidebarStore'
 
 import SplashLogo from '@/components/Common/Loader/SplashLogo'
@@ -23,6 +24,27 @@ const Layout = (props: Layout) => {
     const [unloaded, setUnloaded] = useState(true)
 
     const { user, loading } = useGetUserOrAuthenticate(false)
+
+    // Reload selected business when the user's ID changes
+    const setSelectedBusiness = useSelectedBusinessStore(
+        (state) => state.setSelectedBusiness
+    )
+    const sessionUserID = loading ? undefined : (user?.id ?? null)
+    const prevSessionUserID = useRef<number | null | undefined>(undefined)
+
+    useEffect(() => {
+        if (sessionUserID === undefined) return
+
+        // Refresh when the userID changes (except if there wasn't any userID before)
+        const previousUserID = prevSessionUserID.current
+        const userChanged =
+            previousUserID !== undefined &&
+            previousUserID !== null &&
+            previousUserID !== sessionUserID
+        if (userChanged) setSelectedBusiness(null)
+
+        prevSessionUserID.current = sessionUserID
+    }, [sessionUserID, setSelectedBusiness])
 
     // Change between theme preferences
     const { setColorScheme } = useMantineColorScheme()
