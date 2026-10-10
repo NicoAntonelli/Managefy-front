@@ -4,6 +4,7 @@ import Helper from './helper'
 
 import Business from '@/entities/businesses/Business'
 import BusinessCU from '@/entities/businesses/BusinessCU'
+import BusinessResources from '@/entities/businesses/BusinessResources'
 
 const prefix = `${Env.backendAPI}/businesses`
 
@@ -47,6 +48,20 @@ const getOneBusinessByLinkPublic = async (link: string): Promise<Business> => {
     const endpoint = `${prefix}/linkPublic/${link}`
     try {
         const response = await api.get<Business>(endpoint)
+        Helper.validateResponseAPI(response)
+
+        return response.data
+    } catch (error: any) {
+        throw new Error(Helper.parseLogErrorAPI(error, endpoint))
+    }
+}
+
+const getOneBusinessWithResourcesPublic = async (
+    id: number
+): Promise<BusinessResources> => {
+    const endpoint = `${prefix}/${id}/publicResources`
+    try {
+        const response = await api.get<BusinessResources>(endpoint)
         Helper.validateResponseAPI(response)
 
         return response.data
@@ -100,6 +115,7 @@ const Businesses = {
     getOneBusiness,
     getOneBusinessByLink,
     getOneBusinessByLinkPublic,
+    getOneBusinessWithResourcesPublic,
     createBusiness,
     updateBusiness,
     deleteBusiness,
