@@ -82,6 +82,14 @@ const BusinessDetail = (props: BusinessDetailProps) => {
 
     const checkUserLogin = useCheckUserLogin()
 
+    // Public businesses can be seen without session,
+    // So trying to create one without a valid user redirects to login or validation
+    const createBusinessHref = !checkUserLogin.isLogged
+        ? '/users/loginRegister'
+        : !checkUserLogin.isValidated
+          ? '/users/validation'
+          : '/businesses/new'
+
     // Admin or manager can edit the business, only the manager can delete it
     const { userRole } = useGetUserRole(business?.id)
     const userIsManager = !!userRole?.isManager
@@ -217,7 +225,7 @@ const BusinessDetail = (props: BusinessDetailProps) => {
 
             <div style={{ marginBottom: 'var(--mantine-spacing-sm)' }}>
                 <ButtonCreate
-                    href="/businesses/new"
+                    href={createBusinessHref}
                     resourceName="emprendimiento"
                 />
             </div>
