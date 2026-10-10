@@ -16,6 +16,7 @@ import SalesCompactTable from '@/components/Sales/SalesCompactTable'
 import SkeletonSmall from '@/components/Common/Loader/SkeletonSmall'
 import SuppliersCompactTable from '@/components/Suppliers/SuppliersCompactTable'
 
+import BusinessResources from '@/entities/businesses/BusinessResources'
 import Client from '@/entities/clients/Client'
 import Product from '@/entities/products/Product'
 import Sale from '@/entities/sales/Sale'
@@ -23,12 +24,13 @@ import Supplier from '@/entities/suppliers/Supplier'
 
 interface BusinessDetailResourcesTabsProps {
     businessID: number
+    publicResources?: BusinessResources // Public view (without a valid session): these are shown, nothing is fetched
 }
 
 const BusinessDetailResourcesTabs = (
     props: BusinessDetailResourcesTabsProps
 ) => {
-    const { businessID } = props
+    const { businessID, publicResources } = props
 
     const [products, setProducts] = useState<Product[]>([])
     const [suppliers, setSuppliers] = useState<Supplier[]>([])
@@ -37,6 +39,15 @@ const BusinessDetailResourcesTabs = (
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
+        if (publicResources) {
+            setProducts(publicResources.products || [])
+            setSuppliers(publicResources.suppliers || [])
+            setClients(publicResources.clients || [])
+            setSales(publicResources.sales || [])
+            setLoading(false)
+            return
+        }
+
         const fetchResources = async () => {
             try {
                 const { dateFrom, dateTo } = DateHelper.getDefaultRange()
@@ -63,7 +74,7 @@ const BusinessDetailResourcesTabs = (
         }
 
         fetchResources()
-    }, [businessID])
+    }, [businessID, publicResources])
 
     if (loading) return <SkeletonSmall />
 

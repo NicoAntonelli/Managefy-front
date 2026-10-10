@@ -20,10 +20,11 @@ import UserRole from '@/entities/userRoles/UserRole'
 
 interface UserRolesCompactTableProps {
     businessID: number
+    publicUserRoles?: UserRole[] // Public view (without a valid session): shown read-only, nothing is fetched
 }
 
 const UserRolesCompactTable = (props: UserRolesCompactTableProps) => {
-    const { businessID } = props
+    const { businessID, publicUserRoles } = props
 
     const isSmallScreen = useMediaQuery(`(max-width: ${Theme.breakpoints?.sm})`)
 
@@ -37,7 +38,10 @@ const UserRolesCompactTable = (props: UserRolesCompactTableProps) => {
     )
     const [leaveOpened, setLeaveOpened] = useState(false)
 
-    const { userRole, reload: reloadRole } = useGetUserRole(businessID)
+    // In the public view there is no logged role (no actions nor buttons are shown)
+    const { userRole, reload: reloadRole } = useGetUserRole(
+        publicUserRoles ? undefined : businessID
+    )
 
     const userIsManager = !!userRole?.isManager
     const userIsAdmin = !!userRole?.isAdmin
@@ -48,6 +52,12 @@ const UserRolesCompactTable = (props: UserRolesCompactTableProps) => {
         userIsManager || (userIsAdmin && !target.isAdmin && !target.isManager)
 
     useEffect(() => {
+        if (publicUserRoles) {
+            setUserRoles(publicUserRoles)
+            setLoading(false)
+            return
+        }
+
         const fetchUserRoles = async () => {
             try {
                 const response =
@@ -66,7 +76,7 @@ const UserRolesCompactTable = (props: UserRolesCompactTableProps) => {
         }
 
         fetchUserRoles()
-    }, [businessID])
+    }, [businessID, publicUserRoles])
 
     const handleEdit = (userRole: UserRole) => {
         setEditingRole(userRole)

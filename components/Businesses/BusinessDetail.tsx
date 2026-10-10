@@ -39,6 +39,7 @@ import UserRolesCompactTable from '@/components/UserRoles/UserRolesCompactTable'
 
 import Business from '@/entities/businesses/Business'
 import BusinessCU from '@/entities/businesses/BusinessCU'
+import BusinessResources from '@/entities/businesses/BusinessResources'
 import WeekDay from '@/entities/helpTypes/WeekDay'
 
 const weekDayLabels: Record<WeekDay, string> = {
@@ -76,6 +77,8 @@ const BusinessDetail = (props: BusinessDetailProps) => {
     )
 
     const [business, setBusiness] = useState<Business | null>(null)
+    const [publicResources, setPublicResources] =
+        useState<BusinessResources | null>(null)
     const [loading, setLoading] = useState(true)
     const [deleteModalOpened, setDeleteModalOpened] = useState(false)
     const [editing, setEditing] = useState(false)
@@ -90,8 +93,11 @@ const BusinessDetail = (props: BusinessDetailProps) => {
           ? '/users/validation'
           : '/businesses/new'
 
+    // Without a valid session (not logged or not validated), only public data can be fetched
+    const isPublicView = !checkUserLogin.isValidated
+
     // Admin or manager can edit the business, only the manager can delete it
-    const { userRole } = useGetUserRole(business?.id)
+    const { userRole } = useGetUserRole(isPublicView ? undefined : business?.id)
     const userIsManager = !!userRole?.isManager
     const userCanEdit = userIsManager || !!userRole?.isAdmin
 
@@ -101,23 +107,33 @@ const BusinessDetail = (props: BusinessDetailProps) => {
             return
         }
 
+        // Waits until it's known if there is a valid session
+        if (checkUserLogin.isValidated === null) return
+
         const fetchBusiness = async () => {
             try {
-                // Get by ID
-                if (!findByLink) {
-                    const businessData = await Businesses.getOneBusiness(
-                        businessID!
-                    )
-
-                    setBusiness(businessData)
-                    return
-                }
-
-                // Get by Link - If the user isn't logged in, we need to check public businesses only
-                const businessData = checkUserLogin.isLogged
-                    ? await Businesses.getOneBusinessByLink(businessLink!)
-                    : await Businesses.getOneBusinessByLinkPublic(businessLink!)
+                // Get by ID, or by Link (without a valid session, only public businesses)
+                const businessData = !findByLink
+                    ? await Businesses.getOneBusiness(businessID!)
+                    : isPublicView
+                      ? await Businesses.getOneBusinessByLinkPublic(
+                            businessLink!
+                        )
+                      : await Businesses.getOneBusinessByLink(businessLink!)
                 setBusiness(businessData)
+
+                // Without a valid session, the roles and resources come from the public endpoint
+                if (isPublicView && businessData?.isPublic) {
+                    try {
+                        const resources =
+                            await Businesses.getOneBusinessWithResourcesPublic(
+                                businessData.id
+                            )
+                        setPublicResources(resources)
+                    } catch (error) {
+                        setPublicResources(null)
+                    }
+                }
             } catch (error) {
                 notifications.show({
                     title: 'Error',
@@ -130,7 +146,7 @@ const BusinessDetail = (props: BusinessDetailProps) => {
         }
 
         fetchBusiness()
-    }, [businessID, findByLink, businessLink])
+    }, [businessID, findByLink, businessLink, checkUserLogin.isValidated])
 
     const handleEdit = () => {
         if (!business) return
@@ -356,9 +372,20 @@ const BusinessDetail = (props: BusinessDetailProps) => {
                 )}
             </Card>
 
-            <UserRolesCompactTable businessID={business.id} />
+            {/* In the public view, they're only shown if the public resources could be loaded */}
+            {(!isPublicView || publicResources) && (
+                <>
+                    <UserRolesCompactTable
+                        businessID={business.id}
+                        publicUserRoles={publicResources?.userRoles}
+                    />
 
-            <BusinessDetailResourcesTabs businessID={business.id} />
+                    <BusinessDetailResourcesTabs
+                        businessID={business.id}
+                        publicResources={publicResources ?? undefined}
+                    />
+                </>
+            )}
 
             <BusinessDelete
                 opened={deleteModalOpened}
