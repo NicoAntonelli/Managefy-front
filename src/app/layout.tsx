@@ -1,11 +1,5 @@
-'use client'
 import React from 'react'
-
-import { usePathname } from 'next/navigation'
 import { Montserrat, Roboto } from 'next/font/google'
-
-import { MantineProvider, localStorageColorSchemeManager } from '@mantine/core'
-import { Notifications } from '@mantine/notifications'
 
 import '@mantine/core/styles.css'
 import '@mantine/charts/styles.css'
@@ -13,8 +7,7 @@ import '@mantine/dates/styles.css'
 import '@mantine/notifications/styles.css'
 import './globals.css'
 
-import Theme from './theme'
-import Layout from '@/components/Layout/Layout'
+import AppProviders from '@/components/Layout/AppProviders'
 
 // Google Fonts - Roboto & Montserrat
 const roboto = Roboto({
@@ -36,16 +29,7 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode
 }>) {
-    // Detect the user's theme preference (dark or light)
-    const colorSchemeManager = localStorageColorSchemeManager({
-        key: 'mantine-color-scheme',
-    })
-
-    const pathname = usePathname()
-    // Printable pages are shown without the app layout
-    const isPrintable =
-        pathname?.includes('/invoice') || pathname?.includes('/stats/report')
-
+    // Server component
     return (
         <html lang="es" className={`${roboto.variable} ${montserrat.variable}`}>
             <head>
@@ -57,24 +41,7 @@ export default function RootLayout({
                 <link rel="icon" href="/favicon.ico" />
             </head>
             <body>
-                <MantineProvider
-                    theme={Theme}
-                    colorSchemeManager={colorSchemeManager}
-                    defaultColorScheme="dark">
-                    {isPrintable ? (
-                        <>
-                            {children}
-                            <Notifications />
-                        </>
-                    ) : (
-                        <Layout>
-                            <main className="flex min-h-screen flex-col items-center justify-between p-12">
-                                {children}
-                            </main>
-                            <Notifications />
-                        </Layout>
-                    )}
-                </MantineProvider>
+                <AppProviders>{children}</AppProviders>
             </body>
         </html>
     )
