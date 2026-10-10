@@ -16,7 +16,7 @@ import UserRolesCompactTableItem from '@/components/UserRoles/UserRolesCompactTa
 
 import useGetUserRole from '@/hooks/userRoles/useGetUserRole'
 
-import UserRole from '@/entities/usersRoles/UserRole'
+import UserRole from '@/entities/userRoles/UserRole'
 
 interface UserRolesCompactTableProps {
     businessID: number

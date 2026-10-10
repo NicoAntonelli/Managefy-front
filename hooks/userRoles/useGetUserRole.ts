@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 import UserRoles from '@/services/userRoles'
 
-import UserRole from '@/entities/usersRoles/UserRole'
+import UserRole from '@/entities/userRoles/UserRole'
 
 // Get the logged user's role for a business (null if the user has no role in it)
 const useGetUserRole = (businessID?: number) => {

@@ -14,7 +14,7 @@ import InputEmail from '@/components/Common/Inputs/InputEmail'
 import InputText from '@/components/Common/Inputs/InputText'
 
 import Role from '@/entities/helpTypes/Role'
-import UserRole from '@/entities/usersRoles/UserRole'
+import UserRole from '@/entities/userRoles/UserRole'
 
 interface UserRoleCreateUpdateProps {
     opened: boolean

@@ -8,7 +8,7 @@ import UserRoles from '@/services/userRoles'
 
 import ButtonsSubmitAndCancel from '@/components/Common/Buttons/ButtonsSubmitAndCancel'
 
-import UserRole from '@/entities/usersRoles/UserRole'
+import UserRole from '@/entities/userRoles/UserRole'
 
 interface UserRoleTransferManagerProps {
     opened: boolean

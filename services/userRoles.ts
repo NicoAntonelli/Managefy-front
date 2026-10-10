@@ -3,7 +3,7 @@ import Env from '@/utils/Env'
 import Helper from './helper'
 
 import Role from '@/entities/helpTypes/Role'
-import UserRole from '@/entities/usersRoles/UserRole'
+import UserRole from '@/entities/userRoles/UserRole'
 
 const prefix = `${Env.backendAPI}/userRoles`
 

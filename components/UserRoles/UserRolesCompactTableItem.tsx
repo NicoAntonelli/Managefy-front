@@ -15,7 +15,7 @@ import Theme from '@/app/theme'
 import BusinessRoleBadge from '@/components/Businesses/BusinessRoleBadge'
 
 import Role from '@/entities/helpTypes/Role'
-import UserRole from '@/entities/usersRoles/UserRole'
+import UserRole from '@/entities/userRoles/UserRole'
 
 interface UserRolesCompactTableItemProps {
     userRole: UserRole
