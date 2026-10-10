@@ -317,7 +317,11 @@ const Profile = () => {
             <Modal
                 opened={opened}
                 onClose={close}
-                title={<Title size="1.5rem">Eliminar cuenta</Title>}
+                title={
+                    <Text component="span" fz="1.5rem" fw={700} ff="heading">
+                        Eliminar cuenta
+                    </Text>
+                }
                 centered>
                 <Group mt="md">
                     <Text size="1rem">

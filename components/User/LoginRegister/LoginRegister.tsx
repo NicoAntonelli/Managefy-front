@@ -263,7 +263,9 @@ const LoginRegister = () => {
                 onClose={close}
                 size="75vw"
                 title={
-                    <Title size="1.5rem">Términos y condiciones de uso</Title>
+                    <Text component="span" fz="1.5rem" fw={700} ff="heading">
+                        Términos y condiciones de uso
+                    </Text>
                 }
                 centered>
                 <TermsConditions />
