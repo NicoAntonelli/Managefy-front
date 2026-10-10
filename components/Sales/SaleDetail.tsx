@@ -322,6 +322,7 @@ const SaleDetail = () => {
                 opened={invoiceModalOpened}
                 saleID={sale.id}
                 saleIdentifier={saleIdentifier}
+                saleDate={sale.date}
                 businessID={selectedBusiness.id}
                 isBilled={sale.state === 'PaidAndBilled'}
                 onSuccess={(updatedSale) => setSale(updatedSale)}

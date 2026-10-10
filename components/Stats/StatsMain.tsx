@@ -4,8 +4,10 @@ import { IconPrinter } from '@tabler/icons-react'
 
 import Theme from '@/app/theme'
 import useCheckUserLogin from '@/hooks/users/useCheckUserLogin'
+import useCreateNotification from '@/hooks/notifications/useCreateNotification'
 import useGetStatsData from '@/hooks/stats/useGetStatsData'
 import useSelectedBusinessStore from '@/hooks/stores/useSelectedBusinessStore'
+
 import DateHelper from '@/utils/math/DateHelper'
 import TextHelper from '@/utils/string/TextHelper'
 
@@ -41,6 +43,7 @@ const StatsMain = () => {
     const [prevBusinessID, setPrevBusinessID] = useState(businessID)
 
     const checkUserLogin = useCheckUserLogin()
+    const createNotification = useCreateNotification()
 
     if (businessID !== prevBusinessID) {
         setPrevBusinessID(businessID)
@@ -70,6 +73,15 @@ const StatsMain = () => {
             '_blank',
             'noopener,noreferrer'
         )
+
+        // Notification for stats report requested
+        const dateFrom = DateHelper.formatDateInputValue(filters.range.dateFrom)
+        const dateTo = DateHelper.formatDateInputValue(filters.range.dateTo)
+        const requestDateText = DateHelper.formatDateTime(DateHelper.today())
+        createNotification({
+            description: `Solicitaste un reporte de estadísticas de ${selectedBusiness?.name} del período ${dateFrom} al ${dateTo} el ${requestDateText}`,
+            type: 'Low',
+        })
     }
 
     if (checkUserLogin.isValidated === null) {

@@ -6,12 +6,16 @@ import { IconCheckbox, IconFileInvoice } from '@tabler/icons-react'
 import Sales from '@/services/sales'
 import Theme from '@/app/theme'
 
+import DateHelper from '@/utils/math/DateHelper'
+import useCreateNotification from '@/hooks/notifications/useCreateNotification'
+
 import Sale from '@/entities/sales/Sale'
 
 interface SaleInvoiceCreateProps {
     opened: boolean
     saleID: number
     saleIdentifier: string
+    saleDate?: Date | null
     businessID: number
     isBilled: boolean
     onSuccess: (sale: Sale) => void
@@ -19,10 +23,13 @@ interface SaleInvoiceCreateProps {
 }
 
 const SaleInvoiceCreate = (props: SaleInvoiceCreateProps) => {
-    const { opened, saleID, saleIdentifier, businessID, isBilled } = props
+    const { opened, saleID, saleIdentifier, saleDate, businessID, isBilled } =
+        props
     const { onSuccess, onClose } = props
 
     const [updating, setUpdating] = useState(false)
+
+    const createNotification = useCreateNotification()
 
     const handleMarkBilled = async (closeOnSuccess = true) => {
         setUpdating(true)
@@ -68,6 +75,17 @@ const SaleInvoiceCreate = (props: SaleInvoiceCreateProps) => {
         } else {
             window.open(invoiceUrl, '_blank', 'noopener,noreferrer')
         }
+
+        // Notification for invoice requested
+        const saleDateText = saleDate
+            ? DateHelper.formatDateTime(saleDate)
+            : 'sin fecha'
+        const requestDateText = DateHelper.formatDateTime(DateHelper.today())
+        createNotification({
+            description: `Solicitaste la factura de la venta #${saleID} (fecha de venta: ${saleDateText}) el ${requestDateText}`,
+            type: 'Low',
+        })
+
         onClose()
     }
 
