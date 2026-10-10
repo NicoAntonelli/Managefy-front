@@ -216,7 +216,11 @@ const LoginRegister = () => {
                                             target="_blank"
                                             underline="hover"
                                             c={Theme.other!.secondaryColor}
-                                            onClick={open}>
+                                            onClick={(event) => {
+                                                // Prevents the label click from toggling the checkbox
+                                                event.preventDefault()
+                                                open()
+                                            }}>
                                             términos y condiciones de servicio
                                         </Anchor>
                                     </>
