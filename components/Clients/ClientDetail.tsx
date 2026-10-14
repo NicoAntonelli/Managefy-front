@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import { Button, Card, Grid, Group, Stack, Text, Title } from '@mantine/core'
-import { IconMail, IconPencil, IconPhone, IconTrash } from '@tabler/icons-react'
+import {
+    IconCash,
+    IconMail,
+    IconPencil,
+    IconPhone,
+    IconTrash,
+} from '@tabler/icons-react'
 import { notifications } from '@mantine/notifications'
 
 import Clients from '@/services/clients'
 import Sales from '@/services/sales'
+
+import Math from '@/utils/math/Math'
 import Theme from '@/app/theme'
 
 import useGetUserOrAuthenticate from '@/hooks/users/useGetUserOrAuthenticate'
@@ -137,6 +145,8 @@ const ClientDetail = () => {
         )
     }
 
+    const totalDebt = Math.calculateTotalDebt(sales)
+
     return (
         <Stack gap="xs" style={{ width: '100%' }}>
             <SelectedBusinessBar business={selectedBusiness} hideFilter />
@@ -203,6 +213,27 @@ const ClientDetail = () => {
                             </div>
                         </Stack>
                     </Grid.Col>
+
+                    {totalDebt > 0 && (
+                        <Grid.Col span={{ base: 12, sm: 6 }}>
+                            <Stack gap="md">
+                                <div>
+                                    <Text size="sm" fw={500} c="dimmed">
+                                        Deuda total
+                                    </Text>
+                                    <Group gap="xs" align="center">
+                                        <IconCash size={18} />
+                                        <Text
+                                            size="lg"
+                                            fw={600}
+                                            c={Theme.other!.danger}>
+                                            {Math.formatMoney(totalDebt)}
+                                        </Text>
+                                    </Group>
+                                </div>
+                            </Stack>
+                        </Grid.Col>
+                    )}
                 </Grid>
 
                 <Group justify="flex-start" gap="sm" mt="xl">

@@ -67,6 +67,22 @@ const formatPercentageToFactor = (percentage: number): number => {
     return 1 + percentage * 0.01
 }
 
+// Amount still owed on a sale: total minus partial payment for pending or partially paid sales
+const calculateSaleDebt = (sale: Sale): number => {
+    if (sale.state !== 'PendingPayment' && sale.state !== 'PartialPayment') {
+        return 0
+    }
+
+    const debt = sale.totalPrice - (sale.partialPayment ?? 0)
+
+    return debt > 0 ? debt : 0
+}
+
+// Total amount owed across all sales
+const calculateTotalDebt = (sales: Sale[]): number => {
+    return sales.reduce((total, sale) => total + calculateSaleDebt(sale), 0)
+}
+
 //////////// Statistics ////////////
 
 // Net profit of a sale line: subtotal (with discount or surcharge) minus the total cost
@@ -256,10 +272,12 @@ const formatUnits = (amount: number): string => {
 }
 
 const Math = {
+    calculateSaleDebt,
     calculateSaleLineProfit,
     calculateSaleProfit,
     calculateSaleUnits,
     calculateSubtotal,
+    calculateTotalDebt,
     filterSalesForStats,
     formatUnits,
     getSalesSummary,
